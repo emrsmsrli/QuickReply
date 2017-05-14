@@ -15,8 +15,12 @@ public class RequestPermissionActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
         requestPermissions(new String[] {Manifest.permission.CALL_PHONE,
-                Manifest.permission.READ_PHONE_STATE}, 1);
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.SEND_SMS}, 1);
     }
 
     @Override
