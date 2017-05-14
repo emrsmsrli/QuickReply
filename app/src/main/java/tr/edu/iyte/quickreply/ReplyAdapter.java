@@ -1,5 +1,6 @@
 package tr.edu.iyte.quickreply;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +34,13 @@ public class ReplyAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder v;
         if(convertView == null) {
             v = new ViewHolder();
-            convertView = inflater.inflate(R.layout.reply, parent);
+            convertView = inflater.inflate(R.layout.reply, null);
             v.textView = (TextView) convertView.findViewById(R.id.text);
             convertView.setTag(v);
         } else
