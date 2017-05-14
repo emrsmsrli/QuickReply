@@ -1,0 +1,39 @@
+package tr.edu.iyte.quickreply;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+
+public class RequestPermissionActivity extends Activity {
+    private static final String TAG = "RequestPermissionAct";
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestPermissions(new String[] {Manifest.permission.CALL_PHONE,
+                Manifest.permission.READ_PHONE_STATE}, 1);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 1) {
+            boolean shouldCheck = true;
+            for(int i = 0; i < permissions.length; ++i) {
+                if(grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    Log.w(TAG, "Permission " + permissions[i] + " denied");
+                    shouldCheck = false;
+                } else
+                    Log.i(TAG, "Permission " + permissions[i] + " granted");
+            }
+
+            if(shouldCheck)
+                QuickReplyTile.permissionsGranted();
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+}

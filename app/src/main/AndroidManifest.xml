@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="tr.edu.iyte.quickreply">
 
-          package="tr.edu.iyte.quickreply"
-    >
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_INCOMING_CALLS" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +13,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".QuickReplyTile"
+            android:enabled="true"
+            android:exported="false"
+            android:icon="@drawable/ic_chat_bubble_outline_black_24dp"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".CallStopService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
 
+        <activity android:name=".RequestPermissionActivity" />
     </application>
 
 </manifest>
