@@ -32,6 +32,8 @@
         </service>
 
         <activity android:name=".RequestPermissionActivity" />
+        <activity android:name=".SelectReplyActivity">
+        </activity>
     </application>
 
 </manifest>

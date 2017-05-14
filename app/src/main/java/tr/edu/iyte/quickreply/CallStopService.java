@@ -9,7 +9,7 @@ import android.telephony.TelephonyManager;
 
 
 public class CallStopService extends Service {
-    private final PhoneStateListener CALL_LISTENER = new IncomingCallListener(this);
+    private final PhoneStateListener CALL_LISTENER = new QuickReplyTile.IncomingCallListener(this);
 
     @Override
     public IBinder onBind(Intent intent) {
