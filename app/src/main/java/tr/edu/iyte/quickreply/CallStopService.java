@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 
 public class CallStopService extends Service {
+    private static final String TAG = "CallStopService";
     private final PhoneStateListener CALL_LISTENER = new QuickReplyTile.IncomingCallListener(this);
 
     @Override
@@ -20,6 +22,7 @@ public class CallStopService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         tm.listen(CALL_LISTENER, PhoneStateListener.LISTEN_CALL_STATE);
+        Log.i(TAG, "Call listen service started");
         return START_STICKY;
     }
 
@@ -27,6 +30,7 @@ public class CallStopService extends Service {
     public void onDestroy() {
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         tm.listen(CALL_LISTENER, PhoneStateListener.LISTEN_NONE);
+        Log.i(TAG, "Call listen service stopped");
         super.onDestroy();
     }
 }
