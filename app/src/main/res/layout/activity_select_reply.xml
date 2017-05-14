@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tr.edu.iyte.quickreply.SelectReplyActivity">
+
+    <RelativeLayout
+        android:id="@+id/add_reply_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/cancel"
+            android:src="@drawable/ic_cancel_black_24dp"
+            android:tint="@android:color/white"
+            android:layout_alignParentEnd="true"
+            android:background="@color/colorPrimary"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+
+        <Button
+            android:id="@+id/add_reply"
+            android:layout_toStartOf="@id/cancel"
+            android:text="Add reply"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <!-- TODO can't click buttons -->
+    <RelativeLayout
+        android:visibility="gone"
+        android:background="@color/colorPrimary"
+        android:id="@+id/new_reply_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/cancel_r"
+            android:layout_alignParentEnd="true"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:src="@drawable/ic_cancel_black_24dp"
+            android:tint="@android:color/white"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/ok"
+            android:layout_toStartOf="@id/cancel_r"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:src="@drawable/ic_add_black_24dp"
+            android:tint="@android:color/white"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="Call you later!"
+            android:layout_centerInParent="true"
+            android:textColorHint="#aaaaaa"
+            android:id="@+id/new_reply"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="10dp"
+            android:layout_toStartOf="@id/ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/reply_list"
+        android:layout_above="@id/add_reply_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#CCCCCC"
+        android:dividerHeight="1dp" />
+
+</RelativeLayout>
