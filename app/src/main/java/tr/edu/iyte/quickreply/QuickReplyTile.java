@@ -20,7 +20,7 @@ public class QuickReplyTile extends TileService {
     public static class IncomingCallListener extends PhoneStateListener {
         private static final String TAG = "IncomingCallListener";
 
-        private Context c;
+        private final Context c;
 
         public IncomingCallListener(Context c) {
             this.c = c;
@@ -32,7 +32,7 @@ public class QuickReplyTile extends TileService {
             if(state == TelephonyManager.CALL_STATE_RINGING) {
                 endCall(c, incomingNumber);
                 sendReply(currentReply ,incomingNumber);
-                replyCount++;
+                prefs.edit().putInt(SHARED_PREF_REPLY_COUNT_KEY, ++replyCount).apply();
             }
         }
 
@@ -56,8 +56,8 @@ public class QuickReplyTile extends TileService {
 
         private void sendReply(String reply, String phoneNum) {
             SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage("+905362279000", null, "asdasda", null, null);
-            Log.i(TAG, "Reply <" + reply + "> sent to <" + phoneNum + ">");
+            sms.sendTextMessage(phoneNum, null, reply, null, null);
+            Log.i(TAG, "SMS <" + reply + "> sent to <" + phoneNum + ">");
         }
     }
 
@@ -66,8 +66,6 @@ public class QuickReplyTile extends TileService {
     private static final String SHARED_PREF_PERMISSIONS_KEY = "tr.edu.iyte.quickreply.sharedprefs.perms";
     private static final String SHARED_PREF_REPLY_COUNT_KEY = "tr.edu.iyte.quickreply.sharedprefs.replycount";
     private static final String SHARED_PREF_REPLIES_KEY = "tr.edu.iyte.quickreply.sharedprefs.replies";
-
-    public static final int DEFAULT_REPLY_IDX = -1;
 
     private static final String DEFAULT_TITLE = "Quick Reply";
     private static final int DEFAULT_REPLY_COUNT = 0;
@@ -85,25 +83,23 @@ public class QuickReplyTile extends TileService {
     private static boolean hasPermissions = DEFAULT_HAS_PERMISSIONS;
     private static int replyCount = DEFAULT_REPLY_COUNT;
     private static Set<String> replies = DEFAULT_REPLIES;
-    private static int replyIndex = DEFAULT_REPLY_IDX;
-    private static SharedPreferences prefs;
-    private static String currentReply= DEFAULT_REPLY;
+    private static SharedPreferences prefs = null;
+    private static String currentReply = DEFAULT_REPLY;
 
     @Override
     public void onTileAdded() {
         super.onTileAdded();
-        prefs = getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
         Log.i(TAG, "Tile added");
     }
 
     @Override
     public void onStartListening() {
         Log.i(TAG, "Started listening");
+        if(prefs == null)
+            prefs = getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
         hasPermissions = prefs.getBoolean(SHARED_PREF_PERMISSIONS_KEY, DEFAULT_HAS_PERMISSIONS);
         replyCount = prefs.getInt(SHARED_PREF_REPLY_COUNT_KEY, DEFAULT_REPLY_COUNT);
         replies = prefs.getStringSet(SHARED_PREF_REPLIES_KEY, DEFAULT_REPLIES);
-        if(!hasPermissions)
-            startActivity(new Intent(this, RequestPermissionActivity.class));
 
         updateTile();
     }
@@ -122,25 +118,30 @@ public class QuickReplyTile extends TileService {
     @Override
     public void onClick() {
         super.onClick();
-        if(!hasPermissions)
+        if(!hasPermissions) {
+            startActivityAndCollapse(new Intent(this, RequestPermissionActivity.class));
             return;
+        }
 
-        if(replyIndex != -1) {
+        if(!currentReply.isEmpty()) {
             reset();
             return;
         }
 
-        startActivity(new Intent(this, SelectReplyActivity.class));
+        startActivityAndCollapse(new Intent(this, SelectReplyActivity.class));
     }
 
     private void updateTile() {
-        if(replyIndex == -1)
+        if(currentReply.isEmpty()) {
             defaultTile();
+            return;
+        }
 
         Tile t = getQsTile();
         t.setState(Tile.STATE_ACTIVE);
         t.setLabel(String.format(Locale.getDefault(), "(%d) %s", replyCount, currentReply));
         t.setIcon(Icon.createWithResource(this, R.drawable.ic_chat_bubble_black_24dp));
+        t.updateTile();
     }
 
     private void defaultTile() {
@@ -148,16 +149,15 @@ public class QuickReplyTile extends TileService {
         t.setState(Tile.STATE_INACTIVE);
         t.setLabel(DEFAULT_TITLE);
         t.setIcon(Icon.createWithResource(this, R.drawable.ic_chat_bubble_outline_black_24dp));
+        t.updateTile();
     }
 
     private void reset() {
         stopService(new Intent(this, CallStopService.class));
         defaultTile();
-        replyIndex = DEFAULT_REPLY_IDX;
-    }
-
-    private static void save() {
-
+        currentReply = DEFAULT_REPLY;
+        prefs.edit().putInt(SHARED_PREF_REPLY_COUNT_KEY, DEFAULT_REPLY_COUNT).apply();
+        Log.i(TAG, "Reset");
     }
 
     public static void permissionsGranted() {
@@ -165,8 +165,18 @@ public class QuickReplyTile extends TileService {
         prefs.edit().putBoolean(SHARED_PREF_PERMISSIONS_KEY, hasPermissions).apply();
     }
 
-    public static void selectReply(int index) {
-        replyIndex = index;
-        currentReply = replies.toArray(new String[replies.size()])[replyIndex];
+    public static Set<String> getReplies() {
+        return replies;
+    }
+
+    public static void selectReply(String reply) {
+        currentReply = reply;
+        Log.i(TAG, "Selected reply: " + reply);
+    }
+
+    public static void addReply(String reply) {
+        replies.add(reply);
+        prefs.edit().putStringSet(SHARED_PREF_REPLIES_KEY, replies).apply();
+        Log.i(TAG, "Added new reply: " + reply);
     }
 }
