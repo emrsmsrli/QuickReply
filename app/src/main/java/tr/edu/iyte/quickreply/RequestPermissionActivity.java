@@ -39,5 +39,6 @@ public class RequestPermissionActivity extends Activity {
                 QuickReplyTile.permissionsGranted();
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        finish();
     }
 }
