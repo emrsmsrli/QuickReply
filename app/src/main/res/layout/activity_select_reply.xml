@@ -14,6 +14,7 @@
 
         <ImageButton
             android:id="@+id/cancel"
+            android:contentDescription="@string/cancel_picking_reply"
             android:src="@drawable/ic_cancel_black_24dp"
             android:tint="@android:color/white"
             android:layout_alignParentEnd="true"
@@ -24,7 +25,7 @@
         <Button
             android:id="@+id/add_reply"
             android:layout_toStartOf="@id/cancel"
-            android:text="Add reply"
+            android:text="@string/add_reply"
             android:background="@color/colorPrimary"
             android:textColor="@android:color/white"
             android:layout_width="match_parent"
@@ -42,6 +43,7 @@
 
         <ImageButton
             android:id="@+id/cancel_r"
+            android:contentDescription="@string/cancel_adding_reply"
             android:layout_alignParentEnd="true"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:src="@drawable/ic_cancel_black_24dp"
@@ -51,6 +53,7 @@
 
         <ImageButton
             android:id="@+id/ok"
+            android:contentDescription="@string/confirm_adding_reply"
             android:layout_toStartOf="@id/cancel_r"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:src="@drawable/ic_add_black_24dp"
@@ -59,7 +62,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
-            android:hint="Call you later!"
+            android:hint="@string/add_reply_hint"
             android:layout_centerInParent="true"
             android:textColorHint="#aaaaaa"
             android:id="@+id/new_reply"

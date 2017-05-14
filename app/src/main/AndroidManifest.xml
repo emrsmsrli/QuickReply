@@ -8,16 +8,14 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:icon="@drawable/ic_chat_bubble_outline_black_24dp"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_chat_bubble_outline_black_24dp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
             android:name=".QuickReplyTile"
-            android:enabled="true"
-            android:exported="false"
             android:icon="@drawable/ic_chat_bubble_outline_black_24dp"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -32,7 +30,13 @@
         </service>
 
         <activity android:name=".RequestPermissionActivity" />
-        <activity android:name=".SelectReplyActivity">
+        <activity android:name=".SelectReplyActivity" android:theme="@style/Theme.AppCompat.Dialog" />
+
+        <activity android:name=".defAc">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

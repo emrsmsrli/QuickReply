@@ -15,7 +15,7 @@ public class CallStopService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        throw null;
+        return null;
     }
 
     @Override
