@@ -6,4 +6,8 @@
     <string name="cancel_picking_reply">Cancel picking reply</string>
     <string name="cancel_adding_reply">Cancel adding reply</string>
     <string name="confirm_adding_reply">Confirm adding reply</string>
+
+    <string name="default_reply_1">Call you later</string>
+    <string name="default_reply_2">I\'m busy right now</string>
+    <string name="default_reply_3">I will call you later</string>
 </resources>

@@ -71,14 +71,7 @@ public class QuickReplyTile extends TileService {
     private static final int DEFAULT_REPLY_COUNT = 0;
     private static final boolean DEFAULT_HAS_PERMISSIONS = false;
     private static final String DEFAULT_REPLY = "";
-    private static final Set<String> DEFAULT_REPLIES;
-
-    static {
-        DEFAULT_REPLIES = new HashSet<>();
-        DEFAULT_REPLIES.add("meşgulüm sonra ararım.");
-        DEFAULT_REPLIES.add("birazdan ararım");
-        DEFAULT_REPLIES.add("işim var, biraz sonra");
-    }
+    private static final Set<String> DEFAULT_REPLIES = new HashSet<>();
 
     private static boolean hasPermissions = DEFAULT_HAS_PERMISSIONS;
     private static int replyCount = DEFAULT_REPLY_COUNT;
@@ -89,6 +82,11 @@ public class QuickReplyTile extends TileService {
     @Override
     public void onTileAdded() {
         super.onTileAdded();
+        if(DEFAULT_REPLIES.isEmpty()) {
+            DEFAULT_REPLIES.add(getResources().getString(R.string.default_reply_1));
+            DEFAULT_REPLIES.add(getResources().getString(R.string.default_reply_2));
+            DEFAULT_REPLIES.add(getResources().getString(R.string.default_reply_3));
+        }
         Log.i(TAG, "Tile added");
     }
 
