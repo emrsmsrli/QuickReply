@@ -63,6 +63,8 @@ public class SelectReplyActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String reply = newReplyText.getText().toString();
+                if(reply.isEmpty())
+                    return;
                 resetNewReply();
                 adapter.add(reply);
                 adapter.notifyDataSetChanged();
