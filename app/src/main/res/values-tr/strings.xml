@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quick Reply</string>
+    <string name="add_reply">Cevap ekle</string>
+    <string name="add_reply_hint">Sonra ararım!</string>
+    <string name="cancel_adding_reply">Cevap eklemeyi iptal et</string>
+    <string name="cancel_picking_reply">Cevap seçmeyi iptal et</string>
+    <string name="confirm_adding_reply">Cevap eklemeyi onayla</string>
+    <string name="default_reply_1">Sonra ararım</string>
+    <string name="default_reply_2">Şu an meşgulüm</string>
+    <string name="default_reply_3">Seni sonra arayacağım</string>
+</resources>
