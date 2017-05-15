@@ -32,12 +32,6 @@
         <activity android:name=".RequestPermissionActivity" />
         <activity android:name=".SelectReplyActivity" android:theme="@style/Theme.AppCompat.Dialog" />
 
-        <activity android:name=".defAc">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
