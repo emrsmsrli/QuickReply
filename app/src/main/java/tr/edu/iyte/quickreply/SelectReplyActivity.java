@@ -98,8 +98,9 @@ public class SelectReplyActivity extends Activity {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.remove((String)parent.getItemAtPosition(position));
-                QuickReplyTile.removeReply((String)parent.getItemAtPosition(position));
+                String reply = (String)parent.getItemAtPosition(position);
+                adapter.remove(reply);
+                QuickReplyTile.removeReply(reply);
                 return false;
             }
         });
