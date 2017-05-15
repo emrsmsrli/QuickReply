@@ -58,4 +58,9 @@ public class ReplyAdapter extends BaseAdapter {
         data.add(item);
         notifyDataSetChanged();
     }
+
+    public void remove(String item) {
+        data.remove(item);
+        notifyDataSetChanged();
+    }
 }

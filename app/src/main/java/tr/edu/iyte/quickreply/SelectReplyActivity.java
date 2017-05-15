@@ -67,7 +67,6 @@ public class SelectReplyActivity extends Activity {
                     return;
                 resetNewReply();
                 adapter.add(reply);
-                adapter.notifyDataSetChanged();
                 QuickReplyTile.addReply(reply);
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(addWrittenReply.getWindowToken(), 0);
@@ -83,16 +82,25 @@ public class SelectReplyActivity extends Activity {
 
         replies.addAll(QuickReplyTile.getReplies());
         list.setAdapter(adapter);
-        setOnListItemSelected(list);
+        setOnListItemSelected(list, adapter);
     }
 
-    private void setOnListItemSelected(ListView list) {
+    private void setOnListItemSelected(ListView list, final ReplyAdapter adapter) {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 QuickReplyTile.selectReply((String)parent.getItemAtPosition(position));
                 startService(new Intent(SelectReplyActivity.this, CallStopService.class));
                 finish();
+            }
+        });
+
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.remove((String)parent.getItemAtPosition(position));
+                QuickReplyTile.removeReply((String)parent.getItemAtPosition(position));
+                return false;
             }
         });
     }

@@ -177,4 +177,10 @@ public class QuickReplyTile extends TileService {
         prefs.edit().putStringSet(SHARED_PREF_REPLIES_KEY, replies).apply();
         Log.i(TAG, "Added new reply: " + reply);
     }
+
+    public static void removeReply(String reply) {
+        replies.remove(reply);
+        prefs.edit().putStringSet(SHARED_PREF_REPLIES_KEY, replies).apply();
+        Log.i(TAG, "Reply removed: " + reply);
+    }
 }
