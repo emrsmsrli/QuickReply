@@ -107,6 +107,11 @@ public class SelectReplyActivity extends Activity {
 
         replies.addAll(QuickReplyTile.getReplies());
         list.setAdapter(adapter);
+
+        if(QuickReplyTile.hasNoReply()) {
+            noReplies.setVisibility(View.VISIBLE);
+        }
+
         setOnListItemSelected(list, adapter);
     }
 
@@ -125,7 +130,8 @@ public class SelectReplyActivity extends Activity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String reply = (String)parent.getItemAtPosition(position);
                 adapter.remove(reply);
-                if(QuickReplyTile.removeReply(reply))
+                QuickReplyTile.removeReply(reply);
+                if(QuickReplyTile.hasNoReply())
                     toggleNoReplies(false);
                 return true;
             }

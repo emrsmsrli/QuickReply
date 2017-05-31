@@ -183,10 +183,13 @@ public class QuickReplyTile extends TileService {
         return replies.size() == 1;
     }
 
-    public static boolean removeReply(String reply) {
+    public static void removeReply(String reply) {
         replies.remove(reply);
         prefs.edit().putStringSet(SHARED_PREF_REPLIES_KEY, replies).apply();
         Log.i(TAG, "Reply removed: " + reply);
+    }
+
+    public static boolean hasNoReply() {
         return replies.isEmpty();
     }
 }
