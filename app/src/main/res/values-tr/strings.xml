@@ -9,4 +9,6 @@
     <string name="default_reply_1">Sonra ararım</string>
     <string name="default_reply_2">Şu an meşgulüm</string>
     <string name="default_reply_3">Seni sonra arayacağım</string>
+    <string name="no_replies">Hiç cevap yok! Aşağıdaki +\'ya basarak ekleyebilirsin.</string>
+    <string name="no_reply">Cevap yazılmadı</string>
 </resources>
