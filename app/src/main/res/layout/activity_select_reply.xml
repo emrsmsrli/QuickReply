@@ -39,6 +39,7 @@
 
     <RelativeLayout
         android:visibility="gone"
+        android:alpha="0"
         android:background="@color/colorPrimary"
         android:id="@+id/new_reply_layout"
         android:layout_alignParentBottom="true"

@@ -54,11 +54,22 @@ public class SelectReplyActivity extends Activity {
         addReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addReplyLayout.setVisibility(View.GONE);
-                newReplyLayout.setVisibility(View.VISIBLE);
-                newReplyLayout.bringToFront();
-                mainL.requestLayout();
-                mainL.invalidate();
+                newReplyLayout.animate().alpha(1).setDuration(100).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+                        newReplyLayout.setVisibility(View.VISIBLE);
+                        newReplyLayout.bringToFront();
+                        mainL.requestLayout();
+                        mainL.invalidate();
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        addReplyLayout.setVisibility(View.GONE);
+                    }
+                }).start();
             }
         });
 
@@ -123,11 +134,22 @@ public class SelectReplyActivity extends Activity {
 
     private void resetNewReply() {
         newReplyText.setText("");
-        addReplyLayout.setVisibility(View.VISIBLE);
-        newReplyLayout.setVisibility(View.GONE);
-        addReplyLayout.bringToFront();
-        mainL.requestLayout();
-        mainL.invalidate();
+        newReplyLayout.animate().alpha(0).setDuration(100).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                addReplyLayout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                newReplyLayout.setVisibility(View.GONE);
+                addReplyLayout.bringToFront();
+                mainL.requestLayout();
+                mainL.invalidate();
+            }
+        }).start();
     }
 
     private void toggleNoReplies(boolean isToggled) {
