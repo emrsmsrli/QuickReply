@@ -1,4 +1,4 @@
-package tr.edu.iyte.quickreply;
+package tr.edu.iyte.quickreply.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+
+import tr.edu.iyte.quickreply.services.CallStopService;
+import tr.edu.iyte.quickreply.QuickReplyTile;
+import tr.edu.iyte.quickreply.R;
+import tr.edu.iyte.quickreply.adapters.ReplyAdapter;
 
 public class SelectReplyActivity extends Activity {
 

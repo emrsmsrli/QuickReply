@@ -1,4 +1,4 @@
-package tr.edu.iyte.quickreply;
+package tr.edu.iyte.quickreply.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import tr.edu.iyte.quickreply.QuickReplyTile;
 
 
 public class RequestPermissionActivity extends Activity {

@@ -1,4 +1,4 @@
-package tr.edu.iyte.quickreply;
+package tr.edu.iyte.quickreply.services;
 
 import android.app.Service;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import tr.edu.iyte.quickreply.QuickReplyTile;
 
 
 public class CallStopService extends Service {

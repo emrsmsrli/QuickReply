@@ -1,4 +1,4 @@
-package tr.edu.iyte.quickreply;
+package tr.edu.iyte.quickreply.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tr.edu.iyte.quickreply.R;
 
 public class ReplyAdapter extends BaseAdapter {
     private static class ViewHolder {

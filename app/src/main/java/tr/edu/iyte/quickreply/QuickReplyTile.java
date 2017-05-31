@@ -16,6 +16,10 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import tr.edu.iyte.quickreply.activities.RequestPermissionActivity;
+import tr.edu.iyte.quickreply.activities.SelectReplyActivity;
+import tr.edu.iyte.quickreply.services.CallStopService;
+
 public class QuickReplyTile extends TileService {
     public static class IncomingCallListener extends PhoneStateListener {
         private static final String TAG = "IncomingCallListener";

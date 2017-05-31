@@ -24,13 +24,13 @@
             </intent-filter>
         </service>
         <service
-            android:name=".CallStopService"
+            android:name=".services.CallStopService"
             android:enabled="true"
             android:exported="false">
         </service>
 
-        <activity android:name=".RequestPermissionActivity" />
-        <activity android:name=".SelectReplyActivity" android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity android:name=".activities.RequestPermissionActivity" />
+        <activity android:name=".activities.SelectReplyActivity" android:theme="@style/Theme.AppCompat.Dialog" />
 
     </application>
 
