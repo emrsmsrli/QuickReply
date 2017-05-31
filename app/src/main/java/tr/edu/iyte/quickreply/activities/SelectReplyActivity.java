@@ -106,7 +106,7 @@ public class SelectReplyActivity extends Activity {
                 String reply = (String)parent.getItemAtPosition(position);
                 adapter.remove(reply);
                 QuickReplyTile.removeReply(reply);
-                return false;
+                return true;
             }
         });
     }
