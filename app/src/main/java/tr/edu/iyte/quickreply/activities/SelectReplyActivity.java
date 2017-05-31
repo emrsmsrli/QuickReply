@@ -136,6 +136,14 @@ public class SelectReplyActivity extends Activity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if(newReplyLayout.getVisibility() == View.VISIBLE)
+            resetNewReply();
+        else
+            super.onBackPressed();
+    }
+
     private void resetNewReply() {
         newReplyText.setText("");
         newReplyText.setError(null);
