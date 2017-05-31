@@ -86,4 +86,22 @@
         android:divider="#CCCCCC"
         android:dividerHeight="1dp" />
 
+    <FrameLayout
+        android:visibility="gone"
+        android:alpha="0"
+        android:id="@+id/no_replies"
+        android:layout_marginBottom="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_replies"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/colorPrimary"/>
+
+    </FrameLayout>
+
 </RelativeLayout>

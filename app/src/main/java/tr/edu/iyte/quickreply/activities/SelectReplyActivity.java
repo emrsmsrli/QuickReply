@@ -1,5 +1,7 @@
 package tr.edu.iyte.quickreply.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -26,6 +29,7 @@ public class SelectReplyActivity extends Activity {
     private EditText newReplyText;
     private RelativeLayout addReplyLayout;
     private RelativeLayout newReplyLayout;
+    private FrameLayout noReplies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class SelectReplyActivity extends Activity {
         setContentView(R.layout.activity_select_reply);
 
         mainL = findViewById(R.id.main_select_layout);
+        noReplies = (FrameLayout) findViewById(R.id.no_replies);
         addReplyLayout = (RelativeLayout) findViewById(R.id.add_reply_layout); //with 2 buttons
         final Button addReply = (Button) addReplyLayout.findViewById(R.id.add_reply);
         final ImageButton cancelPickingReply = (ImageButton) addReplyLayout.findViewById(R.id.cancel);
@@ -72,7 +77,8 @@ public class SelectReplyActivity extends Activity {
                     return;
                 resetNewReply();
                 adapter.add(reply);
-                QuickReplyTile.addReply(reply);
+                if(QuickReplyTile.addReply(reply))
+                    toggleNoReplies(true);
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(addWrittenReply.getWindowToken(), 0);
             }
@@ -105,7 +111,8 @@ public class SelectReplyActivity extends Activity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String reply = (String)parent.getItemAtPosition(position);
                 adapter.remove(reply);
-                QuickReplyTile.removeReply(reply);
+                if(QuickReplyTile.removeReply(reply))
+                    toggleNoReplies(false);
                 return true;
             }
         });
@@ -118,5 +125,25 @@ public class SelectReplyActivity extends Activity {
         addReplyLayout.bringToFront();
         mainL.requestLayout();
         mainL.invalidate();
+    }
+
+    private void toggleNoReplies(boolean isToggled) {
+        if(!isToggled) {
+            noReplies.animate().alpha(1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    noReplies.setVisibility(View.VISIBLE);
+                }
+            }).setDuration(100).start();
+        } else {
+            noReplies.animate().alpha(0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    noReplies.setVisibility(View.GONE);
+                }
+            }).setDuration(100).start();
+        }
     }
 }

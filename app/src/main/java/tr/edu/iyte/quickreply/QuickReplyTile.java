@@ -176,15 +176,17 @@ public class QuickReplyTile extends TileService {
         Log.i(TAG, "Selected reply: " + reply);
     }
 
-    public static void addReply(String reply) {
+    public static boolean addReply(String reply) {
         replies.add(reply);
         prefs.edit().putStringSet(SHARED_PREF_REPLIES_KEY, replies).apply();
         Log.i(TAG, "Added new reply: " + reply);
+        return replies.size() == 1;
     }
 
-    public static void removeReply(String reply) {
+    public static boolean removeReply(String reply) {
         replies.remove(reply);
         prefs.edit().putStringSet(SHARED_PREF_REPLIES_KEY, replies).apply();
         Log.i(TAG, "Reply removed: " + reply);
+        return replies.isEmpty();
     }
 }
