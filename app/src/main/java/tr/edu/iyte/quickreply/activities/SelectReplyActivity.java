@@ -107,6 +107,7 @@ public class SelectReplyActivity extends Activity {
         list.setAdapter(adapter);
 
         if(QuickReplyTile.hasNoReply()) {
+            noReplies.setAlpha(1);
             noReplies.setVisibility(View.VISIBLE);
         }
 
