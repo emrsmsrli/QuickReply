@@ -91,7 +91,7 @@ public class QuickReplyTile extends TileService {
             DEFAULT_REPLIES.add(getResources().getString(R.string.default_reply_2));
             DEFAULT_REPLIES.add(getResources().getString(R.string.default_reply_3));
         }
-        Log.i(TAG, "Tile added");
+        Log.d(TAG, "Tile added");
     }
 
     @Override
@@ -108,12 +108,12 @@ public class QuickReplyTile extends TileService {
 
     @Override
     public void onStopListening() {
-        Log.i(TAG, "Stopped listening");
+        Log.d(TAG, "Stopped listening");
     }
 
     @Override
     public void onTileRemoved() {
-        Log.i(TAG, "Tile removed");
+        Log.d(TAG, "Tile removed");
         replyCount = DEFAULT_REPLY_COUNT;
     }
 
