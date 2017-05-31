@@ -11,10 +11,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -27,9 +25,9 @@ public class SelectReplyActivity extends Activity {
 
     private View mainL;
     private EditText newReplyText;
-    private RelativeLayout addReplyLayout;
-    private RelativeLayout newReplyLayout;
-    private FrameLayout noReplies;
+    private View addReplyLayout;
+    private View newReplyLayout;
+    private View noReplies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +35,12 @@ public class SelectReplyActivity extends Activity {
         setContentView(R.layout.activity_select_reply);
 
         mainL = findViewById(R.id.main_select_layout);
-        noReplies = (FrameLayout) findViewById(R.id.no_replies);
-        addReplyLayout = (RelativeLayout) findViewById(R.id.add_reply_layout); //with 2 buttons
+        noReplies = findViewById(R.id.no_replies);
+        addReplyLayout = findViewById(R.id.add_reply_layout); //with 2 buttons
         final Button addReply = (Button) addReplyLayout.findViewById(R.id.add_reply);
         final ImageButton cancelPickingReply = (ImageButton) addReplyLayout.findViewById(R.id.cancel);
 
-        newReplyLayout = (RelativeLayout) findViewById(R.id.new_reply_layout); //with edit text and 2 buttons
+        newReplyLayout = findViewById(R.id.new_reply_layout); //with edit text and 2 buttons
         final ImageButton addWrittenReply = (ImageButton) newReplyLayout.findViewById(R.id.ok);
         final ImageButton cancelAddingReply = (ImageButton) newReplyLayout.findViewById(R.id.cancel_r);
         newReplyText = (EditText) newReplyLayout.findViewById(R.id.new_reply);
