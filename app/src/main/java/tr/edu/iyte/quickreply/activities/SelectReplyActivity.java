@@ -134,6 +134,7 @@ public class SelectReplyActivity extends Activity {
 
     private void resetNewReply() {
         newReplyText.setText("");
+        newReplyText.setError(null);
         newReplyLayout.animate().alpha(0).setDuration(100).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
