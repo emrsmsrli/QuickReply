@@ -171,7 +171,7 @@ public class SelectReplyActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String reply = newReplyText.getText().toString();
-                if(reply.isEmpty()) {
+                if(reply.trim().isEmpty()) {
                     newReplyText.setError(getString(R.string.no_reply));
                     newReplyText.requestFocus();
                     return;
