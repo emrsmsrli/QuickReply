@@ -23,6 +23,9 @@ import tr.edu.iyte.quickreply.R;
 import tr.edu.iyte.quickreply.adapters.ReplyAdapter;
 
 public class SelectReplyActivity extends Activity {
+    private static final int SWIPE_DURATION = 250;
+    private static final int LAYOUT_CHANGE_DURATION = 100;
+
     private View mainL;
     private EditText newReplyText;
     private View addReplyLayout;
@@ -55,8 +58,8 @@ public class SelectReplyActivity extends Activity {
 
         final View.OnTouchListener listener = new View.OnTouchListener() {
             private float startingX;
-            private int swipeSlop = -1; //  ->  distance in pixels which a
-                                        //      continuous touches is considered a scroll
+            private int swipeSlop = -1; // -> distance in pixels which a
+                                        //    continuous touches is considered a scroll
 
             @Override
             public boolean onTouch(final View v, MotionEvent event) {
@@ -105,7 +108,8 @@ public class SelectReplyActivity extends Activity {
                                 remove = false;
                             }
 
-                            long duration = (int) ((1 - fractionCovered) * 200);
+                            // TODO: 02/06/2017 use velocity tracker
+                            long duration = (int) ((1 - fractionCovered) * SWIPE_DURATION);
                             list.setEnabled(true);
                             v.animate().setDuration(duration).translationX(endX).withEndAction(new Runnable() {
                                 @Override
@@ -122,9 +126,10 @@ public class SelectReplyActivity extends Activity {
                             }).start();
                         } else
                             onReplySelected(adapter.getItem(list.getPositionForView(v)));
+                        break;
                     }
                     case MotionEvent.ACTION_CANCEL: {
-                        v.setTranslationX(0);
+                        v.animate().translationX(0).setDuration(SWIPE_DURATION).start();
                         isItemTapped = false;
                         break;
                     }
@@ -141,7 +146,7 @@ public class SelectReplyActivity extends Activity {
         addReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newReplyLayout.animate().alpha(1).setDuration(100).setListener(new AnimatorListenerAdapter() {
+                newReplyLayout.animate().alpha(1).setDuration(LAYOUT_CHANGE_DURATION).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
                         super.onAnimationStart(animation);
@@ -224,7 +229,7 @@ public class SelectReplyActivity extends Activity {
     private void resetNewReply() {
         newReplyText.setText("");
         newReplyText.setError(null);
-        newReplyLayout.animate().alpha(0).setDuration(100).setListener(new AnimatorListenerAdapter() {
+        newReplyLayout.animate().alpha(0).setDuration(LAYOUT_CHANGE_DURATION).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
@@ -250,7 +255,7 @@ public class SelectReplyActivity extends Activity {
                     super.onAnimationStart(animation);
                     noReplies.setVisibility(View.VISIBLE);
                 }
-            }).setDuration(100).start();
+            }).setDuration(LAYOUT_CHANGE_DURATION).start();
         } else {
             noReplies.animate().alpha(0).setListener(new AnimatorListenerAdapter() {
                 @Override
@@ -258,7 +263,7 @@ public class SelectReplyActivity extends Activity {
                     super.onAnimationEnd(animation);
                     noReplies.setVisibility(View.GONE);
                 }
-            }).setDuration(100).start();
+            }).setDuration(LAYOUT_CHANGE_DURATION).start();
         }
     }
 }
