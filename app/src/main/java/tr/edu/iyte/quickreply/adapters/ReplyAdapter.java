@@ -11,18 +11,27 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tr.edu.iyte.quickreply.QuickReplyTile;
 import tr.edu.iyte.quickreply.R;
 
 public class ReplyAdapter extends BaseAdapter {
     private static class ViewHolder {
         private TextView textView;
+        private View replyLayout;
+
+        private ViewHolder(View v) {
+            textView = (TextView) v.findViewById(R.id.reply_text);
+            replyLayout = v.findViewById(R.id.reply_layout);
+        }
     }
 
     private final List<String> data;
     private final LayoutInflater inflater;
+    private final View.OnTouchListener tListener;
 
-    public ReplyAdapter(Context c, ArrayList<String> data) {
+    public ReplyAdapter(Context c, View.OnTouchListener tListener, ArrayList<String> data) {
         this.data = data;
+        this.tListener = tListener;
         inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -38,16 +47,18 @@ public class ReplyAdapter extends BaseAdapter {
 
     @SuppressLint("InflateParams")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder v;
+    public View getView(final int position, View convertView, final ViewGroup parent) {
+        final ViewHolder v;
         if(convertView == null) {
-            v = new ViewHolder();
             convertView = inflater.inflate(R.layout.reply, null);
-            v.textView = (TextView) convertView.findViewById(R.id.text);
+            v = new ViewHolder(convertView);
             convertView.setTag(v);
         } else
             v = (ViewHolder) convertView.getTag();
+
         v.textView.setText(data.get(position));
+        v.replyLayout.setOnTouchListener(tListener);
+
         return convertView;
     }
 
@@ -61,8 +72,9 @@ public class ReplyAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void remove(String item) {
-        data.remove(item);
+    public void remove(int idx) {
+        QuickReplyTile.removeReply(data.get(idx));
+        data.remove(idx);
         notifyDataSetChanged();
     }
 }
