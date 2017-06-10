@@ -83,8 +83,8 @@ public class SelectReplyActivity extends Activity {
                             isSwiping = true;
                             list.requestDisallowInterceptTouchEvent(true);
                         }
-                        if(isSwiping)
-                            v.setTranslationX(x - startingX);
+                        if(isSwiping && deltax < 0)
+                            v.setTranslationX(deltax);
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
@@ -126,6 +126,7 @@ public class SelectReplyActivity extends Activity {
                             }).start();
                         } else
                             onReplySelected(adapter.getItem(list.getPositionForView(v)));
+                        isItemTapped = false;
                         break;
                     }
                     case MotionEvent.ACTION_CANCEL: {
