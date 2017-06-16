@@ -2,6 +2,7 @@ package tr.edu.iyte.quickreply.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -37,8 +38,10 @@ public class RequestPermissionActivity extends Activity {
                     Log.i(TAG, "Permission " + permissions[i] + " granted");
             }
 
-            if(shouldCheck)
+            if(shouldCheck) {
                 QuickReplyTile.permissionsGranted();
+                startActivity(new Intent(this, SelectReplyActivity.class));
+            }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         finish();
