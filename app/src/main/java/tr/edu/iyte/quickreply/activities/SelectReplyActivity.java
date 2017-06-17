@@ -66,6 +66,8 @@ public class SelectReplyActivity
         touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(list);
 
+        final InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+
         addReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +79,9 @@ public class SelectReplyActivity
                         newReplyLayout.bringToFront();
                         mainL.requestLayout();
                         mainL.invalidate();
+                        newReplyText.requestFocus();
+                        if(imm != null)
+                            imm.toggleSoftInputFromWindow(list.getWindowToken(), InputMethodManager.SHOW_FORCED, 0);
                     }
 
                     @Override
@@ -108,14 +113,16 @@ public class SelectReplyActivity
                 adapter.add(reply);
                 if(QuickReplyTile.addReply(reply))
                     toggleNoReplies(true);
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(addWrittenReply.getWindowToken(), 0);
+                if(imm != null)
+                    imm.hideSoftInputFromWindow(list.getWindowToken(), 0);
             }
         });
 
         cancelAddingReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(imm != null)
+                    imm.hideSoftInputFromWindow(list.getWindowToken(), 0);
                 resetNewReply();
             }
         });
