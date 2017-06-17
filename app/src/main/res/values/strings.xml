@@ -11,8 +11,6 @@
     <string name="default_reply_2">I\'m busy right now</string>
     <string name="default_reply_3">I will call you later</string>
 
-    <string name="swipe_delete">Swipe delete</string>
-
     <string name="no_replies">No replies! \nTap + below to add a reply.</string>
     <string name="no_reply">No reply written</string>
 </resources>

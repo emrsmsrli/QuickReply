@@ -11,5 +11,4 @@
     <string name="default_reply_3">Seni sonra arayacağım</string>
     <string name="no_replies">Hiç cevap yok! Aşağıdaki +\'ya basarak ekleyebilirsin.</string>
     <string name="no_reply">Cevap yazılmadı</string>
-    <string name="swipe_delete">Kaydırarak silme</string>
 </resources>
