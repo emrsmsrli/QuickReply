@@ -90,7 +90,7 @@ public class ReplyAdapter
     public static class ViewHolder
             extends RecyclerView.ViewHolder
             implements ViewHolderInteractionListener {
-        private TextView textView;
+        private final TextView textView;
 
         private ViewHolder(View v) {
             super(v);
