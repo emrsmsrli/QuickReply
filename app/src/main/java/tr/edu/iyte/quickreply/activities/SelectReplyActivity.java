@@ -6,24 +6,31 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
+import tr.edu.iyte.quickreply.adapters.ReplyAdapter;
+import tr.edu.iyte.quickreply.helper.ReplyItemTouchHelperCallback;
+import tr.edu.iyte.quickreply.interfaces.OnReplyInteractedListener;
+import tr.edu.iyte.quickreply.interfaces.OnStartDragListener;
 import tr.edu.iyte.quickreply.services.CallStopService;
 import tr.edu.iyte.quickreply.QuickReplyTile;
 import tr.edu.iyte.quickreply.R;
-import tr.edu.iyte.quickreply.adapters.ReplyAdapter;
 
-public class SelectReplyActivity extends Activity {
-    private static final int SWIPE_DURATION = 250;
+public class SelectReplyActivity
+        extends Activity
+        implements OnStartDragListener, OnReplyInteractedListener {
     private static final int LAYOUT_CHANGE_DURATION = 100;
 
     private View mainL;
@@ -33,10 +40,7 @@ public class SelectReplyActivity extends Activity {
     private View noReplies;
 
     private ReplyAdapter adapter;
-
-    private boolean isItemTapped = false;
-    private boolean isSwiping = false;
-    private boolean isSwipedOnce = false;
+    private ItemTouchHelper touchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,102 +58,13 @@ public class SelectReplyActivity extends Activity {
         final ImageButton cancelAddingReply = (ImageButton) newReplyLayout.findViewById(R.id.cancel_r);
         newReplyText = (EditText) newReplyLayout.findViewById(R.id.new_reply);
 
-        final ListView list = (ListView) findViewById(R.id.reply_list);
+        final RecyclerView list = (RecyclerView) findViewById(R.id.reply_list);
         final ArrayList<String> replies = new ArrayList<>();
 
-        final View.OnTouchListener listener = new View.OnTouchListener() {
-            private float startingX;
-            private int swipeSlop = -1; // -> distance in pixels which a
-                                        //    continuous touches is considered a scroll
-
-            @Override
-            public boolean onTouch(final View v, MotionEvent event) {
-                if(swipeSlop < 0)
-                    swipeSlop = ViewConfiguration.get(v.getContext()).getScaledTouchSlop();
-
-                switch(event.getActionMasked()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        if(isItemTapped)
-                            return false;
-
-                        isItemTapped = true;
-                        startingX = event.getX();
-                        break;
-                    }
-                    case MotionEvent.ACTION_MOVE: {
-                        float x = event.getX() + v.getTranslationX();
-                        float deltax = x - startingX;
-                        float deltaxabs = Math.abs(deltax);
-                        if(!isSwiping && deltaxabs > swipeSlop && deltax < 0) {
-                            isSwiping = true;
-                            isSwipedOnce = true;
-                            list.requestDisallowInterceptTouchEvent(true);
-                        }
-
-                        if(deltax > 0)  isSwiping = false;
-                        if(isSwiping)   v.setTranslationX(deltax);
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP: {
-                        if(isSwiping) {
-                            float x = event.getX() + v.getTranslationX();
-                            float deltaX = x - startingX;
-                            float deltaXAbs = Math.abs(deltaX);
-                            float fractionCovered;
-                            float endX;
-                            final boolean remove;
-
-                            // determine whether remove the item or not
-                            // 1/4 is enough to delete
-                            if(deltaXAbs > v.getWidth() / 4) {
-                                fractionCovered = deltaXAbs / v.getWidth();
-                                endX = deltaX < 0 ? -v.getWidth() : v.getWidth();
-                                remove = true;
-                            } else {
-                                fractionCovered = 1 - deltaXAbs / v.getWidth();
-                                endX = 0;
-                                remove = false;
-                            }
-
-                            // TODO: 02/06/2017 use velocity tracker
-                            long duration = (int) ((1 - fractionCovered) * SWIPE_DURATION);
-                            list.setEnabled(true);
-                            v.animate().setDuration(duration).translationX(endX).withEndAction(new Runnable() {
-                                @Override
-                                public void run() {
-                                    v.setTranslationX(0);
-                                    if(remove) {
-                                        // TODO animate removal
-                                        removeReply(list.getPositionForView(v));
-                                    } else {
-                                        isSwiping = false;
-                                        list.setEnabled(true);
-                                    }
-                                }
-                            }).start();
-                        } else if(!isSwipedOnce)
-                            onReplySelected(adapter.getItem(list.getPositionForView(v)));
-                        else
-                            v.animate().translationX(0).setDuration(SWIPE_DURATION).start();
-                        isItemTapped = false;
-                        isSwipedOnce = false;
-                        break;
-                    }
-                    case MotionEvent.ACTION_CANCEL: {
-                        v.animate().translationX(0).setDuration(SWIPE_DURATION).start();
-                        isItemTapped = false;
-                        isSwipedOnce = false;
-                        break;
-                    }
-                    default:
-                        return false;
-                }
-
-                return true;
-            }
-        };
-
-        adapter = new ReplyAdapter(this, listener, replies);
+        adapter = new ReplyAdapter(replies, this, this);
+        ItemTouchHelper.Callback callback = new ReplyItemTouchHelperCallback(adapter);
+        touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(list);
 
         addReply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,6 +121,10 @@ public class SelectReplyActivity extends Activity {
         });
 
         replies.addAll(QuickReplyTile.getReplies());
+        list.setLayoutManager(new LinearLayoutManager(this));
+        DividerItemDecoration decoration = new DividerItemDecoration(this, LinearLayout.VERTICAL);
+        decoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.line_divider));
+        list.addItemDecoration(decoration);
         list.setAdapter(adapter);
 
         if(QuickReplyTile.hasNoReply()) {
@@ -222,14 +141,20 @@ public class SelectReplyActivity extends Activity {
             super.onBackPressed();
     }
 
-    private void onReplySelected(String reply) {
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        touchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void onReplySelected(String reply) {
         QuickReplyTile.selectReply(reply);
         startService(new Intent(SelectReplyActivity.this, CallStopService.class));
         finish();
     }
 
-    private void removeReply(int idx) {
-        adapter.remove(idx);
+    @Override
+    public void onReplyDismissed() {
         if(QuickReplyTile.hasNoReply())
             toggleNoReplies(false);
     }
