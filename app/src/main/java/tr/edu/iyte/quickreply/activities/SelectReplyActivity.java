@@ -36,6 +36,7 @@ public class SelectReplyActivity extends Activity {
 
     private boolean isItemTapped = false;
     private boolean isSwiping = false;
+    private boolean isSwipedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +80,14 @@ public class SelectReplyActivity extends Activity {
                         float x = event.getX() + v.getTranslationX();
                         float deltax = x - startingX;
                         float deltaxabs = Math.abs(deltax);
-                        if(!isSwiping && deltaxabs > swipeSlop) {
+                        if(!isSwiping && deltaxabs > swipeSlop && deltax < 0) {
                             isSwiping = true;
+                            isSwipedOnce = true;
                             list.requestDisallowInterceptTouchEvent(true);
                         }
-                        if(isSwiping && deltax < 0)
-                            v.setTranslationX(deltax);
+
+                        if(deltax > 0)  isSwiping = false;
+                        if(isSwiping)   v.setTranslationX(deltax);
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
@@ -124,8 +127,10 @@ public class SelectReplyActivity extends Activity {
                                     }
                                 }
                             }).start();
-                        } else
+                        } else if(!isSwipedOnce)
                             onReplySelected(adapter.getItem(list.getPositionForView(v)));
+                        else
+                            v.animate().translationX(0).setDuration(SWIPE_DURATION).start();
                         isItemTapped = false;
                         break;
                     }
@@ -215,7 +220,7 @@ public class SelectReplyActivity extends Activity {
             super.onBackPressed();
     }
 
-    public void onReplySelected(String reply) {
+    private void onReplySelected(String reply) {
         QuickReplyTile.selectReply(reply);
         startService(new Intent(SelectReplyActivity.this, CallStopService.class));
         finish();
