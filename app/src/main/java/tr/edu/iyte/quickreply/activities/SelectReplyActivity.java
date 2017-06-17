@@ -132,11 +132,13 @@ public class SelectReplyActivity extends Activity {
                         else
                             v.animate().translationX(0).setDuration(SWIPE_DURATION).start();
                         isItemTapped = false;
+                        isSwipedOnce = false;
                         break;
                     }
                     case MotionEvent.ACTION_CANCEL: {
                         v.animate().translationX(0).setDuration(SWIPE_DURATION).start();
                         isItemTapped = false;
+                        isSwipedOnce = false;
                         break;
                     }
                     default:
