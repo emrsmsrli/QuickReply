@@ -11,7 +11,6 @@ import android.util.Log;
 
 import tr.edu.iyte.quickreply.QuickReplyTile;
 
-
 public class RequestPermissionActivity extends Activity {
     private static final String TAG = "RequestPermissionAct";
 

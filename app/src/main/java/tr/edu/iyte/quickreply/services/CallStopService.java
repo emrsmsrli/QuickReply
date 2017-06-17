@@ -10,7 +10,6 @@ import android.util.Log;
 
 import tr.edu.iyte.quickreply.QuickReplyTile;
 
-
 public class CallStopService extends Service {
     private static final String TAG = "CallStopService";
     private final PhoneStateListener CALL_LISTENER = new QuickReplyTile.IncomingCallListener(this);
