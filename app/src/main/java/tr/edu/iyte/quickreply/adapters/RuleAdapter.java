@@ -12,6 +12,7 @@ import java.util.List;
 
 import tr.edu.iyte.quickreply.R;
 import tr.edu.iyte.quickreply.helper.Rule;
+import tr.edu.iyte.quickreply.helper.RuleManager;
 
 public class RuleAdapter
         extends RecyclerView.Adapter<RuleAdapter.ViewHolder> {
@@ -51,16 +52,20 @@ public class RuleAdapter
     }
     
     public void add(Rule rule) {
-        rules.add(rule);
+        Rule r = RuleManager.checkDates(rule);
+        RuleManager.addRule(r);
+        rules.add(r);
         notifyItemInserted(rules.size() - 1);
     }
 
+    // only called once, in init. no need to check dates
     public void add(List<Rule> rules) {
         this.rules.addAll(rules);
         notifyItemRangeInserted(0, rules.size());
     }
     
     public void remove(int index) {
+        RuleManager.deleteRule(rules.get(index).getId());
         rules.remove(index);
         notifyItemRemoved(index);
     }
