@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Quick Reply</string>
+    <string name="pref_title">Automatic rules</string>
 
     <string name="add_reply">Add reply</string>
     <string name="add_reply_hint">Call you later!</string>
@@ -13,4 +14,20 @@
 
     <string name="no_replies">No replies! \nTap + below to add a reply.</string>
     <string name="no_reply">No reply written</string>
+
+    <string name="no_rules">No rules! \nTap + below to add a rule.</string>
+    <string name="auto_rules_disabled">Automatic rules disabled! \nSelect the above checkbox  to enable.</string>
+    <string name="use_dont_disturb">Listen Do not disturb mode</string>
+
+
+    <string name="weekdays">Weekdays</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>s
+
+    <string name="weekends">Weekends</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
 </resources>
