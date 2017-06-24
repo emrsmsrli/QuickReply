@@ -76,11 +76,9 @@
                 android:minHeight="240dp"
                 android:layout_height="wrap_content">
 
-                <!-- TODO remove if nothing happens -->
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rule_list"
                     android:paddingBottom="64dp"
-                    android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </ScrollView>
