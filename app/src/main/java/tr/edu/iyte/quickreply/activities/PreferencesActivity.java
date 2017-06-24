@@ -3,6 +3,11 @@ package tr.edu.iyte.quickreply.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,16 +22,48 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.util.List;
+
 import tr.edu.iyte.quickreply.R;
 import tr.edu.iyte.quickreply.adapters.RuleAdapter;
+import tr.edu.iyte.quickreply.helper.Rule;
+import tr.edu.iyte.quickreply.helper.RuleManager;
 
-public class PreferencesActivity extends Activity {
+public class PreferencesActivity
+        extends Activity
+        implements RuleManager.RuleReadListener {
+
+    private static class DoNotDisturbListener extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)) {
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                switch(notificationManager.getCurrentInterruptionFilter()) {
+                    case NotificationManager.INTERRUPTION_FILTER_ALARMS:
+                    case NotificationManager.INTERRUPTION_FILTER_ALL:
+                        // TODO enable service, start selectreply with action extra
+                        break;
+                    case NotificationManager.INTERRUPTION_FILTER_NONE:
+                        // TODO disable quickreply service, make sure to call quickreplytile.selectreply("");
+                        break;
+                    case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
+                    case NotificationManager.INTERRUPTION_FILTER_UNKNOWN:
+                    default:
+                        // do nothing
+                        break;
+                }
+            }
+        }
+    }
 
     // TODO: 24/06/2017 implement alarm manager, rule and rule adapter
     private static final long ANIMATION_DURATION = 200;
     private static final int FAB_HEIGHT_IN_DIP = 72;
     private static final float ALPHA_FULL = 1f;
     private static final float ALPHA_HALF = .5f;
+
+    private static final DoNotDisturbListener DO_NOT_DISTURB_LISTENER
+            = new DoNotDisturbListener();
 
     private CheckBox enableRules;
     private SwitchCompat enableDoNotDisturb;
@@ -47,6 +84,8 @@ public class PreferencesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
 
+        RuleManager.init(this);
+
         enableRules = (CheckBox) findViewById(R.id.auto_rules_enable);
         doNotDisturbLayout = findViewById(R.id.dnd_enable_layout);
         enableDoNotDisturb = (SwitchCompat) doNotDisturbLayout.findViewById(R.id.do_not_dist_switch);
@@ -59,6 +98,7 @@ public class PreferencesActivity extends Activity {
         noRules = getString(R.string.no_rules);
         rulesDisabled = getString(R.string.auto_rules_disabled);
 
+        // TODO Fix if dnd is selected, fab shouldn't show up
         enableRules.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -72,11 +112,14 @@ public class PreferencesActivity extends Activity {
                     enableDoNotDisturb.setEnabled(false);
                     noRulesTextView.setText(rulesDisabled);
                 }
+                //if(enableDoNotDisturb.isSelected())
                 hideShowAddRule(!isChecked);
             }
         });
 
-        // TODO: 24/06/2017 implement adapter
+        adapter = new RuleAdapter();
+        RuleManager.getRules(this);
+        // TODO: 24/06/2017 implement loading while rules load
         ruleList.setLayoutManager(new LinearLayoutManager(this));
         ruleList.setAdapter(adapter);
 
@@ -90,6 +133,11 @@ public class PreferencesActivity extends Activity {
         enableDoNotDisturb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO: 24/06/2017 registerBroadcastReceiver
+                // to listen dnd, alter select reply so that
+                // if they select a reply, service shouldnt start immidiately
+                /*IntentFilter filter = new IntentFilter(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED);
+                registerReceiver(DO_NOT_DISTURB_LISTENER, filter);*/
                 hideShowMainLayout(isChecked);
                 hideShowAddRule(isChecked);
             }
@@ -166,5 +214,10 @@ public class PreferencesActivity extends Activity {
                         }
                     }).start();
         }
+    }
+
+    @Override
+    public void onRulesRead(List<Rule> rules) {
+        adapter.add(rules);
     }
 }
