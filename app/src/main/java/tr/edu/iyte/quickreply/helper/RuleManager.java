@@ -24,6 +24,7 @@ public class RuleManager {
 
     private static final String TAG = "RuleManager";
     private static final String RULE_PATH = "rules";
+    private static final int MAX_DAYS = 2;
     private static final Gson GSON = new Gson();
 
     private static File ruleDirectory;
@@ -57,6 +58,7 @@ public class RuleManager {
     
     public static Rule checkDates(Rule rule) {
         List<String> ruleDays = rule.getDays();
+
         if(ruleDays.containsAll(weekDaysList)) {
             ruleDays.removeAll(weekDaysList);
             ruleDays.add(weekDays);
@@ -67,7 +69,7 @@ public class RuleManager {
             ruleDays.add(weekendDays);
         }
         
-        if(ruleDays.size() > 2) {
+        if(ruleDays.size() > MAX_DAYS) {
             for(String day : ruleDays) {
                 int indexToInsert = ruleDays.indexOf(day);
                 String d = ruleDays.remove(indexToInsert); // FIXME: 24/06/2017 EXCEPTION?
