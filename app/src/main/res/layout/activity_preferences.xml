@@ -1,7 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <TextView
+                android:padding="16dp"
+                android:layout_gravity="center_vertical"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="@android:color/white"
+                android:text="@string/pref_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/auto_rules_enable"
+                android:buttonTint="@android:color/white"
+                android:padding="8dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:alpha=".5"
+            android:id="@+id/dnd_enable_layout"
+            android:layout_below="@id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <android.support.v7.widget.SwitchCompat
+                android:enabled="false"
+                android:id="@+id/do_not_dist_switch"
+                android:padding="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include layout="@layout/divider" />
+
+            <!-- TODO style -->
+            <TextView
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/do_not_dist_switch"
+                android:padding="16dp"
+                android:textColor="@android:color/black"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_centerVertical="true"
+                android:text="@string/use_dont_disturb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/main_layout"
+            android:layout_below="@id/dnd_enable_layout"
+            android:layout_width="match_parent"
+            android:layout_height="240dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:minHeight="240dp"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rule_list"
+                    android:paddingBottom="64dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </ScrollView>
+
+            <FrameLayout
+                android:id="@+id/no_rules"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="240dp">
+
+                <TextView
+                    android:id="@+id/no_rules_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/auto_rules_disabled"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/colorPrimary"/>
+
+            </FrameLayout>
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:translationY="72dp"
+        android:id="@+id/add_rule"
+        android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="@color/colorPrimary"
+        android:tint="@android:color/white"
+        android:layout_margin="12dp"
+        android:layout_gravity="end|bottom"
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</FrameLayout>
