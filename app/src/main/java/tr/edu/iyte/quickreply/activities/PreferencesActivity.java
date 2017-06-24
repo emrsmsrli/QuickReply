@@ -7,7 +7,7 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import tr.edu.iyte.quickreply.QuickReplyTile;
 import tr.edu.iyte.quickreply.R;
 import tr.edu.iyte.quickreply.adapters.RuleAdapter;
 import tr.edu.iyte.quickreply.helper.Rule;
@@ -61,12 +62,14 @@ public class PreferencesActivity
     private static final int FAB_HEIGHT_IN_DIP = 72;
     private static final float ALPHA_FULL = 1f;
     private static final float ALPHA_HALF = .5f;
+    private static final boolean SHOW = false;
+    private static final boolean HIDE = true;
 
     private static final DoNotDisturbListener DO_NOT_DISTURB_LISTENER
             = new DoNotDisturbListener();
 
     private CheckBox enableRules;
-    private SwitchCompat enableDoNotDisturb;
+    private SwitchCompat doNotDisturb;
     private View doNotDisturbLayout;
     private RecyclerView ruleList;
     private View noRulesView;
@@ -78,6 +81,7 @@ public class PreferencesActivity
     private String rulesDisabled;
 
     private RuleAdapter adapter;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,10 +89,11 @@ public class PreferencesActivity
         setContentView(R.layout.activity_preferences);
 
         RuleManager.init(this);
+        prefs = getSharedPreferences(QuickReplyTile.SHARED_PREF_KEY, MODE_PRIVATE);
 
         enableRules = (CheckBox) findViewById(R.id.auto_rules_enable);
         doNotDisturbLayout = findViewById(R.id.dnd_enable_layout);
-        enableDoNotDisturb = (SwitchCompat) doNotDisturbLayout.findViewById(R.id.do_not_dist_switch);
+        doNotDisturb = (SwitchCompat) doNotDisturbLayout.findViewById(R.id.do_not_dist_switch);
         mainLayout = findViewById(R.id.main_layout);
         ruleList = (RecyclerView) mainLayout.findViewById(R.id.rule_list);
         noRulesView = mainLayout.findViewById(R.id.no_rules);
@@ -98,24 +103,34 @@ public class PreferencesActivity
         noRules = getString(R.string.no_rules);
         rulesDisabled = getString(R.string.auto_rules_disabled);
 
-        // TODO Fix if dnd is selected, fab shouldn't show up
         enableRules.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     doNotDisturbLayout.animate().alpha(ALPHA_FULL).setDuration(ANIMATION_DURATION).start();
-                    enableDoNotDisturb.setEnabled(true);
-                    // TODO: 24/06/2017 if no rule is present
-                    noRulesTextView.setText(noRules);
+                    doNotDisturb.setEnabled(true);
+
+                    if(RuleManager.hasRules())
+                        hideShowNoRule(HIDE, noRules);
+                    else
+                        hideShowNoRule(SHOW, noRules);
+
+                    if(doNotDisturb.isChecked())
+                        hideShowAddRule(HIDE);
+                    else
+                        hideShowAddRule(SHOW);
                 } else {
                     doNotDisturbLayout.animate().alpha(ALPHA_HALF).setDuration(ANIMATION_DURATION).start();
-                    enableDoNotDisturb.setEnabled(false);
-                    noRulesTextView.setText(rulesDisabled);
+                    doNotDisturb.setEnabled(false);
+                    hideShowNoRule(SHOW, rulesDisabled);
+                    hideShowAddRule(HIDE);
                 }
-                //if(enableDoNotDisturb.isSelected())
-                hideShowAddRule(!isChecked);
+
+                prefs.edit().putBoolean(QuickReplyTile.SHARED_PREF_RULE_ENABLE_KEY, isChecked).apply();
             }
         });
+
+        enableRules.setChecked(prefs.getBoolean(QuickReplyTile.SHARED_PREF_RULE_ENABLE_KEY, false));
 
         adapter = new RuleAdapter();
         RuleManager.getRules(this);
@@ -130,9 +145,10 @@ public class PreferencesActivity
             }
         });
 
-        enableDoNotDisturb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        doNotDisturb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO get key from prefs
                 // TODO: 24/06/2017 registerBroadcastReceiver
                 // to listen dnd, alter select reply so that
                 // if they select a reply, service shouldnt start immidiately
@@ -162,7 +178,8 @@ public class PreferencesActivity
         }
     }
 
-    private void hideShowNoRule(boolean wasShown) {
+    private void hideShowNoRule(boolean wasShown, String text) {
+        noRulesTextView.setText(text);
         if(wasShown) { //hide
             noRulesView.animate()
                     .alpha(0)
