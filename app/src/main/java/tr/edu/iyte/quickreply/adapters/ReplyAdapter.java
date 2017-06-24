@@ -21,6 +21,26 @@ import tr.edu.iyte.quickreply.interfaces.OnStartDragListener;
 public class ReplyAdapter
         extends RecyclerView.Adapter<ReplyAdapter.ViewHolder>
         implements ReplyItemTouchHelperAdapter {
+    public static class ViewHolder
+            extends RecyclerView.ViewHolder
+            implements ViewHolderInteractionListener {
+        private final TextView textView;
+
+        private ViewHolder(View v) {
+            super(v);
+            textView = (TextView) v.findViewById(R.id.reply_text);
+        }
+
+        @Override
+        public void onInteractionStart() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onInteractionEnd() {
+            itemView.setBackgroundColor(0);
+        }
+    }
 
     private final List<String> replies;
     private final OnStartDragListener sdListener;
@@ -81,30 +101,9 @@ public class ReplyAdapter
         notifyItemInserted(replies.size() - 1);
     }
 
-    private void remove(int idx) {
-        QuickReplyTile.removeReply(replies.get(idx));
-        replies.remove(idx);
-        notifyItemRemoved(idx);
-    }
-
-    public static class ViewHolder
-            extends RecyclerView.ViewHolder
-            implements ViewHolderInteractionListener {
-        private final TextView textView;
-
-        private ViewHolder(View v) {
-            super(v);
-            textView = (TextView) v.findViewById(R.id.reply_text);
-        }
-
-        @Override
-        public void onInteractionStart() {
-            itemView.setBackgroundColor(Color.LTGRAY);
-        }
-
-        @Override
-        public void onInteractionEnd() {
-            itemView.setBackgroundColor(0);
-        }
+    private void remove(int index) {
+        QuickReplyTile.removeReply(replies.get(index));
+        replies.remove(index);
+        notifyItemRemoved(index);
     }
 }
