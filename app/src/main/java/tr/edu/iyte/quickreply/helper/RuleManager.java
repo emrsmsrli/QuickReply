@@ -72,8 +72,8 @@ public class RuleManager {
                 int indexToInsert = ruleDays.indexOf(day);
                 String d = ruleDays.remove(indexToInsert); // FIXME: 24/06/2017 EXCEPTION?
                 int indexToGet;
-                if((indexToGet = weekDaysList.indexOf(d)) == -1 
-                        || (indexToGet = weekendDaysList.indexOf(d)) == -1) {
+                if((indexToGet = weekDaysList.indexOf(d)) != -1
+                        || (indexToGet = weekendDaysList.indexOf(d)) != -1) {
                     ruleDays.add(indexToInsert,
                             weekDaysList.contains(d) ?
                                     shortWeekDaysList.get(indexToGet) :
