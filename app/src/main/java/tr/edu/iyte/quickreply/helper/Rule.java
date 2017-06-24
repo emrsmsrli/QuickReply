@@ -11,12 +11,12 @@ import java.util.Locale;
 import tr.edu.iyte.quickreply.R;
 
 public class Rule {
-    // TODO: 24/06/2017 will gson converter see these?
     private String id;
     private long fromTime;
     private long toTime;
     private List<String> days;
 
+    @SuppressWarnings("unused")
     public Rule() {}
 
     public Rule(String id, long fromTime, long toTime, List<String> days) {
@@ -49,7 +49,7 @@ public class Rule {
         return sb.toString();
     }
 
-    public String getTimeString(Context c) { // TODO: 24/06/2017 check if format is true?
+    public String getTimeString(Context c) {
         SimpleDateFormat s = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return s.format(new Date(fromTime))
                 + c.getString(R.string.clock_seperator)
