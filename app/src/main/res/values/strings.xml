@@ -21,13 +21,29 @@
 
 
     <string name="weekdays">Weekdays</string>
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>s
+    <string-array name="weekdays_array">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
+    <string-array name="weekdays_s_array">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+    </string-array>
 
     <string name="weekends">Weekends</string>
-    <string name="saturday">Saturday</string>
-    <string name="sunday">Sunday</string>
+    <string-array name="weekends_array">
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string-array name="weekends_s_array">
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+
 </resources>
