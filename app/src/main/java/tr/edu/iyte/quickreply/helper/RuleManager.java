@@ -55,6 +55,10 @@ public class RuleManager {
             getRules(null);
         }
     }
+
+    public static boolean hasRules() {
+        return rules != null && !rules.isEmpty();
+    }
     
     public static Rule checkDates(Rule rule) {
         List<String> ruleDays = rule.getDays();
