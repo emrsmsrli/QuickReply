@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="weekdays_array">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
+    <string-array name="weekends_array">
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string-array name="weekdays_s_array">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+    </string-array>
+    <string-array name="weekends_s_array">
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+</resources>

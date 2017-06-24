@@ -19,31 +19,10 @@
     <string name="auto_rules_disabled">Automatic rules disabled! \nSelect the above checkbox  to enable.</string>
     <string name="use_dont_disturb">Listen Do not disturb mode</string>
 
+    <string name="clock_seperator">&#160;to&#160;</string>
+    <string name="cancel_desc">Cancel rule</string>
 
     <string name="weekdays">Weekdays</string>
-    <string-array name="weekdays_array">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-    </string-array>
-    <string-array name="weekdays_s_array">
-        <item>Mon</item>
-        <item>Tue</item>
-        <item>Wed</item>
-        <item>Thu</item>
-        <item>Fri</item>
-    </string-array>
-
     <string name="weekends">Weekends</string>
-    <string-array name="weekends_array">
-        <item>Saturday</item>
-        <item>Sunday</item>
-    </string-array>
-    <string-array name="weekends_s_array">
-        <item>Sat</item>
-        <item>Sun</item>
-    </string-array>
 
 </resources>

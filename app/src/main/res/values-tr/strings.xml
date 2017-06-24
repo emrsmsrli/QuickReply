@@ -9,6 +9,14 @@
     <string name="default_reply_1">Sonra ararım</string>
     <string name="default_reply_2">Şu an meşgulüm</string>
     <string name="default_reply_3">Seni sonra arayacağım</string>
-    <string name="no_replies">Hiç cevap yok! Aşağıdaki +\'ya basarak ekleyebilirsin.</string>
+    <string name="no_replies">Hiç cevap yok! Aşağıdaki +\'ya basarak ekle.</string>
     <string name="no_reply">Cevap yazılmadı</string>
+    <string name="clock_seperator">&#160;-&#160;</string>
+    <string name="pref_title">Otomatik kurallar</string>
+    <string name="use_dont_disturb">Rahatsız etme modunu dinle</string>
+    <string name="weekdays">Haftaiçleri</string>
+    <string name="weekends">Haftasonları</string>
+    <string name="no_rules">Hiç kural yok! Aşağıdan +\'ya basarak ekle.</string>
+    <string name="cancel_desc">Kuralı iptal et</string>
+    <string name="auto_rules_disabled">Otomatik kurallar devre dışı! \nYukarıdaki kutuyu tıklayarak aktif et.</string>
 </resources>
