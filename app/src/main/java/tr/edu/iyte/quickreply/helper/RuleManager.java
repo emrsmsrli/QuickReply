@@ -27,7 +27,8 @@ public class RuleManager {
     private static final Gson GSON = new Gson();
 
     private static File ruleDirectory;
-    
+
+    private static String everyDay;
     private static String weekDays;
     private static String weekendDays;
     
@@ -43,8 +44,11 @@ public class RuleManager {
     public static void init(Context c) {
         if(ruleDirectory == null) {
             ruleDirectory = new File(c.getFilesDir(), RULE_PATH);
+            if(!ruleDirectory.exists() && !ruleDirectory.mkdirs())
+                throw new RuntimeException("cannot make rule directory");
             Resources r = c.getResources();
 
+            everyDay = c.getString(R.string.everyday);
             weekDays = c.getString(R.string.weekdays);
             weekendDays = c.getString(R.string.weekends);
 
@@ -73,16 +77,29 @@ public class RuleManager {
             ruleDays.removeAll(weekendDaysList);
             ruleDays.add(weekendDays);
         }
+
+        if(ruleDays.contains(weekDays) && ruleDays.contains(weekendDays)) {
+            ruleDays.remove(weekDays);
+            ruleDays.remove(weekendDays);
+            ruleDays.add(everyDay);
+            return rule;
+        }
         
         if(ruleDays.size() > MAX_DAYS) {
-            for(String day : ruleDays) {
+            for(int i = 0; i < ruleDays.size(); ++i) {
+                String day = ruleDays.get(i);
                 int indexToInsert = ruleDays.indexOf(day);
-                String d = ruleDays.remove(indexToInsert); // FIXME: 24/06/2017 EXCEPTION?
+
+                // don't process these two strings as they're ranges of days
+                if(day.equals(weekDays) || day.equals(weekendDays))
+                    continue;
+
+                ruleDays.remove(indexToInsert);
                 int indexToGet;
-                if((indexToGet = weekDaysList.indexOf(d)) != -1
-                        || (indexToGet = weekendDaysList.indexOf(d)) != -1) {
+                if((indexToGet = weekDaysList.indexOf(day)) != -1
+                        || (indexToGet = weekendDaysList.indexOf(day)) != -1) {
                     ruleDays.add(indexToInsert,
-                            weekDaysList.contains(d) ?
+                            weekDaysList.contains(day) ?
                                     shortWeekDaysList.get(indexToGet) :
                                     shortWeekendDaysList.get(indexToGet));
                 }
@@ -114,6 +131,19 @@ public class RuleManager {
         if(ruleFile.exists())
             if(!ruleFile.delete())
                 Log.w(TAG, "rule not deleted: " + id);
+    }
+
+    public static void deleteAllRules() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File[] ruleFiles = ruleDirectory.listFiles();
+
+                for(File ruleFile : ruleFiles)
+                    if(!ruleFile.delete())
+                        Log.w(TAG, "rule not deleted: " + ruleFile.getName());
+            }
+        }).start();
     }
 
     public static void getRules(final RuleReadListener listener) {
