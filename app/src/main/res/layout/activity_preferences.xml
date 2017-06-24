@@ -25,13 +25,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <CheckBox
-                android:id="@+id/auto_rules_enable"
-                android:buttonTint="@android:color/white"
-                android:padding="8dp"
+            <RelativeLayout
                 android:layout_gravity="end|center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/more"
+                    android:contentDescription="@string/more_desc"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_more_vert_black_24dp"
+                    android:tint="@android:color/white"
+                    android:padding="8dp"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent" />
+
+                <CheckBox
+                    android:id="@+id/auto_rules_enable"
+                    android:gravity="center_vertical"
+                    android:buttonTint="@android:color/white"
+                    android:padding="8dp"
+                    android:layout_toStartOf="@id/more"
+                    android:layout_width="32dp"
+                    android:layout_height="match_parent" />
+
+            </RelativeLayout>
         </FrameLayout>
 
         <RelativeLayout
