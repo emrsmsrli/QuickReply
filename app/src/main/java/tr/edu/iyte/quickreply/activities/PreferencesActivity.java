@@ -24,6 +24,7 @@ public class PreferencesActivity extends Activity {
 
     // TODO: 24/06/2017 implement alarm manager, rule and rule adapter
     private static final long ANIMATION_DURATION = 200;
+    private static final int FAB_HEIGHT_IN_DIP = 72;
     private static final float ALPHA_FULL = 1f;
     private static final float ALPHA_HALF = .5f;
 
@@ -64,11 +65,11 @@ public class PreferencesActivity extends Activity {
                 if(isChecked) {
                     doNotDisturbLayout.animate().alpha(ALPHA_FULL).setDuration(ANIMATION_DURATION).start();
                     enableDoNotDisturb.setEnabled(true);
+                    // TODO: 24/06/2017 if no rule is present
                     noRulesTextView.setText(noRules);
                 } else {
                     doNotDisturbLayout.animate().alpha(ALPHA_HALF).setDuration(ANIMATION_DURATION).start();
                     enableDoNotDisturb.setEnabled(false);
-                    // TODO: 24/06/2017 if no rule is present
                     noRulesTextView.setText(rulesDisabled);
                 }
                 hideShowAddRule(!isChecked);
@@ -98,7 +99,7 @@ public class PreferencesActivity extends Activity {
     private void hideShowAddRule(boolean wasShown) {
         if(wasShown) { //hide
             Resources r = getResources();
-            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, r.getDisplayMetrics());
+            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, FAB_HEIGHT_IN_DIP, r.getDisplayMetrics());
             addRule.animate()
                     .translationY(px)
                     .setInterpolator(new FastOutSlowInInterpolator())
@@ -144,6 +145,7 @@ public class PreferencesActivity extends Activity {
             mainLayout.animate()
                     .scaleY(0)
                     .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(new FastOutSlowInInterpolator())
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -155,6 +157,7 @@ public class PreferencesActivity extends Activity {
             mainLayout.animate()
                     .scaleY(1)
                     .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(new FastOutSlowInInterpolator())
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
