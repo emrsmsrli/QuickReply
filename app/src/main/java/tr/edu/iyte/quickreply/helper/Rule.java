@@ -11,10 +11,13 @@ import java.util.Locale;
 import tr.edu.iyte.quickreply.R;
 
 public class Rule {
+    // TODO: 24/06/2017 will gson converter see these?
     private String id;
     private long fromTime;
     private long toTime;
     private List<String> days;
+
+    public Rule() {}
 
     public Rule(String id, long fromTime, long toTime, List<String> days) {
         this.id = id;
