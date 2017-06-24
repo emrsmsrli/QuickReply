@@ -18,6 +18,7 @@
     <string name="weekends">Haftasonları</string>
     <string name="no_rules">Hiç kural yok! Aşağıdan +\'ya basarak ekle.</string>
     <string name="cancel_desc">Kuralı iptal et</string>
+    <string name="more_desc">Daha fazla seçenek</string>
     <string name="auto_rules_disabled">Otomatik kurallar devre dışı! \nYukarıdaki kutuyu tıklayarak aktif et.</string>
     <string name="everyday">Her gün</string>
     <string name="and">ve</string>

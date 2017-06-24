@@ -22,6 +22,7 @@
     <string name="clock_seperator">&#160;to&#160;</string>
     <string name="and">and</string>
     <string name="cancel_desc">Cancel rule</string>
+    <string name="more_desc">More options</string>
 
     <string name="everyday">Everyday</string>
     <string name="weekdays">Weekdays</string>
