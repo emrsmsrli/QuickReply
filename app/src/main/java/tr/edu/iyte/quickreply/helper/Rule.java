@@ -34,9 +34,19 @@ public class Rule {
         return days;
     }
 
-    public String getDaysString() {
-        String d = days.toString();
-        return d.substring(1, d.length() - 1); // remove '[' and ']'
+    public String getDaysString(Context c) {
+        if(days.size() == 1)
+            return days.get(0);
+
+        StringBuilder sb = new StringBuilder(32);
+        sb.append(days.get(0));
+        for(int i = 1; i < days.size() - 1; ++i)
+            sb.append(", ").append(days.get(i));
+        sb.append(" ")
+                .append(c.getString(R.string.and))
+                .append(" ")
+                .append(days.get(days.size() - 1));
+        return sb.toString();
     }
 
     public String getTimeString(Context c) { // TODO: 24/06/2017 check if format is true?
