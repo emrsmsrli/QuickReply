@@ -95,8 +95,7 @@ public class RuleManager {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // TODO enable ? Rule r = checkDates(rule);
-                String id = UUID.randomUUID().toString();
+                String id = rule.getId();
                 try(PrintWriter pw = new PrintWriter(new File(ruleDirectory, id))) {
                     pw.print(GSON.toJson(rule));
                     pw.flush();
