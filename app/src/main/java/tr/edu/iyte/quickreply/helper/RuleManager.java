@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 import tr.edu.iyte.quickreply.R;
 
@@ -45,8 +44,10 @@ public class RuleManager {
         if(ruleDirectory == null) {
             ruleDirectory = new File(c.getFilesDir(), RULE_PATH);
             Resources r = c.getResources();
+
             weekDays = c.getString(R.string.weekdays);
             weekendDays = c.getString(R.string.weekends);
+
             Collections.addAll(weekDaysList, r.getStringArray(R.array.weekdays_array));
             Collections.addAll(shortWeekDaysList, r.getStringArray(R.array.weekdays_s_array));
             Collections.addAll(weekendDaysList, r.getStringArray(R.array.weekends_array));
