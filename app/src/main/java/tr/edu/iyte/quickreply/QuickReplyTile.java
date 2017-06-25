@@ -68,6 +68,7 @@ public class QuickReplyTile extends TileService {
     public static final String SHARED_PREF_KEY = "tr.edu.iyte.quickreply.sharedprefs";
     public static final String SHARED_PREF_RULE_ENABLE_KEY = "tr.edu.iyte.quickreply.sharedprefs.ruleenable";
     public static final String SHARED_PREF_RULE_DND_ENABLE_KEY = "tr.edu.iyte.quickreply.sharedprefs.dndenable";
+    public static final String SHARED_PREF_RULE_DND_REPLY_KEY = "tr.edu.iyte.quickreply.sharedprefs.dndreply";
 
     private static final String TAG = "QuickReplyTile";
     private static final String SHARED_PREF_PERMISSIONS_KEY = "tr.edu.iyte.quickreply.sharedprefs.perms";
