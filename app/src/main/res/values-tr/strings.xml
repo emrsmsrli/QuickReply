@@ -22,4 +22,5 @@
     <string name="auto_rules_disabled">Otomatik kurallar devre dışı! \nYukarıdaki kutuyu tıklayarak aktif et.</string>
     <string name="everyday">Her gün</string>
     <string name="and">ve</string>
+    <string name="dont_disturb_toast">Değişiklikler Rahatsız etme modunu tekrar başlattığında gerçekleşecek</string>
 </resources>
