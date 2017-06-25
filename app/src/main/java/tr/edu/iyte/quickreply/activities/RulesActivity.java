@@ -202,6 +202,7 @@ public class RulesActivity
 
     private void disableDoNotDisturb() {
         DoNotDisturbService.DoNotDisturbListener.disableDND(this);
+        stopService(new Intent(this, DoNotDisturbService.class));
         prefs.edit()
                 .putString(QuickReplyTile.SHARED_PREF_RULE_DND_REPLY_KEY, "")
                 .apply();
