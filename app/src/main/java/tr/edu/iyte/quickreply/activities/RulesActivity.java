@@ -3,11 +3,7 @@ package tr.edu.iyte.quickreply.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -24,7 +20,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,51 +30,12 @@ import tr.edu.iyte.quickreply.R;
 import tr.edu.iyte.quickreply.adapters.RuleAdapter;
 import tr.edu.iyte.quickreply.helper.Rule;
 import tr.edu.iyte.quickreply.helper.RuleManager;
-import tr.edu.iyte.quickreply.services.CallStopService;
+import tr.edu.iyte.quickreply.services.DoNotDisturbService;
 
 public class RulesActivity
         extends Activity
         implements RuleManager.RuleReadListener,
         PopupMenu.OnMenuItemClickListener {
-
-    private static class DoNotDisturbListener extends BroadcastReceiver {
-        public static boolean dndEnabled = false;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)) {
-                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                switch(notificationManager.getCurrentInterruptionFilter()) {
-                    case NotificationManager.INTERRUPTION_FILTER_ALARMS:
-                    case NotificationManager.INTERRUPTION_FILTER_ALL:
-                        enableDND(context);
-                        break;
-                    case NotificationManager.INTERRUPTION_FILTER_NONE:
-                        disableDND(context);
-                        break;
-                    case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
-                    case NotificationManager.INTERRUPTION_FILTER_UNKNOWN:
-                    default:
-                        // do nothing
-                        break;
-                }
-            }
-        }
-
-        public static void enableDND(Context c) {
-            c.startService(new Intent(c, CallStopService.class));
-            dndEnabled = true;
-        }
-
-        public static void disableDND(Context c) {
-            if(!dndEnabled) return;
-
-            c.stopService(new Intent(c, CallStopService.class));
-            QuickReplyTile.selectReply("");
-            QuickReplyTile.resetReplyCount();
-            dndEnabled = false;
-        }
-    }
 
     // TODO: 24/06/2017 implement alarm manager, rule and rule adapter
     private static final long ANIMATION_DURATION = 200;
@@ -89,9 +45,6 @@ public class RulesActivity
     private static final float ALPHA_NONE = 0;
     private static final boolean SHOW = false;
     private static final boolean HIDE = true;
-
-    private static final DoNotDisturbListener DO_NOT_DISTURB_LISTENER
-            = new DoNotDisturbListener();
 
     private SwitchCompat doNotDisturb;
     private View doNotDisturbLayout;
@@ -222,16 +175,15 @@ public class RulesActivity
     }
 
     private void enableDoNotDisturb() {
-        IntentFilter filter = new IntentFilter(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED);
-        registerReceiver(DO_NOT_DISTURB_LISTENER, filter);
-        Toast.makeText(this, getString(R.string.dont_disturb_toast), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, SelectReplyActivity.class);
+        intent.setAction(SelectReplyActivity.ACTION_SELECT_REPLY_FOR_DND);
+        startActivity(intent);
 
         // TODO: 25/06/2017 disable all rules, but save them somewhere first
     }
 
     private void disableDoNotDisturb() {
-        unregisterReceiver(DO_NOT_DISTURB_LISTENER);
-        DoNotDisturbListener.disableDND(this);
+        DoNotDisturbService.DoNotDisturbListener.disableDND(this);
 
         // TODO: 25/06/2017 restore enable states
     }
