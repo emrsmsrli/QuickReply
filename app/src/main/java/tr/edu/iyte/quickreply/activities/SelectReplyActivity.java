@@ -56,6 +56,8 @@ public class SelectReplyActivity
         setContentView(R.layout.activity_select_reply);
 
         action = getIntent().getAction();
+        if(action != null)
+            setResult(RESULT_CANCELED);
 
         mainL = findViewById(R.id.main_select_layout);
         noReplies = findViewById(R.id.no_replies);
@@ -169,9 +171,14 @@ public class SelectReplyActivity
             QuickReplyTile.selectReply(reply);
             startService(new Intent(SelectReplyActivity.this, CallStopService.class));
         } else if(action.equals(ACTION_SELECT_REPLY_FOR_DND)) {
+            getSharedPreferences(QuickReplyTile.SHARED_PREF_KEY, MODE_PRIVATE)
+                    .edit()
+                    .putString(QuickReplyTile.SHARED_PREF_RULE_DND_REPLY_KEY, reply)
+                    .apply();
             Intent intent = new Intent(this, DoNotDisturbService.class);
             intent.putExtra(DoNotDisturbService.EXTRA_REPLY, reply);
             startService(intent);
+            setResult(RESULT_OK);
         }
         finish();
     }
