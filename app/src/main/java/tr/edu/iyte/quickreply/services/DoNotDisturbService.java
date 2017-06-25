@@ -76,13 +76,14 @@ public class DoNotDisturbService extends Service {
         reply = intent.getStringExtra(EXTRA_REPLY);
         IntentFilter filter = new IntentFilter(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED);
         registerReceiver(DO_NOT_DISTURB_LISTENER, filter);
-        Toast.makeText(this, getString(R.string.dont_disturb_toast), Toast.LENGTH_SHORT).show();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int interruptionFilter = notificationManager.getCurrentInterruptionFilter();
         if(interruptionFilter == NotificationManager.INTERRUPTION_FILTER_ALARMS
             || interruptionFilter == NotificationManager.INTERRUPTION_FILTER_NONE) {
             DoNotDisturbListener.enableDND(this);
+        } else {
+            Toast.makeText(this, getString(R.string.dont_disturb_toast), Toast.LENGTH_SHORT).show();
         }
 
         return super.onStartCommand(intent, flags, startId);
