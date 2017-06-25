@@ -160,8 +160,8 @@ public class QuickReplyTile extends TileService {
     private void reset() {
         stopService(new Intent(this, CallStopService.class));
         defaultTile();
+        resetReplyCount();
         currentReply = DEFAULT_REPLY;
-        prefs.edit().putInt(SHARED_PREF_REPLY_COUNT_KEY, DEFAULT_REPLY_COUNT).apply();
         Log.i(TAG, "Reset");
     }
 
@@ -177,6 +177,10 @@ public class QuickReplyTile extends TileService {
     public static void selectReply(String reply) {
         currentReply = reply;
         Log.i(TAG, "Selected reply: " + reply);
+    }
+
+    public static void resetReplyCount() {
+        prefs.edit().putInt(SHARED_PREF_REPLY_COUNT_KEY, DEFAULT_REPLY_COUNT).apply();
     }
 
     public static boolean addReply(String reply) {
