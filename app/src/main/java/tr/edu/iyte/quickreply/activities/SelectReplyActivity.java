@@ -26,11 +26,20 @@ import tr.edu.iyte.quickreply.interfaces.OnStartDragListener;
 import tr.edu.iyte.quickreply.services.CallStopService;
 import tr.edu.iyte.quickreply.QuickReplyTile;
 import tr.edu.iyte.quickreply.R;
+import tr.edu.iyte.quickreply.services.DoNotDisturbService;
 
 public class SelectReplyActivity
         extends Activity
         implements OnStartDragListener, OnReplyInteractedListener {
+
+    public static final String ACTION_SELECT_REPLY_FOR_DND
+            = "tr.edu.iyte.quickreply.activities.SelectReplyActivity.action.SELECT_DND";
+    /*public static final String ACTION_SELECT_REPLY_AUTO_RULES
+            = "tr.edu.iyte.quickreply.activities.SelectReplyActivity.action.SELECT_AUTO";*/
+
     private static final int LAYOUT_CHANGE_DURATION = 100;
+
+    private String action = null;
 
     private View mainL;
     private EditText newReplyText;
@@ -45,6 +54,8 @@ public class SelectReplyActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_reply);
+
+        action = getIntent().getAction();
 
         mainL = findViewById(R.id.main_select_layout);
         noReplies = findViewById(R.id.no_replies);
@@ -154,8 +165,14 @@ public class SelectReplyActivity
 
     @Override
     public void onReplySelected(String reply) {
-        QuickReplyTile.selectReply(reply);
-        startService(new Intent(SelectReplyActivity.this, CallStopService.class));
+        if(action == null) {
+            QuickReplyTile.selectReply(reply);
+            startService(new Intent(SelectReplyActivity.this, CallStopService.class));
+        } else if(action.equals(ACTION_SELECT_REPLY_FOR_DND)) {
+            Intent intent = new Intent(this, DoNotDisturbService.class);
+            intent.putExtra(DoNotDisturbService.EXTRA_REPLY, reply);
+            startService(intent);
+        }
         finish();
     }
 
