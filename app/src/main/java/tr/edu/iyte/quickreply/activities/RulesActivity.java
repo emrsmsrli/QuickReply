@@ -38,8 +38,10 @@ public class RulesActivity
         PopupMenu.OnMenuItemClickListener {
 
     // TODO: 24/06/2017 implement alarm manager, rule and rule adapter
-    private static final long ANIMATION_DURATION = 200;
+    private static final int RQ_DND_REPLY =  1 << 1;
+    // private static final int RQ_RULE_REPLY =  1 << 2;
     private static final int FAB_HEIGHT_IN_DIP = 72;
+    private static final long ANIMATION_DURATION = 200;
     private static final float ALPHA_FULL = 1f;
     private static final float ALPHA_HALF = .5f;
     private static final float ALPHA_NONE = 0;
@@ -174,16 +176,35 @@ public class RulesActivity
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case RQ_DND_REPLY:
+                if(resultCode != RESULT_OK)
+                    doNotDisturb.setChecked(false);
+                break;
+            default:
+                break;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void enableDoNotDisturb() {
-        Intent intent = new Intent(this, SelectReplyActivity.class);
-        intent.setAction(SelectReplyActivity.ACTION_SELECT_REPLY_FOR_DND);
-        startActivity(intent);
+        if(prefs.getString(QuickReplyTile.SHARED_PREF_RULE_DND_REPLY_KEY, "").isEmpty()) {
+            Intent intent = new Intent(this, SelectReplyActivity.class);
+            intent.setAction(SelectReplyActivity.ACTION_SELECT_REPLY_FOR_DND);
+            startActivityForResult(intent, RQ_DND_REPLY);
+        }
 
         // TODO: 25/06/2017 disable all rules, but save them somewhere first
     }
 
     private void disableDoNotDisturb() {
         DoNotDisturbService.DoNotDisturbListener.disableDND(this);
+        prefs.edit()
+                .putString(QuickReplyTile.SHARED_PREF_RULE_DND_REPLY_KEY, "")
+                .apply();
 
         // TODO: 25/06/2017 restore enable states
     }
