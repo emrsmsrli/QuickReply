@@ -24,15 +24,14 @@ public class DoNotDisturbService extends Service {
             if(intent.getAction().equals(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)) {
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 switch(notificationManager.getCurrentInterruptionFilter()) {
-                    // stupid method ^ returns last filter instead of current
                     case NotificationManager.INTERRUPTION_FILTER_ALARMS:
-                    case NotificationManager.INTERRUPTION_FILTER_ALL:
-                        Log.i(TAG, "do not disturb disabled, stopping call listener");
-                        disableDND(context);
-                        break;
                     case NotificationManager.INTERRUPTION_FILTER_NONE:
                         Log.i(TAG, "do not disturb enabled, starting call listener");
                         enableDND(context);
+                        break;
+                    case NotificationManager.INTERRUPTION_FILTER_ALL:
+                        Log.i(TAG, "do not disturb disabled, stopping call listener");
+                        disableDND(context);
                         break;
                     case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
                     case NotificationManager.INTERRUPTION_FILTER_UNKNOWN:
@@ -78,6 +77,14 @@ public class DoNotDisturbService extends Service {
         IntentFilter filter = new IntentFilter(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED);
         registerReceiver(DO_NOT_DISTURB_LISTENER, filter);
         Toast.makeText(this, getString(R.string.dont_disturb_toast), Toast.LENGTH_SHORT).show();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        int interruptionFilter = notificationManager.getCurrentInterruptionFilter();
+        if(interruptionFilter == NotificationManager.INTERRUPTION_FILTER_ALARMS
+            || interruptionFilter == NotificationManager.INTERRUPTION_FILTER_NONE) {
+            DoNotDisturbListener.enableDND(this);
+        }
+
         return super.onStartCommand(intent, flags, startId);
     }
 
