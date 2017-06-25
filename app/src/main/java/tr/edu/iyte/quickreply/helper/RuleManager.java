@@ -58,6 +58,7 @@ public class RuleManager {
             Collections.addAll(shortWeekendDaysList, r.getStringArray(R.array.weekends_s_array));
 
             getRules(null);
+            Log.i(TAG, "RuleManager init complete");
         }
     }
 
