@@ -139,6 +139,7 @@ public class RuleManager {
             public void run() {
                 File[] ruleFiles = ruleDirectory.listFiles();
 
+                rules.clear();
                 for(File ruleFile : ruleFiles)
                     if(!ruleFile.delete())
                         Log.w(TAG, "rule not deleted: " + ruleFile.getName());
