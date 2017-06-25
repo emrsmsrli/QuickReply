@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,14 +18,16 @@ public class RuleAdapter
         extends RecyclerView.Adapter<RuleAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView time;
+        private final TextView reply;
         private final TextView days;
-        private final ImageButton cancelRule; // TODO remove
+        private final CheckBox enableRule;
 
         private ViewHolder(View itemView) {
             super(itemView);
             time = (TextView) itemView.findViewById(R.id.time);
+            reply = (TextView) itemView.findViewById(R.id.reply_text);
             days = (TextView) itemView.findViewById(R.id.days);
-            cancelRule = (ImageButton) itemView.findViewById(R.id.cancel);
+            enableRule = (CheckBox) itemView.findViewById(R.id.enable_rule);
         }
     }
 
@@ -42,8 +44,9 @@ public class RuleAdapter
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.time.setText(rules.get(position).getTimeString(holder.itemView.getContext()));
         holder.days.setText(rules.get(position).getDaysString(holder.itemView.getContext()));
+        holder.reply.setText(rules.get(position).getReply());
         
-        holder.cancelRule.setOnClickListener(new View.OnClickListener() {
+        holder.enableRule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: 24/06/2017

@@ -12,6 +12,7 @@ import tr.edu.iyte.quickreply.R;
 
 public class Rule {
     private String id;
+    private String reply;
     private long fromTime;
     private long toTime;
     private List<String> days;
@@ -19,8 +20,9 @@ public class Rule {
     @SuppressWarnings("unused")
     public Rule() {}
 
-    public Rule(String id, long fromTime, long toTime, List<String> days) {
+    public Rule(String id, String reply, long fromTime, long toTime, List<String> days) {
         this.id = id;
+        this.reply = reply;
         this.fromTime = fromTime;
         this.toTime = toTime;
         this.days = new ArrayList<>(days);
@@ -28,6 +30,10 @@ public class Rule {
 
     public String getId() {
         return id;
+    }
+
+    public String getReply() {
+        return reply;
     }
 
     public List<String> getDays() {
