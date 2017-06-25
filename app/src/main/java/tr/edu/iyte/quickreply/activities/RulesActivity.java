@@ -30,7 +30,7 @@ import tr.edu.iyte.quickreply.adapters.RuleAdapter;
 import tr.edu.iyte.quickreply.helper.Rule;
 import tr.edu.iyte.quickreply.helper.RuleManager;
 
-public class PreferencesActivity
+public class RulesActivity
         extends Activity
         implements RuleManager.RuleReadListener {
 
@@ -86,7 +86,7 @@ public class PreferencesActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferences);
+        setContentView(R.layout.activity_rules);
 
         RuleManager.init(this);
         prefs = getSharedPreferences(QuickReplyTile.SHARED_PREF_KEY, MODE_PRIVATE);

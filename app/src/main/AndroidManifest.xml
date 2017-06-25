@@ -30,7 +30,7 @@
 
         <activity android:name=".activities.RequestPermissionActivity" />
         <activity android:name=".activities.SelectReplyActivity" android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".activities.PreferencesActivity" android:theme="@style/Theme.AppCompat.Dialog">
+        <activity android:name=".activities.RulesActivity" android:theme="@style/Theme.AppCompat.Dialog">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
             </intent-filter>
