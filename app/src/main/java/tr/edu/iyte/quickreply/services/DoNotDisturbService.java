@@ -17,7 +17,6 @@ import tr.edu.iyte.quickreply.R;
 public class DoNotDisturbService extends Service {
     public static class DoNotDisturbListener extends BroadcastReceiver {
         private static final String TAG = "DoNotDisturbListener";
-        private static boolean dndEnabled = false;
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -41,21 +40,6 @@ public class DoNotDisturbService extends Service {
                 }
             }
         }
-
-        public static void enableDND(Context c) {
-            QuickReplyTile.selectReply(reply);
-            c.startService(new Intent(c, CallStopService.class));
-            dndEnabled = true;
-        }
-
-        public static void disableDND(Context c) {
-            if(!dndEnabled) return;
-
-            c.stopService(new Intent(c, CallStopService.class));
-            QuickReplyTile.selectReply("");
-            QuickReplyTile.resetReplyCount();
-            dndEnabled = false;
-        }
     }
 
     public static final String EXTRA_REPLY
@@ -64,6 +48,7 @@ public class DoNotDisturbService extends Service {
             = new DoNotDisturbListener();
 
     private static String reply;
+    private static boolean dndEnabled = false;
 
     @Nullable
     @Override
@@ -81,7 +66,7 @@ public class DoNotDisturbService extends Service {
         int interruptionFilter = notificationManager.getCurrentInterruptionFilter();
         if(interruptionFilter == NotificationManager.INTERRUPTION_FILTER_ALARMS
             || interruptionFilter == NotificationManager.INTERRUPTION_FILTER_NONE) {
-            DoNotDisturbListener.enableDND(this);
+            enableDND(this);
         } else {
             Toast.makeText(this, getString(R.string.dont_disturb_toast), Toast.LENGTH_SHORT).show();
         }
@@ -94,6 +79,21 @@ public class DoNotDisturbService extends Service {
         super.onDestroy();
         unregisterReceiver(DO_NOT_DISTURB_LISTENER);
         reply = null;
-        DoNotDisturbListener.disableDND(this);
+        disableDND(this);
+    }
+
+    public static void enableDND(Context c) {
+        QuickReplyTile.selectReply(reply);
+        c.startService(new Intent(c, CallStopService.class));
+        dndEnabled = true;
+    }
+
+    public static void disableDND(Context c) {
+        if(!dndEnabled) return;
+
+        c.stopService(new Intent(c, CallStopService.class));
+        QuickReplyTile.selectReply("");
+        QuickReplyTile.resetReplyCount();
+        dndEnabled = false;
     }
 }
