@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import tr.edu.iyte.quickreply.R;
 
@@ -122,6 +123,24 @@ public class RuleManager {
                     Log.i(TAG, "rule added: " + id);
                 } catch(FileNotFoundException e) {
                     Log.wtf(TAG, "addRule: fileNotFound", e);
+                }
+            }
+        }).start();
+    }
+
+    private static void modifyRules(final Set<Rule> rules) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(Rule rule : rules) {
+                    String id = rule.getId();
+                    try(PrintWriter pw = new PrintWriter(new File(ruleDirectory, id))) {
+                        pw.print(GSON.toJson(rule));
+                        pw.flush();
+                        Log.i(TAG, "rule modified: " + id);
+                    } catch(FileNotFoundException e) {
+                        Log.wtf(TAG, "modifyRules: fileNotFound", e);
+                    }
                 }
             }
         }).start();
