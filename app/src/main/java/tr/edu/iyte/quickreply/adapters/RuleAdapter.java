@@ -8,7 +8,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import tr.edu.iyte.quickreply.R;
 import tr.edu.iyte.quickreply.helper.Rule;
@@ -32,6 +34,7 @@ public class RuleAdapter
     }
 
     private List<Rule> rules = new ArrayList<>();
+    private Set<Rule> modifiedRules = new HashSet<>();
 
     public RuleAdapter() {}
 
@@ -42,10 +45,12 @@ public class RuleAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.time.setText(rules.get(position).getTimeString(holder.itemView.getContext()));
-        holder.days.setText(rules.get(position).getDaysString(holder.itemView.getContext()));
-        holder.reply.setText(rules.get(position).getReply());
+        Rule rule = rules.get(position);
+        holder.time.setText(rule.getTimeString(holder.itemView.getContext()));
+        holder.days.setText(rule.getDaysString(holder.itemView.getContext()));
+        holder.reply.setText(rule.getReply());
         
+        holder.enableRule.setChecked(rule.isEnabled());
         holder.enableRule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +83,20 @@ public class RuleAdapter
         int size = rules.size();
         rules.clear();
         notifyItemRangeRemoved(0, size);
+    }
+
+    public void modify(Rule rule) {
+        modifiedRules.add(rule);
+        int index;
+        for(index = 0; index < rules.size(); ++index)
+            if(rules.get(index).getId().equals(rule.getId()))
+                break;
+        notifyItemChanged(index);
+    }
+
+    public void writeOnDiskIfModified() {
+        if(!modifiedRules.isEmpty())
+            RuleManager.modifyRules(modifiedRules);
     }
 
     @Override
