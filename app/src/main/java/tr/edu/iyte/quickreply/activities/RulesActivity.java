@@ -164,6 +164,12 @@ public class RulesActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        adapter.writeOnDiskIfModified();
+    }
+
+    @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.remove_all:
