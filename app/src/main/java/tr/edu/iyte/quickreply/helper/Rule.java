@@ -13,6 +13,8 @@ import tr.edu.iyte.quickreply.R;
 public class Rule {
     private String id;
     private String reply;
+
+    private boolean isEnabled;
     private long fromTime;
     private long toTime;
     private List<String> days;
@@ -25,6 +27,7 @@ public class Rule {
         this.reply = reply;
         this.fromTime = fromTime;
         this.toTime = toTime;
+        this.isEnabled = true;
         this.days = new ArrayList<>(days);
     }
 
@@ -60,5 +63,13 @@ public class Rule {
         return s.format(new Date(fromTime))
                 + c.getString(R.string.clock_seperator)
                 + s.format(new Date(toTime));
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 }
