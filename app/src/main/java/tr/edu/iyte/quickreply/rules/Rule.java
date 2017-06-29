@@ -1,4 +1,4 @@
-package tr.edu.iyte.quickreply.helper;
+package tr.edu.iyte.quickreply.rules;
 
 import android.content.Context;
 
@@ -11,6 +11,9 @@ import java.util.Locale;
 import tr.edu.iyte.quickreply.R;
 
 public class Rule {
+    private static final SimpleDateFormat FORMATTER =
+            new SimpleDateFormat("HH:mm", Locale.getDefault());
+
     private String id;
     private String reply;
 
@@ -59,10 +62,14 @@ public class Rule {
     }
 
     public String getTimeString(Context c) {
-        SimpleDateFormat s = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        return s.format(new Date(fromTime))
+        return FORMATTER.format(new Date(fromTime))
                 + c.getString(R.string.clock_seperator)
-                + s.format(new Date(toTime));
+                + FORMATTER.format(new Date(toTime));
+    }
+
+    public boolean canClashWith(Rule other) {
+        return this.toTime < other.fromTime
+                || other.toTime < this.fromTime;
     }
 
     public boolean isEnabled() {
