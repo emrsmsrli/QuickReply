@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 import tr.edu.iyte.quickreply.R;
-import tr.edu.iyte.quickreply.helper.Rule;
-import tr.edu.iyte.quickreply.helper.RuleManager;
+import tr.edu.iyte.quickreply.rules.Rule;
+import tr.edu.iyte.quickreply.rules.RuleManager;
 
 public class RuleAdapter
         extends RecyclerView.Adapter<RuleAdapter.ViewHolder> {
@@ -44,17 +45,20 @@ public class RuleAdapter
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Rule rule = rules.get(position);
         holder.time.setText(rule.getTimeString(holder.itemView.getContext()));
         holder.days.setText(rule.getDaysString(holder.itemView.getContext()));
         holder.reply.setText(rule.getReply());
         
         holder.enableRule.setChecked(rule.isEnabled());
-        holder.enableRule.setOnClickListener(new View.OnClickListener() {
+        holder.enableRule.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                // TODO: 24/06/2017
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO: 24/06/2017 disable or enable rule
+                Rule r = rules.get(holder.getAdapterPosition());
+                r.setEnabled(isChecked);
+                modify(r);
             }
         });
     }
