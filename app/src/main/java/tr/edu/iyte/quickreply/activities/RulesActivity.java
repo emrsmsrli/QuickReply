@@ -28,8 +28,9 @@ import java.util.UUID;
 import tr.edu.iyte.quickreply.QuickReplyTile;
 import tr.edu.iyte.quickreply.R;
 import tr.edu.iyte.quickreply.adapters.RuleAdapter;
-import tr.edu.iyte.quickreply.helper.Rule;
-import tr.edu.iyte.quickreply.helper.RuleManager;
+import tr.edu.iyte.quickreply.rules.Rule;
+import tr.edu.iyte.quickreply.rules.RuleManager;
+import tr.edu.iyte.quickreply.services.AlarmService;
 import tr.edu.iyte.quickreply.services.DoNotDisturbService;
 
 public class RulesActivity
@@ -106,6 +107,7 @@ public class RulesActivity
                     if(doNotDisturb.isChecked()) {
                         enableDoNotDisturb();
                     }
+                    startService(new Intent(RulesActivity.this, AlarmService.class));
                 } else {
                     doNotDisturbLayout.animate().alpha(ALPHA_HALF).setDuration(ANIMATION_DURATION).start();
                     doNotDisturb.setEnabled(false);
@@ -117,6 +119,7 @@ public class RulesActivity
                     if(doNotDisturb.isChecked()) {
                         disableDoNotDisturb();
                     }
+                    stopService(new Intent(RulesActivity.this, AlarmService.class));
                 }
 
                 prefs.edit().putBoolean(QuickReplyTile.SHARED_PREF_RULE_ENABLE_KEY, isChecked).apply();
