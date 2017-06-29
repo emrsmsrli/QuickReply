@@ -25,6 +25,7 @@
         </service>
         <service android:name=".services.CallStopService" android:enabled="true" android:exported="false" />
         <service android:name=".services.DoNotDisturbService" android:enabled="true" android:exported="false" />
+        <service android:name=".services.AlarmService" android:enabled="true" android:exported="false" />
 
         <activity android:name=".activities.RequestPermissionActivity" />
         <activity android:name=".activities.SelectReplyActivity" android:theme="@style/Theme.AppCompat.Dialog" />
