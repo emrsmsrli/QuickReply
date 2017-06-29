@@ -96,4 +96,8 @@ public class DoNotDisturbService extends Service {
         QuickReplyTile.resetReplyCount();
         dndEnabled = false;
     }
+
+    public static boolean isDndEnabled() {
+        return dndEnabled;
+    }
 }
