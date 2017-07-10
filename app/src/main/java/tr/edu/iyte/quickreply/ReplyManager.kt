@@ -8,8 +8,6 @@ import org.jetbrains.anko.info
 import tr.edu.iyte.quickreply.helper.Constants
 
 object ReplyManager : AnkoLogger {
-    private const val TAG = "ReplyManager"
-
     const val DEFAULT_REPLY = ""
     const val DEFAULT_REPLY_COUNT = 0
 
