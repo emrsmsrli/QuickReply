@@ -23,11 +23,6 @@ class QuickReplyTile : TileService(), AnkoLogger {
         return super.onBind(intent)
     }
 
-    /*override fun onUnbind(intent: Intent): Boolean {
-        Log.v(TAG, "Unbound")
-        return super.onUnbind(intent)
-    }*/
-
     override fun onStartListening() {
         super.onStartListening()
         info("Started listening")
