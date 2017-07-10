@@ -2,7 +2,6 @@ package tr.edu.iyte.quickreply
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import tr.edu.iyte.quickreply.helper.Constants

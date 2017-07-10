@@ -9,8 +9,8 @@ import android.service.quicksettings.TileService
 import android.telephony.PhoneStateListener
 import android.telephony.SmsManager
 import android.telephony.TelephonyManager
-import android.util.Log
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 import org.jetbrains.anko.info
 import org.jetbrains.anko.verbose
 import tr.edu.iyte.quickreply.activities.SelectReplyActivity
@@ -81,13 +81,11 @@ class QuickReplyTile : TileService(), AnkoLogger {
     }
 
     companion object {
-        class IncomingCallListener(val c: Context) : PhoneStateListener() {
-            private val TAG = "IncomingCallListener"
-
+        class IncomingCallListener(val context: Context) : PhoneStateListener(), AnkoLogger {
             override fun onCallStateChanged(state: Int, incomingNumber: String?) {
                 super.onCallStateChanged(state, incomingNumber)
                 if (state == TelephonyManager.CALL_STATE_RINGING) {
-                    endCall(c, incomingNumber!!)
+                    endCall(context, incomingNumber!!)
                     sendReply(ReplyManager.currentReply, incomingNumber)
                     ReplyManager.replyCount++
                 }
@@ -104,9 +102,9 @@ class QuickReplyTile : TileService(), AnkoLogger {
                     m = c.getDeclaredMethod("endCall") // Get the "endCall()" method
                     m.isAccessible = true // Make it accessible
                     m.invoke(telephonyService) // invoke endCall()
-                    Log.i(TAG, "Call blocked from <$phoneNum>")
+                    info("Call blocked from <$phoneNum>")
                 } catch (e: Exception) {
-                    Log.e(TAG, "couldn't end call", e)
+                    error("Couldn't end call", e)
                 }
 
             }
@@ -114,7 +112,7 @@ class QuickReplyTile : TileService(), AnkoLogger {
             private fun sendReply(reply: String, phoneNum: String) {
                 val sms = SmsManager.getDefault()
                 sms.sendTextMessage(phoneNum, null, reply, null, null)
-                Log.i(TAG, "SMS <$reply> sent to <$phoneNum>")
+                info("SMS <$reply> sent to <$phoneNum>")
             }
         }
     }
