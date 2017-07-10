@@ -1,9 +1,11 @@
 package tr.edu.iyte.quickreply.activities
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
@@ -16,8 +18,7 @@ import android.widget.LinearLayout
 import tr.edu.iyte.quickreply.interfaces.OnReplyInteractedListener
 import tr.edu.iyte.quickreply.interfaces.OnStartDragListener
 import kotlinx.android.synthetic.main.activity_select_reply.*
-import org.jetbrains.anko.startService
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import tr.edu.iyte.quickreply.R
 import tr.edu.iyte.quickreply.ReplyManager
 import tr.edu.iyte.quickreply.adapters.ReplyAdapter
@@ -27,7 +28,8 @@ import tr.edu.iyte.quickreply.services.CallStopService
 class SelectReplyActivity :
         Activity(),
         OnStartDragListener,
-        OnReplyInteractedListener {
+        OnReplyInteractedListener,
+        AnkoLogger {
     private val LAYOUT_CHANGE_DURATION = 100L
 
     private lateinit var adapter: ReplyAdapter
@@ -37,6 +39,17 @@ class SelectReplyActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_reply)
 
+        if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.SEND_SMS), 1)
+            return
+        }
+
+        load()
+    }
+
+    private fun load() {
         val replies = mutableListOf<String>()
         adapter = ReplyAdapter(replies, this, this)
         val callback = ReplyItemTouchHelperCallback(adapter)
@@ -99,6 +112,27 @@ class SelectReplyActivity :
             no_replies.alpha = 1f
             no_replies.visibility = View.VISIBLE
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>?, grantResults: IntArray?) {
+        if (requestCode == 1) {
+            var shouldCheck = true
+            for (i in permissions!!.indices) {
+                if (grantResults!![i] != PackageManager.PERMISSION_GRANTED) {
+                    warn("Permission ${permissions[i]} denied")
+                    shouldCheck = false
+                } else
+                    info("Permission ${permissions[i]} granted")
+            }
+
+            if (shouldCheck) {
+                load()
+            } else {
+                toast(getString(R.string.permission_denied))
+                finish()
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onBackPressed() {

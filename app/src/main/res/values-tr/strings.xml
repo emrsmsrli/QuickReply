@@ -24,4 +24,5 @@
     <string name="and">ve</string>
     <string name="dont_disturb_toast">Değişiklikler Rahatsız etme modunu tekrar başlattığında gerçekleşecek</string>
     <string name="qr_started">QuickReply başladı</string>
+    <string name="permission_denied">QuickReply\'ı kullanmak için bütün izinleri vermelisiniz</string>
 </resources>

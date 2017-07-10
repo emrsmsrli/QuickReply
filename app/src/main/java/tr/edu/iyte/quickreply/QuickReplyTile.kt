@@ -44,11 +44,6 @@ class QuickReplyTile : TileService(), AnkoLogger {
         super.onClick()
         info("Clicked")
 
-        /*if(!hasPermissions()) {
-            startActivityAndCollapse(Intent(this, RequestPermissionActivity::class.java))
-            return
-        }*/
-
         if (!ReplyManager.currentReply.isEmpty()) {
             reset()
             return
