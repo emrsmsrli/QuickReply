@@ -5,7 +5,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import tr.edu.iyte.quickreply.R
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 data class Rule(val id: String = "",
                 var reply: String = "",
