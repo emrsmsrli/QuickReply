@@ -23,4 +23,5 @@
     <string name="everyday">Her gün</string>
     <string name="and">ve</string>
     <string name="dont_disturb_toast">Değişiklikler Rahatsız etme modunu tekrar başlattığında gerçekleşecek</string>
+    <string name="qr_started">QuickReply başladı</string>
 </resources>
