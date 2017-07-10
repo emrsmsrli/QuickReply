@@ -10,25 +10,27 @@ import android.telephony.PhoneStateListener
 import android.telephony.SmsManager
 import android.telephony.TelephonyManager
 import android.util.Log
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
+import org.jetbrains.anko.verbose
 import tr.edu.iyte.quickreply.activities.SelectReplyActivity
+import tr.edu.iyte.quickreply.services.CallStopService
 
-class QuickReplyTile : TileService() {
-    private val TAG = "QuickReplyTile"
-
+class QuickReplyTile : TileService(), AnkoLogger {
     override fun onBind(intent: Intent): IBinder? {
         ReplyManager.init(this)
-        Log.v(TAG, "Bound")
+        verbose("Bound")
         return super.onBind(intent)
     }
 
-    override fun onUnbind(intent: Intent): Boolean {
+    /*override fun onUnbind(intent: Intent): Boolean {
         Log.v(TAG, "Unbound")
         return super.onUnbind(intent)
-    }
+    }*/
 
     override fun onStartListening() {
         super.onStartListening()
-        Log.i(TAG, "Started listening")
+        info("Started listening")
 
         if(ReplyManager.currentReply.isEmpty())
             updateTile()
@@ -39,13 +41,13 @@ class QuickReplyTile : TileService() {
     }
 
     override fun onStopListening() {
-        Log.i(TAG, "Stopped listening")
+        info("Stopped listening")
         super.onStopListening()
     }
 
     override fun onClick() {
         super.onClick()
-        Log.i(TAG, "Clicked")
+        info("Clicked")
 
         /*if(!hasPermissions()) {
             startActivityAndCollapse(Intent(this, RequestPermissionActivity::class.java))
@@ -53,29 +55,38 @@ class QuickReplyTile : TileService() {
         }*/
 
         if (!ReplyManager.currentReply.isEmpty()) {
-            //reset()
+            reset()
             return
         }
 
-        //startActivityAndCollapse(Intent(this, SelectReplyActivity::class.java))
+        startActivityAndCollapse(Intent(this, SelectReplyActivity::class.java))
     }
 
-    fun updateTile(state: Int = Tile.STATE_INACTIVE,
+    private fun updateTile(state: Int = Tile.STATE_INACTIVE,
                    label: String = "Quick Reply",
                    icon: Int = R.drawable.ic_chat_bubble_outline_black_24dp) {
         qsTile.state = state
         qsTile.label = label
         qsTile.icon = Icon.createWithResource(this, icon)
+        info("Updating tile with label: $label")
         qsTile.updateTile()
+    }
+
+    private fun reset() {
+        info("Resetting tile service")
+        stopService(Intent(this, CallStopService::class.java))
+        updateTile()
+        ReplyManager.replyCount = ReplyManager.DEFAULT_REPLY_COUNT
+        ReplyManager.currentReply = ReplyManager.DEFAULT_REPLY
     }
 
     override fun onTileAdded() {
         super.onTileAdded()
-        Log.i(TAG, "Tile added")
+        info("Tile added")
     }
 
     override fun onTileRemoved() {
-        Log.i(TAG, "Tile removed")
+        info("Tile removed")
         super.onTileRemoved()
     }
 
@@ -87,8 +98,8 @@ class QuickReplyTile : TileService() {
                 super.onCallStateChanged(state, incomingNumber)
                 if (state == TelephonyManager.CALL_STATE_RINGING) {
                     endCall(c, incomingNumber!!)
-                    /*sendReply(currentReply, incomingNumber)
-                    prefs.edit().putInt(SHARED_PREF_REPLY_COUNT_KEY, ++replyCount).apply()*/
+                    sendReply(ReplyManager.currentReply, incomingNumber)
+                    ReplyManager.replyCount++
                 }
             }
 
