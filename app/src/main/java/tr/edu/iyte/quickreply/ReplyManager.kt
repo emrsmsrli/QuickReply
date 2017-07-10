@@ -7,8 +7,9 @@ import tr.edu.iyte.quickreply.helper.Constants
 
 object ReplyManager {
     private const val TAG = "ReplyManager"
-    private const val DEFAULT_REPLY = ""
-    private const val DEFAULT_REPLY_COUNT = 0
+
+    const val DEFAULT_REPLY = ""
+    const val DEFAULT_REPLY_COUNT = 0
 
     private lateinit var prefs: SharedPreferences
     private lateinit var defaultReplies: Set<String>
