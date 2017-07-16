@@ -7,27 +7,26 @@ import android.os.IBinder
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
 import android.util.Log
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import tr.edu.iyte.quickreply.QuickReplyTile
 
-class CallStopService : Service() {
-    private val TAG = "CallStopService"
+class CallStopService : Service(), AnkoLogger {
     private val CALL_LISTENER = QuickReplyTile.Companion.IncomingCallListener(this)
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent) = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         tm.listen(CALL_LISTENER, PhoneStateListener.LISTEN_CALL_STATE)
-        Log.i(TAG, "Call listen service started")
+        info("Call listen service started")
         return Service.START_STICKY
     }
 
     override fun onDestroy() {
         val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         tm.listen(CALL_LISTENER, PhoneStateListener.LISTEN_NONE)
-        Log.i(TAG, "Call listen service stopped")
+        info("Call listen service stopped")
         super.onDestroy()
     }
 }
