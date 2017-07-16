@@ -29,10 +29,13 @@ class SelectReplyActivity :
         OnStartDragListener,
         OnReplyInteractedListener,
         AnkoLogger {
+    private val PERMISSION_REQUEST_CODE = 1
     private val LAYOUT_CHANGE_DURATION = 100L
 
-    private lateinit var adapter: ReplyAdapter
-    private lateinit var touchHelper: ItemTouchHelper
+    private val replies = mutableListOf<String>()
+    private val adapter = ReplyAdapter(replies, this, this)
+    private val callback = ReplyItemTouchHelperCallback(adapter)
+    private val touchHelper = ItemTouchHelper(callback)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,9 @@ class SelectReplyActivity :
         if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
                 || checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
                 || checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.SEND_SMS), 1)
+            requestPermissions(arrayOf(Manifest.permission.CALL_PHONE,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.SEND_SMS), PERMISSION_REQUEST_CODE)
             return
         }
 
@@ -49,10 +54,6 @@ class SelectReplyActivity :
     }
 
     private fun load() {
-        val replies = mutableListOf<String>()
-        adapter = ReplyAdapter(replies, this, this)
-        val callback = ReplyItemTouchHelperCallback(adapter)
-        touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(reply_list)
         
         add_reply.setOnClickListener {
@@ -112,7 +113,7 @@ class SelectReplyActivity :
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>?, grantResults: IntArray?) {
-        if (requestCode == 1) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
             var shouldCheck = true
             for (i in permissions!!.indices) {
                 if (grantResults!![i] != PackageManager.PERMISSION_GRANTED) {
