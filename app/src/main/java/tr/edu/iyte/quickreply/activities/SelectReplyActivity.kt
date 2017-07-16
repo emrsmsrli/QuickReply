@@ -4,7 +4,6 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -55,9 +54,7 @@ class SelectReplyActivity :
         val callback = ReplyItemTouchHelperCallback(adapter)
         touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(reply_list)
-
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-
+        
         add_reply.setOnClickListener {
             new_reply_layout.animate()
                     .alpha(1f)
@@ -68,7 +65,7 @@ class SelectReplyActivity :
                             with(new_reply_layout) { visibility = View.VISIBLE; bringToFront() }
                             with(main_select_layout) { requestLayout(); invalidate() }
                             new_reply.requestFocus()
-                            imm?.toggleSoftInputFromWindow(reply_list.windowToken, InputMethodManager.SHOW_FORCED, 0)
+                            inputMethodManager.toggleSoftInputFromWindow(reply_list.windowToken, InputMethodManager.SHOW_FORCED, 0)
                         }
 
                         override fun onAnimationEnd(animation: Animator?) {
@@ -93,11 +90,11 @@ class SelectReplyActivity :
             if(ReplyManager.hasNoReply())
                 toggleNoReplies(true)
             ReplyManager.addReply(reply)
-            imm?.hideSoftInputFromWindow(reply_list.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(reply_list.windowToken, 0)
         }
 
         cancel_r.setOnClickListener {
-            imm?.hideSoftInputFromWindow(reply_list.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(reply_list.windowToken, 0)
             resetNewReply()
         }
 
