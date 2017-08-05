@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -54,7 +55,6 @@
         </FrameLayout>
 
         <RelativeLayout
-            android:alpha=".5"
             android:id="@+id/dnd_enable_layout"
             android:layout_below="@id/toolbar"
             android:layout_width="match_parent"
@@ -72,6 +72,7 @@
 
             <!-- TODO style -->
             <TextView
+                android:alpha=".5"
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@id/do_not_dist_switch"
                 android:padding="16dp"

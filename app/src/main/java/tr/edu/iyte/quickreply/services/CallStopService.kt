@@ -3,10 +3,8 @@ package tr.edu.iyte.quickreply.services
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.os.IBinder
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
-import android.util.Log
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import tr.edu.iyte.quickreply.QuickReplyTile
