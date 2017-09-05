@@ -38,9 +38,13 @@ object ReplyManager : AnkoLogger {
         info("Reply deleted: $reply")
     }
 
-    fun resetToDefaultReplies() {
-        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, defaultReplies).apply()
-        info("Reset to default replies")
+    fun resetToDefaultReplies(preserveCustom: Boolean = false) {
+        var toReset = defaultReplies
+        if(preserveCustom) {
+            toReset = toReset.plus(replies)
+        }
+        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, toReset).apply()
+        info("Reset to default replies with preserving: $preserveCustom")
     }
 
     fun init(context: Context) {
