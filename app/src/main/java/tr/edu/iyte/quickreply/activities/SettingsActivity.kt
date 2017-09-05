@@ -93,7 +93,8 @@ class SettingsActivity : Activity() {
                 AlertDialog.Builder(activity)
                         .setTitle(getString(R.string.settings_reset_default_replies))
                         .setMessage(getString(R.string.settings_reset_default_replies_confirmation))
-                        .setPositiveButton(android.R.string.yes) { _, _ -> ReplyManager.resetToDefaultReplies() }
+                        .setNeutralButton(R.string.reset_without_preserve) { _, _ -> ReplyManager.resetToDefaultReplies() }
+                        .setPositiveButton(android.R.string.yes) { _, _ -> ReplyManager.resetToDefaultReplies(true) }
                         .setNegativeButton(android.R.string.no) { dialog, _ -> dialog.dismiss() }
                         .show()
             }

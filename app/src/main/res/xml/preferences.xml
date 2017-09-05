@@ -3,9 +3,7 @@
     <PreferenceCategory android:title="@string/settings_category_general">
         <Preference
             android:key="@string/settings_reset_default_replies_key"
-            android:title="@string/settings_reset_default_replies"
-            android:summary="@string/settings_reset_default_replies_summary">
-        </Preference>
+            android:title="@string/settings_reset_default_replies" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/settings_category_dnd">

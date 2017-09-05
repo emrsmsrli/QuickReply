@@ -19,6 +19,7 @@
     <string name="no_rules">Hiç kural yok! Aşağıdan +\'ya basarak ekle.</string>
     <string name="cancel_desc">Kuralı iptal et</string>
     <string name="more_desc">Daha fazla seçenek</string>
+    <string name="reset_without_preserve">Hepsini sil</string>
     <string name="auto_rules_disabled">Otomatik kurallar devre dışı! \nYukarıdaki kutuyu tıklayarak aktif et.</string>
     <string name="everyday">Her gün</string>
     <string name="and">ve</string>
@@ -34,6 +35,5 @@
     <string name="settings_listen_dnd_summary">Rahatsız etme\'yi dinle açıksa otomatik olarak QuickReply\'i çalıştırır</string>
     <string name="settings_reply_dnd">Bir yanıt seçin</string>
     <string name="settings_reset_default_replies">Varsayılan yanıtlara sıfırla</string>
-    <string name="settings_reset_default_replies_summary">Bütün özel cevapları sil ve varsayılanlara dön</string>
-    <string name="settings_reset_default_replies_confirmation">Bütün cevaplar silinip varsayılana dönülecek. Devam?</string>
+    <string name="settings_reset_default_replies_confirmation">Özel oluşturulmuş yanıtları korumak istiyor musunuz?</string>
 </resources>
