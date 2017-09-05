@@ -11,6 +11,7 @@ import org.jetbrains.anko.info
 import org.jetbrains.anko.verbose
 
 import tr.edu.iyte.quickreply.R
+import tr.edu.iyte.quickreply.ReplyManager
 
 class SettingsActivity : Activity() {
     private val FRAGMENT_TAG = "settings"
@@ -89,8 +90,12 @@ class SettingsActivity : Activity() {
             }
 
             private fun resetDefaultReplies() {
-                info("Resetting to default replies")
-                TODO()
+                AlertDialog.Builder(activity)
+                        .setTitle(getString(R.string.settings_reset_default_replies))
+                        .setMessage(getString(R.string.settings_reset_default_replies_confirmation))
+                        .setPositiveButton(android.R.string.yes) { _, _ -> ReplyManager.resetToDefaultReplies() }
+                        .setNegativeButton(android.R.string.no) { dialog, _ -> dialog.dismiss() }
+                        .show()
             }
 
             private fun startListeningDND() {

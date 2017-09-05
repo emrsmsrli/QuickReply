@@ -38,6 +38,11 @@ object ReplyManager : AnkoLogger {
         info("Reply deleted: $reply")
     }
 
+    fun resetToDefaultReplies() {
+        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, defaultReplies).apply()
+        info("Reset to default replies")
+    }
+
     fun init(context: Context) {
         prefs = context.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
         defaultReplies = setOf<String>(

@@ -35,4 +35,5 @@
     <string name="settings_reply_dnd">Bir yanıt seçin</string>
     <string name="settings_reset_default_replies">Varsayılan yanıtlara sıfırla</string>
     <string name="settings_reset_default_replies_summary">Bütün özel cevapları sil ve varsayılanlara dön</string>
+    <string name="settings_reset_default_replies_confirmation">Bütün cevaplar silinip varsayılana dönülecek. Devam?</string>
 </resources>

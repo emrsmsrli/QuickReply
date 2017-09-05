@@ -50,5 +50,6 @@
 
     <string name="settings_listen_dnd_summary">Automatically activates QuickReply when Do not Disturb is activated</string>
     <string name="settings_reset_default_replies_summary">Deletes all custom replies and restores the default ones</string>
+    <string name="settings_reset_default_replies_confirmation">This will delete all custom replies. Proceed?</string>
 
 </resources>
