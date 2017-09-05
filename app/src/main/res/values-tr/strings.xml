@@ -25,4 +25,14 @@
     <string name="dont_disturb_toast">Değişiklikler Rahatsız etme modunu tekrar başlattığında gerçekleşecek</string>
     <string name="qr_started">QuickReply başladı</string>
     <string name="permission_denied">QuickReply\'ı kullanmak için bütün izinleri vermelisiniz</string>
+    <string name="settings_category_dnd">Rahatsız etme</string>
+    <string name="settings_category_general">Genel</string>
+    <string name="settings_category_rules">Kurallar</string>
+    <string name="settings_delete_rules">Bütün kuralları sil</string>
+    <string name="settings_import_export_rules">Kuralları dışa çıkar/içe aktar</string>
+    <string name="settings_listen_dnd">Rahatsız etme\'yi dinle</string>
+    <string name="settings_listen_dnd_summary">Rahatsız etme\'yi dinle açıksa otomatik olarak QuickReply\'i çalıştırır</string>
+    <string name="settings_reply_dnd">Bir yanıt seçin</string>
+    <string name="settings_reset_default_replies">Varsayılan yanıtlara sıfırla</string>
+    <string name="settings_reset_default_replies_summary">Bütün özel cevapları sil ve varsayılanlara dön</string>
 </resources>

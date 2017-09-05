@@ -22,4 +22,9 @@
         <item>Cmt</item>
         <item>Paz</item>
     </string-array>
+
+    <string-array name="settings_import_export">
+        <item>Dışa çıkar</item>
+        <item>İçe aktar</item>
+    </string-array>
 </resources>

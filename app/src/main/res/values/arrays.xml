@@ -22,4 +22,9 @@
         <item>Sat</item>
         <item>Sun</item>
     </string-array>
+
+    <string-array name="settings_import_export">
+        <item>Export</item>
+        <item>Import</item>
+    </string-array>
 </resources>
