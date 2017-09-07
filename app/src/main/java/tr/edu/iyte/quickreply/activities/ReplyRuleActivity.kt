@@ -44,6 +44,10 @@ class ReplyRuleActivity :
             TODO("manage fragments")
         }
 
+        settings_button.setOnClickListener {
+            startActivity<SettingsActivity>()
+        }
+
         supportFragmentManager
                 .beginTransaction()
                 .add(R.id.reply_rule_fragment,

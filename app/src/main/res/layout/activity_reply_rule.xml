@@ -20,9 +20,18 @@
             android:layout_width="64dp"
             android:layout_height="64dp" />
 
-        <Button
-            android:id="@+id/change_reply_rule_button"
+        <ImageButton
+            android:id="@+id/settings_button"
             android:layout_alignParentEnd="true"
+            android:tint="@color/colorPrimary"
+            android:src="@drawable/ic_settings_black_24dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="64dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:layout_toStartOf="@id/settings_button"
+            android:id="@+id/change_reply_rule_button"
             android:textColor="@color/colorPrimary"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:text="Rules"
