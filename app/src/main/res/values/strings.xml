@@ -7,7 +7,6 @@
     <string name="permission_denied">You must grant all permissions to use QuickReply</string>
 
     <string name="add_reply">Add reply</string>
-    <string name="add_reply_hint">Call you later!</string>
 
     <string name="default_reply_1">Call you later</string>
     <string name="default_reply_2">I\'m busy right now</string>
