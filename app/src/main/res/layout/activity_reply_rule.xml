@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:elevation="6dp"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:tint="@color/colorPrimary"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp" />
+
+        <Button
+            android:id="@+id/change_reply_rule_button"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorPrimary"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="Rules"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/reply_rule_fragment"
+        android:layout_below="@id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>
