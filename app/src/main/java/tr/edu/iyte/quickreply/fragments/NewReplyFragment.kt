@@ -6,13 +6,14 @@ import android.support.design.widget.BottomSheetDialogFragment
 import android.view.View
 import tr.edu.iyte.quickreply.R
 import android.support.design.widget.CoordinatorLayout
+import android.widget.EditText
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.find
 
 class NewReplyFragment() : BottomSheetDialogFragment(), AnkoLogger {
     interface OnAddReplyInteractionListener {
-        fun onNewReplySaved()
+        fun onNewReplySaved(reply: String)
     }
 
     private val callback = object : BottomSheetBehavior.BottomSheetCallback() {
@@ -41,10 +42,12 @@ class NewReplyFragment() : BottomSheetDialogFragment(), AnkoLogger {
         if (behavior != null && behavior is BottomSheetBehavior<*>)
             behavior.setBottomSheetCallback(callback)
 
+        val replyText = content.find<EditText>(R.id.reply_text)
+
         // make background transparent
         dialog?.window?.findViewById(R.id.design_bottom_sheet)?.setBackgroundResource(android.R.color.transparent)
         content.find<View>(R.id.save_button).setOnClickListener {
-            listener.onNewReplySaved()
+            listener.onNewReplySaved(replyText.text.toString())
             dismiss()
         }
     }
