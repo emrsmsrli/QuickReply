@@ -14,6 +14,8 @@ import org.jetbrains.anko.error
 import org.jetbrains.anko.info
 import org.jetbrains.anko.verbose
 import tr.edu.iyte.quickreply.activities.SelectReplyActivity
+import tr.edu.iyte.quickreply.helper.startActivityAndCollapse
+import tr.edu.iyte.quickreply.helper.stopService
 import tr.edu.iyte.quickreply.services.CallStopService
 
 class QuickReplyTile : TileService(), AnkoLogger {
@@ -49,7 +51,7 @@ class QuickReplyTile : TileService(), AnkoLogger {
             return
         }
 
-        startActivityAndCollapse(Intent(this, SelectReplyActivity::class.java))
+        startActivityAndCollapse<SelectReplyActivity>()
     }
 
     private fun updateTile(state: Int = Tile.STATE_INACTIVE,
@@ -64,7 +66,7 @@ class QuickReplyTile : TileService(), AnkoLogger {
 
     private fun reset() {
         info("Resetting tile service")
-        stopService(Intent(this, CallStopService::class.java))
+        stopService<CallStopService>()
         updateTile()
         ReplyManager.replyCount = ReplyManager.DEFAULT_REPLY_COUNT
         ReplyManager.currentReply = ReplyManager.DEFAULT_REPLY
