@@ -53,8 +53,7 @@ class ReplyFragment : Fragment(),
         adapter.addAll(ReplyManager.replies)
 
         add_reply_button.setOnClickListener {
-            val bottomSheetDialogFragment
-                    = NewReplyFragment(act as NewReplyFragment.OnAddReplyInteractionListener)
+            val bottomSheetDialogFragment = NewReplyFragment()
             bottomSheetDialogFragment.show((act as AppCompatActivity)
                     .supportFragmentManager, Constants.BOTTOM_SHEET_DIALOG_TAG)
         }
