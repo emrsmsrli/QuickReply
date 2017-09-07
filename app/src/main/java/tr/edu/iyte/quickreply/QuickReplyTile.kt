@@ -13,7 +13,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 import org.jetbrains.anko.info
 import org.jetbrains.anko.verbose
-import tr.edu.iyte.quickreply.activities.SelectReplyActivity
+import tr.edu.iyte.quickreply.activities.ReplyRuleActivity
 import tr.edu.iyte.quickreply.helper.startActivityAndCollapse
 import tr.edu.iyte.quickreply.helper.stopService
 import tr.edu.iyte.quickreply.services.CallStopService
@@ -51,7 +51,7 @@ class QuickReplyTile : TileService(), AnkoLogger {
             return
         }
 
-        startActivityAndCollapse<SelectReplyActivity>()
+        startActivityAndCollapse<ReplyRuleActivity>()
     }
 
     private fun updateTile(state: Int = Tile.STATE_INACTIVE,

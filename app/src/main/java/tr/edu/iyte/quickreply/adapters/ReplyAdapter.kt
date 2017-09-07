@@ -24,15 +24,16 @@ class ReplyAdapter(private val replies: MutableList<String>,
     class ViewHolder(v: View) :
             RecyclerView.ViewHolder(v),
             ViewHolderInteractionListener {
-        val textView: TextView = v.find<TextView>(R.id.reply_text)
+        val textView: TextView = v.find(R.id.reply_text)
 
         override fun onInteractionStart() = itemView.setBackgroundColor(Color.LTGRAY)
         override fun onInteractionEnd() = itemView.setBackgroundColor(0)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent!!.context).inflate(R.layout.reply, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)
+            = ViewHolder(LayoutInflater
+                .from(parent!!.context)
+                .inflate(R.layout.reply, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.textView!!.text = replies[position]
@@ -58,7 +59,13 @@ class ReplyAdapter(private val replies: MutableList<String>,
         notifyItemInserted(replies.size - 1)
     }
 
-    fun remove(reply: String) {
+    fun addAll(replies: Collection<String>) {
+        val rangeStart = this.replies.size
+        this.replies.addAll(replies)
+        notifyItemRangeInserted(rangeStart, replies.size)
+    }
+
+    private fun remove(reply: String) {
         ReplyManager.removeReply(reply)
         val i = replies.indexOf(reply)
         replies.removeAt(i)
