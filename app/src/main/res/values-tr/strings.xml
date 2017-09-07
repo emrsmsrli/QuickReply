@@ -3,6 +3,7 @@
     <string name="app_name">Quick Reply</string>
     <string name="rules">Kurallar</string>
     <string name="replies">Yanıtlar</string>
+    <string name="settings">Ayarlar</string>
     <string name="add_reply">Cevap ekle</string>
     <string name="default_reply_1">Sonra ararım</string>
     <string name="default_reply_2">Şu an meşgulüm</string>

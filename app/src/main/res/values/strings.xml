@@ -2,6 +2,7 @@
     <string name="app_name">Quick Reply</string>
     <string name="rules">Rules</string>
     <string name="replies">Replies</string>
+    <string name="settings">Settings</string>
 
     <string name="qr_started">QuickReply started</string>
     <string name="permission_denied">You must grant all permissions to use QuickReply</string>
