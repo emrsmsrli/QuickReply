@@ -6,6 +6,7 @@ import android.support.design.widget.BottomSheetDialogFragment
 import android.view.View
 import tr.edu.iyte.quickreply.R
 import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.widget.EditText
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
@@ -47,7 +48,12 @@ class NewReplyFragment() : BottomSheetDialogFragment(), AnkoLogger {
         // make background transparent
         dialog?.window?.findViewById(R.id.design_bottom_sheet)?.setBackgroundResource(android.R.color.transparent)
         content.find<View>(R.id.save_button).setOnClickListener {
-            listener.onNewReplySaved(replyText.text.toString())
+            val reply = replyText.text.toString().trim { it <= ' ' }
+
+            if(reply.isEmpty())
+                return@setOnClickListener
+
+            listener.onNewReplySaved(reply)
             dismiss()
         }
     }
