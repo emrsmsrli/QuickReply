@@ -55,11 +55,11 @@ class QuickReplyTile : TileService(), AnkoLogger {
     private fun updateTile(state: Int = Tile.STATE_INACTIVE,
                    label: String = "Quick Reply",
                    icon: Int = R.drawable.ic_chat_bubble_outline_black_24dp) {
-        qsTile.state = state
-        qsTile.label = label
-        qsTile.icon = Icon.createWithResource(this, icon)
+        qsTile?.state = state
+        qsTile?.label = label
+        qsTile?.icon = Icon.createWithResource(this, icon)
         info("Updating tile with label: $label")
-        qsTile.updateTile()
+        qsTile?.updateTile()
     }
 
     private fun reset() {
