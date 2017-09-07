@@ -6,7 +6,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import tr.edu.iyte.quickreply.interfaces.ReplyItemTouchHelperAdapter
 import tr.edu.iyte.quickreply.interfaces.ViewHolderInteractionListener
 
-class ReplyItemTouchHelperCallback(val adapter: ReplyItemTouchHelperAdapter)
+class ReplyItemTouchHelperCallback(private val adapter: ReplyItemTouchHelperAdapter)
         : ItemTouchHelper.Callback() {
     private val ALPHA_FULL = 1.0f
 
