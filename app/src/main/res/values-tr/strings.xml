@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Quick Reply</string>
+    <string name="rules">Kurallar</string>
+    <string name="replies">Yanıtlar</string>
     <string name="add_reply">Cevap ekle</string>
     <string name="add_reply_hint">Sonra ararım!</string>
-    <string name="cancel_adding_reply">Cevap eklemeyi iptal et</string>
-    <string name="cancel_picking_reply">Cevap seçmeyi iptal et</string>
-    <string name="confirm_adding_reply">Cevap eklemeyi onayla</string>
     <string name="default_reply_1">Sonra ararım</string>
     <string name="default_reply_2">Şu an meşgulüm</string>
     <string name="default_reply_3">Seni sonra arayacağım</string>
     <string name="no_replies">Hiç cevap yok! Aşağıdaki +\'ya basarak ekle.</string>
     <string name="no_reply">Cevap yazılmadı</string>
     <string name="clock_seperator">&#160;-&#160;</string>
-    <string name="pref_title">Otomatik kurallar</string>
     <string name="use_dont_disturb">Rahatsız etme modunu dinle</string>
     <string name="weekdays">Haftaiçleri</string>
     <string name="weekends">Haftasonları</string>
@@ -23,7 +21,6 @@
     <string name="auto_rules_disabled">Otomatik kurallar devre dışı! \nYukarıdaki kutuyu tıklayarak aktif et.</string>
     <string name="everyday">Her gün</string>
     <string name="and">ve</string>
-    <string name="dont_disturb_toast">Değişiklikler Rahatsız etme modunu tekrar başlattığında gerçekleşecek</string>
     <string name="qr_started">QuickReply başladı</string>
     <string name="permission_denied">QuickReply\'ı kullanmak için bütün izinleri vermelisiniz</string>
     <string name="settings_category_dnd">Rahatsız etme</string>
