@@ -23,18 +23,25 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
-        <service android:name=".services.CallStopService" android:enabled="true" android:exported="false" />
-        <service android:name=".services.DoNotDisturbService" android:enabled="true" android:exported="false" />
-        <service android:name=".services.AlarmService" android:enabled="true" android:exported="false" />
-
-        <activity android:name=".activities.RequestPermissionActivity" />
-        <activity android:name=".activities.SelectReplyActivity" android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".activities.RulesActivity" android:theme="@style/Theme.AppCompat.Dialog">
+        <service
+            android:name=".services.CallStopService"
+            android:enabled="true"
+            android:exported="false" />
+        <activity android:name=".activities.ReplyRuleActivity" android:theme="@style/AppTheme.NoTitle" />
+        <activity android:name=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="Settings"
+            android:name=".activities.SettingsActivity"
+            android:theme="@style/AppTheme.NoTitle" >
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
