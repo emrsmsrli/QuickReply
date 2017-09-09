@@ -26,9 +26,6 @@
     <string name="and">and</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="cancel_desc">Cancel rule</string>
-    <string name="more_desc">More options</string>
-    <string name="reset_without_preserve">Delete all</string>
 
     <string name="everyday">Everyday</string>
     <string name="weekdays">Weekdays</string>
