@@ -47,6 +47,10 @@ object ReplyManager : AnkoLogger {
         info("Reset to default replies with preserving: $preserveCustom")
     }
 
+    fun deleteAllReplies() {
+        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, emptySet()).apply()
+    }
+
     fun init(context: Context) {
         prefs = context.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
         defaultReplies = setOf<String>(
