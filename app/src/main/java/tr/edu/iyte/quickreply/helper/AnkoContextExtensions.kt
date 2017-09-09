@@ -14,3 +14,9 @@ inline fun <reified T: Service> SupportFragment.stopService() = activity.stopSer
 
 inline fun <reified T: Activity> TileService.startActivityAndCollapse()
         = this.startActivityAndCollapse(Intent(this, T::class.java))
+
+fun <T> Collection<T>.asSameAs(other: Collection<T>): Boolean {
+    if(this.size != other.size)
+        return false
+    return all { other.contains(it) }
+}

@@ -56,6 +56,12 @@ class ReplyRuleActivity :
                 .commit()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val f = supportFragmentManager.findFragmentByTag(Constants.REPLY_FRAGMENT_TAG) as ReplyFragment
+        f.updateAdapterIfModified()
+    }
+
     override fun onNewReplySaved(reply: String) {
         val replyFragment = supportFragmentManager.findFragmentByTag(Constants.REPLY_FRAGMENT_TAG) as ReplyFragment
         replyFragment.addReply(reply)

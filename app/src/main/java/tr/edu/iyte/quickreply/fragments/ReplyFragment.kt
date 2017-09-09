@@ -86,6 +86,12 @@ class ReplyFragment : Fragment(),
         adapter.add(reply)
     }
 
+    fun updateAdapterIfModified() {
+        adapter.updateIfModified()
+        if(ReplyManager.hasNoReply())
+            toggleNoReplies(true)
+    }
+
     private fun toggleNoReplies(show: Boolean) {
         if(show) {
             no_replies.animate().alpha(1f).setListener(object : AnimatorListenerAdapter() {

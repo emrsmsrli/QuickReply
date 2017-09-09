@@ -12,6 +12,7 @@ import tr.edu.iyte.quickreply.interfaces.ReplyItemTouchHelperAdapter
 import org.jetbrains.anko.find
 import tr.edu.iyte.quickreply.R
 import tr.edu.iyte.quickreply.ReplyManager
+import tr.edu.iyte.quickreply.helper.asSameAs
 import tr.edu.iyte.quickreply.interfaces.OnReplyInteractedListener
 import tr.edu.iyte.quickreply.interfaces.OnStartDragListener
 import tr.edu.iyte.quickreply.interfaces.ViewHolderInteractionListener
@@ -63,6 +64,14 @@ class ReplyAdapter(private val replies: MutableList<String>,
         val rangeStart = this.replies.size
         this.replies.addAll(replies)
         notifyItemRangeInserted(rangeStart, replies.size)
+    }
+
+    fun updateIfModified() {
+        if(!replies.asSameAs(ReplyManager.replies)) {
+            replies.clear()
+            replies.addAll(ReplyManager.replies)
+            notifyDataSetChanged()
+        }
     }
 
     private fun remove(reply: String) {
