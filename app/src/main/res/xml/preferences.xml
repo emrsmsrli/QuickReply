@@ -4,6 +4,9 @@
         <Preference
             android:key="@string/settings_reset_default_replies_key"
             android:title="@string/settings_reset_default_replies" />
+        <Preference
+            android:key="@string/settings_delete_all_replies_key"
+            android:title="@string/settings_delete_all_replies" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/settings_category_dnd">

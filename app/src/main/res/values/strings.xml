@@ -36,6 +36,7 @@
     <string name="settings_reset_default_replies_key" translatable="false">tr.edu.iyte.quickreply.settings.RESET_REPLIES</string>
     <string name="settings_delete_rules_key" translatable="false">tr.edu.iyte.quickreply.settings.DELETE_RULES</string>
     <string name="settings_import_export_rules_key" translatable="false">tr.edu.iyte.quickreply.settings.IMPORT_EXPORT_RULES</string>
+    <string name="settings_delete_all_replies_key" translatable="false">tr.edu.iyte.quickreply.settings.DELETE_ALL_RULES</string>
 
     <string name="settings_category_dnd">Do not disturb</string>
     <string name="settings_category_rules">Rules</string>
@@ -45,8 +46,10 @@
     <string name="settings_delete_rules">Delete all rules</string>
     <string name="settings_import_export_rules">Export/import rules</string>
     <string name="settings_category_general">General</string>
+    <string name="settings_delete_all_replies">Delete all replies</string>
 
     <string name="settings_listen_dnd_summary">Automatically activates QuickReply when do not disturb is activated</string>
     <string name="settings_reset_default_replies_confirmation">Do you want to preserve custom replies?</string>
+    <string name="settings_delete_replies_confirmation">All replies will be deleted</string>
 
 </resources>
