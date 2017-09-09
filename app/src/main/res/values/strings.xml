@@ -13,14 +13,13 @@
     <string name="default_reply_1">Call you later</string>
     <string name="default_reply_2">I\'m busy right now</string>
     <string name="default_reply_3">I will call you later</string>
-    <string name="dnd_no_reply">&lt;DND active&gt;</string>
 
     <string name="no_replies">No replies! \nTap + below to add a reply.</string>
     <string name="no_reply">No reply written</string>
 
     <string name="no_rules">No rules! \nTap + below to add a rule.</string>
     <string name="auto_rules_disabled">Automatic rules disabled! \nSelect the above checkbox  to enable.</string>
-    <string name="use_dont_disturb">Listen Do not disturb mode</string>
+    <string name="use_dont_disturb">Listen do not disturb mode</string>
 
     <string name="clock_seperator">&#160;to&#160;</string>
     <string name="and">and</string>
@@ -47,7 +46,7 @@
     <string name="settings_import_export_rules">Export/import rules</string>
     <string name="settings_category_general">General</string>
 
-    <string name="settings_listen_dnd_summary">Automatically activates QuickReply when Do not Disturb is activated</string>
+    <string name="settings_listen_dnd_summary">Automatically activates QuickReply when do not disturb is activated</string>
     <string name="settings_reset_default_replies_confirmation">Do you want to preserve custom replies?</string>
 
 </resources>

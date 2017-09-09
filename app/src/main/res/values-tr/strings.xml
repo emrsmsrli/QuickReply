@@ -8,7 +8,6 @@
     <string name="default_reply_1">Sonra ararım</string>
     <string name="default_reply_2">Şu an meşgulüm</string>
     <string name="default_reply_3">Seni sonra arayacağım</string>
-    <string name="dnd_no_reply">&lt;DND aktif&gt;</string>
     <string name="no_replies">Hiç cevap yok! Aşağıdaki +\'ya basarak ekle.</string>
     <string name="no_reply">Cevap yazılmadı</string>
     <string name="clock_seperator">&#160;-&#160;</string>

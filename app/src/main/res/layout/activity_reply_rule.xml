@@ -34,7 +34,7 @@
             android:id="@+id/change_reply_rule_button"
             android:textColor="@color/colorPrimary"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:text="Rules"
+            android:text="@string/rules"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
     </RelativeLayout>
