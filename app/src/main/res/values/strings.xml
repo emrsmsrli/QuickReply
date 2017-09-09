@@ -6,12 +6,14 @@
 
     <string name="qr_started">QuickReply started</string>
     <string name="permission_denied">You must grant all permissions to use QuickReply</string>
+    <string name="none_selected">&lt;None selected&gt;</string>
 
     <string name="add_reply">Add reply</string>
 
     <string name="default_reply_1">Call you later</string>
     <string name="default_reply_2">I\'m busy right now</string>
     <string name="default_reply_3">I will call you later</string>
+    <string name="dnd_no_reply">&lt;DND active&gt;</string>
 
     <string name="no_replies">No replies! \nTap + below to add a reply.</string>
     <string name="no_reply">No reply written</string>
@@ -22,6 +24,8 @@
 
     <string name="clock_seperator">&#160;to&#160;</string>
     <string name="and">and</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="cancel_desc">Cancel rule</string>
     <string name="more_desc">More options</string>
     <string name="reset_without_preserve">Delete all</string>

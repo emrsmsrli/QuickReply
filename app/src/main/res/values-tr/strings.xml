@@ -8,6 +8,7 @@
     <string name="default_reply_1">Sonra ararım</string>
     <string name="default_reply_2">Şu an meşgulüm</string>
     <string name="default_reply_3">Seni sonra arayacağım</string>
+    <string name="dnd_no_reply">&lt;DND aktif&gt;</string>
     <string name="no_replies">Hiç cevap yok! Aşağıdaki +\'ya basarak ekle.</string>
     <string name="no_reply">Cevap yazılmadı</string>
     <string name="clock_seperator">&#160;-&#160;</string>
@@ -23,6 +24,7 @@
     <string name="and">ve</string>
     <string name="qr_started">QuickReply başladı</string>
     <string name="permission_denied">QuickReply\'ı kullanmak için bütün izinleri vermelisiniz</string>
+    <string name="none_selected">&lt;Seçilmemiş&gt;</string>
     <string name="settings_category_dnd">Rahatsız etme</string>
     <string name="settings_category_general">Genel</string>
     <string name="settings_category_rules">Kurallar</string>
@@ -33,4 +35,6 @@
     <string name="settings_reply_dnd">Bir yanıt seçin</string>
     <string name="settings_reset_default_replies">Varsayılan yanıtlara sıfırla</string>
     <string name="settings_reset_default_replies_confirmation">Özel oluşturulmuş yanıtları korumak istiyor musunuz?</string>
+    <string name="no">Hayır</string>
+    <string name="yes">Evet</string>
 </resources>
