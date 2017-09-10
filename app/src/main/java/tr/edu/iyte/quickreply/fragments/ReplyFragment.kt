@@ -88,8 +88,7 @@ class ReplyFragment : Fragment(),
 
     fun updateAdapterIfModified() {
         adapter.updateIfModified()
-        if(ReplyManager.hasNoReply())
-            toggleNoReplies(true)
+        toggleNoReplies(ReplyManager.hasNoReply())
     }
 
     private fun toggleNoReplies(show: Boolean) {
