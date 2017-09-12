@@ -49,6 +49,7 @@ object ReplyManager : AnkoLogger {
 
     fun deleteAllReplies() {
         prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, emptySet()).apply()
+        info("All replies have been deleted")
     }
 
     fun init(context: Context) {
