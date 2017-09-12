@@ -21,6 +21,8 @@
     <string name="qr_started">QuickReply başladı</string>
     <string name="permission_denied">QuickReply\'ı kullanmak için bütün izinleri vermelisiniz</string>
     <string name="none_selected">&lt;Seçilmemiş&gt;</string>
+    <string name="dnd_has_no_reply">Hiç yanıt yoksa rahatsız etme dinlenemez</string>
+    <string name="dnd_changed_reply">Rahatsız etme yanıtı değişti, çünkü önceki silinmiş</string>
     <string name="settings_category_dnd">Rahatsız etme</string>
     <string name="settings_category_general">Genel</string>
     <string name="settings_category_rules">Kurallar</string>

@@ -2,8 +2,10 @@ package tr.edu.iyte.quickreply.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.preference.CheckBoxPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
+import android.support.annotation.StringRes
 import android.widget.ArrayAdapter
 import org.jetbrains.anko.*
 import tr.edu.iyte.quickreply.R
@@ -19,8 +21,29 @@ class SettingsFragment : PreferenceFragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preferences)
+
+        val currentReply = defaultSharedPreferences
+                .getString(getString(R.string.settings_reply_dnd_key), "")
+        val f = findPreference(R.string.settings_listen_dnd_key) as CheckBoxPreference
+        if(f.isChecked) {
+            if (ReplyManager.hasNoReply()) {
+                changeDNDReply("")
+                f.isChecked = false
+                stopListeningDND()
+                toast(getString(R.string.dnd_has_no_reply))
+            } else if (!currentReply.isEmpty() && !ReplyManager.replies.contains(currentReply)) {
+                changeDNDReply(ReplyManager.replies.first())
+                toast(getString(R.string.dnd_changed_reply))
+            } else {
+                findPreference(R.string.settings_reply_dnd_key).summary = currentReply
+            }
+        }
+
         manageListeners(this)
     }
+
+    private fun findPreference(@StringRes prefKey: Int): Preference
+            = super.findPreference(getString(prefKey))
 
     override fun onDestroy() {
         manageListeners(null)
@@ -34,13 +57,13 @@ class SettingsFragment : PreferenceFragment(),
             verbose("Setting listeners")
         }
 
-        findPreference(getString(R.string.settings_delete_rules_key)).onPreferenceClickListener = listener
-        findPreference(getString(R.string.settings_reply_dnd_key)).onPreferenceClickListener = listener
-        findPreference(getString(R.string.settings_reset_default_replies_key)).onPreferenceClickListener = listener
-        findPreference(getString(R.string.settings_import_export_rules_key)).onPreferenceClickListener = listener
-        findPreference(getString(R.string.settings_delete_all_replies_key)).onPreferenceClickListener = listener
+        findPreference(R.string.settings_delete_rules_key).onPreferenceClickListener = listener
+        findPreference(R.string.settings_reply_dnd_key).onPreferenceClickListener = listener
+        findPreference(R.string.settings_reset_default_replies_key).onPreferenceClickListener = listener
+        findPreference(R.string.settings_import_export_rules_key).onPreferenceClickListener = listener
+        findPreference(R.string.settings_delete_all_replies_key).onPreferenceClickListener = listener
 
-        findPreference(getString(R.string.settings_listen_dnd_key)).onPreferenceChangeListener = listener
+        findPreference(R.string.settings_listen_dnd_key).onPreferenceChangeListener = listener
     }
 
     override fun onPreferenceClick(preference: Preference?): Boolean {
@@ -58,16 +81,20 @@ class SettingsFragment : PreferenceFragment(),
         when(preference?.key) {
             getString(R.string.settings_listen_dnd_key) -> {
                 val listening = newValue as Boolean
-                if(listening)   startListeningDND()
-                else            stopListeningDND()
+                if(listening) {
+                    if(ReplyManager.replies.isEmpty()) {
+                        changeDNDReply("")
+                        toast(getString(R.string.dnd_has_no_reply))
+                        return false
+                    } else {
+                        startListeningDND()
+                    }
+                } else {
+                    stopListeningDND()
+                }
             }
         }
         return true
-    }
-
-    fun selectDNDReply(reply: String) {
-        findPreference(getString(R.string.settings_reply_dnd_key)).summary = reply
-        ReplyManager.currentReply = reply
     }
 
     private fun deleteRules() {
@@ -78,10 +105,8 @@ class SettingsFragment : PreferenceFragment(),
     private fun deleteReplies() {
         AlertDialog.Builder(activity)
                 .setMessage(R.string.settings_delete_replies_confirmation)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    info("Deleting all replies")
-                    ReplyManager.deleteAllReplies()
-                }.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton(android.R.string.ok) { _, _ -> ReplyManager.deleteAllReplies() }
+                .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .show()
     }
 
@@ -93,8 +118,7 @@ class SettingsFragment : PreferenceFragment(),
                 .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .setAdapter(adapter) { dialog, which ->
                     val reply = adapter.getItem(which)
-                    ReplyManager.currentReply = reply
-                    findPreference(getString(R.string.settings_reply_dnd_key)).summary = reply
+                    changeDNDReply(reply)
                     dialog.dismiss()
                 }
                 .show()
@@ -112,12 +136,15 @@ class SettingsFragment : PreferenceFragment(),
     }
 
     private fun startListeningDND() {
-        info("Started listening DND")
+        var currentReply = defaultSharedPreferences.getString(
+                getString(R.string.settings_reply_dnd_key), "")
+        if(currentReply.isEmpty() ||
+                !ReplyManager.replies.contains(currentReply)) {
+            currentReply = ReplyManager.replies.first()
+        }
+        changeDNDReply(currentReply)
         startService<DNDService>()
-        if(defaultSharedPreferences.
-                getString(getString(R.string.settings_reply_dnd_key), "").isEmpty())
-        findPreference(getString(R.string.settings_reply_dnd_key)).summary =
-                getString(R.string.none_selected)
+        info("Started listening DND")
     }
 
     private fun stopListeningDND() {
@@ -125,12 +152,17 @@ class SettingsFragment : PreferenceFragment(),
         info("Stopped listening DND")
     }
 
+    private fun changeDNDReply(reply: String) {
+        defaultSharedPreferences.edit().putString(
+                getString(R.string.settings_reply_dnd_key), reply).apply()
+        findPreference(R.string.settings_reply_dnd_key).summary = reply
+    }
+
     private fun showImportExportDialog() {
         val adapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1)
         adapter.addAll(*resources.getStringArray(R.array.settings_import_export)) // first export then import
 
-        val dialogBuilder = AlertDialog.Builder(activity)
-        dialogBuilder
+        AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.settings_import_export_rules))
                 .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .setAdapter(adapter) { dialog, which ->
@@ -139,8 +171,7 @@ class SettingsFragment : PreferenceFragment(),
                         1 -> importRules() //import
                     }
                     dialog.dismiss()
-                }
-                .show()
+                }.show()
     }
 
     private fun exportRules() {

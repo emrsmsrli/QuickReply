@@ -20,6 +20,8 @@
     <string name="no_rules">No rules! \nTap + below to add a rule.</string>
     <string name="auto_rules_disabled">Automatic rules disabled! \nSelect the above checkbox  to enable.</string>
     <string name="use_dont_disturb">Listen do not disturb mode</string>
+    <string name="dnd_has_no_reply">Can\'t listen to DND if there\'re no replies</string>
+    <string name="dnd_changed_reply">DND reply changed, because last one no longer exists</string>
 
     <string name="clock_seperator">&#160;to&#160;</string>
     <string name="and">and</string>
