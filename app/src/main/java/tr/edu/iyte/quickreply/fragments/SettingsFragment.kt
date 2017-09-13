@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import org.jetbrains.anko.*
 import tr.edu.iyte.quickreply.R
 import tr.edu.iyte.quickreply.ReplyManager
+import tr.edu.iyte.quickreply.helper.SelectDiskPathDialog
 import tr.edu.iyte.quickreply.helper.stopService
 import tr.edu.iyte.quickreply.services.DNDService
 
@@ -175,10 +176,20 @@ class SettingsFragment : PreferenceFragment(),
     }
 
     private fun exportRules() {
-        TODO()
+        SelectDiskPathDialog(object : SelectDiskPathDialog.OnPathSelectedListener {
+            override fun onPathSelected(path: String) {
+                toast("Selected $path")
+                TODO("implement exporting")
+            }
+        }).show(activity)
     }
 
     private fun importRules() {
-        TODO()
+        SelectDiskPathDialog(object : SelectDiskPathDialog.OnPathSelectedListener {
+            override fun onPathSelected(path: String) {
+                toast("Selected $path")
+                TODO("implement importing")
+            }
+        }).show(activity)
     }
 }

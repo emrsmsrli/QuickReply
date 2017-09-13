@@ -16,6 +16,7 @@
 
     <string name="no_replies">No replies! \nTap + below to add a reply.</string>
     <string name="no_reply">No reply written</string>
+    <string name="no_subdirectories">No subdirectories here</string>
 
     <string name="no_rules">No rules! \nTap + below to add a rule.</string>
     <string name="auto_rules_disabled">Automatic rules disabled! \nSelect the above checkbox  to enable.</string>
@@ -27,6 +28,7 @@
     <string name="and">and</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="up">Up</string>
 
     <string name="everyday">Everyday</string>
     <string name="weekdays">Weekdays</string>

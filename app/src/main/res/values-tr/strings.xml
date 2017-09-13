@@ -35,6 +35,8 @@
     <string name="settings_reset_default_replies_confirmation">Özel oluşturulmuş yanıtları korumak istiyor musunuz?</string>
     <string name="no">Hayır</string>
     <string name="yes">Evet</string>
+    <string name="up">Yukarı</string>
     <string name="settings_delete_all_replies">Bütün yanıtları sil</string>
     <string name="settings_delete_replies_confirmation">Bütün yanıtlar silinecek</string>
+    <string name="no_subdirectories">Burda hiç alt klasör yok</string>
 </resources>
