@@ -31,7 +31,7 @@ class SelectDiskPathDialog(private val listener: OnPathSelectedListener) : AnkoL
                 getChildrenDirs(extDirectory))
 
         dialog = AlertDialog.Builder(context)
-                .setTitle(getDirectoryName(path))
+                .setTitle(path)
                 .setAdapter(adapter, null)
                 .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .setPositiveButton(android.R.string.ok) { dialog, _ ->
