@@ -6,11 +6,14 @@ import android.support.v7.app.AlertDialog
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
+import org.jetbrains.anko.verbose
 import tr.edu.iyte.quickreply.R
 import java.io.File
 import java.util.*
 
-class SelectDiskPathDialog(private val listener: OnPathSelectedListener) {
+class SelectDiskPathDialog(private val listener: OnPathSelectedListener) : AnkoLogger {
     interface OnPathSelectedListener {
         fun onPathSelected(path: String)
     }
@@ -35,13 +38,18 @@ class SelectDiskPathDialog(private val listener: OnPathSelectedListener) {
                     listener.onPathSelected(path)
                     dialog.dismiss()
                 }.setNeutralButton(R.string.up, null)
-                .show()
+                .create()
+
         dialog.listView.onItemClickListener = AdapterView.OnItemClickListener {
             _, _, position, _ ->
             stack.push(path)
+
             path = currentDirectoryChildren[position]
+            info("select path, now in $path")
+
             val dir = File(path)
             dialog.setTitle(path)
+
             adapter.clear()
             val children = getChildrenDirs(dir)
             if(children.isEmpty()) {
@@ -52,19 +60,24 @@ class SelectDiskPathDialog(private val listener: OnPathSelectedListener) {
             adapter.notifyDataSetChanged()
         }
 
-        val neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
-        neutralButton.setOnClickListener {
+        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
             if(stack.isEmpty()) {
                 TODO("get external sd and internal storage")
             }
 
             path = stack.pop()
+            info("up tapped, now in $path")
+
             val upDir = File(path)
             dialog.setTitle(path)
+
             adapter.clear()
             adapter.addAll(getChildrenDirs(upDir))
             adapter.notifyDataSetChanged()
         }
+
+        verbose("dialog init complete")
+        dialog.show()
     }
 
     private fun getChildrenDirs(file: File): List<String> {
