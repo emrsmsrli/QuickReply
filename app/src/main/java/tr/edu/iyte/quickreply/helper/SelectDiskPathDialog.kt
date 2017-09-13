@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.verbose
 import tr.edu.iyte.quickreply.R
 import java.io.File
@@ -53,7 +54,7 @@ class SelectDiskPathDialog(private val listener: OnPathSelectedListener) : AnkoL
             adapter.clear()
             val children = getChildrenDirs(dir)
             if(children.isEmpty()) {
-                Toast.makeText(context, "No subdirectories here", Toast.LENGTH_SHORT).show()
+                context.toast(context.getString(R.string.no_subdirectories))
             } else {
                 adapter.addAll(children)
             }
