@@ -5,7 +5,6 @@ import android.os.Environment
 import android.support.v7.app.AlertDialog
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
@@ -38,8 +37,7 @@ class SelectDiskPathDialog(private val listener: OnPathSelectedListener) : AnkoL
                 .setPositiveButton(android.R.string.ok) { dialog, _ ->
                     listener.onPathSelected(path)
                     dialog.dismiss()
-                }.setNeutralButton(R.string.up, null)
-                .create()
+                }.setNeutralButton(R.string.up, null).show()
 
         dialog.listView.onItemClickListener = AdapterView.OnItemClickListener {
             _, _, position, _ ->
@@ -78,7 +76,6 @@ class SelectDiskPathDialog(private val listener: OnPathSelectedListener) : AnkoL
         }
 
         verbose("dialog init complete")
-        dialog.show()
     }
 
     private fun getChildrenDirs(file: File): List<String> {
