@@ -1,13 +1,13 @@
 package tr.edu.iyte.quickreply.helper
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Environment
 import android.support.v7.app.AlertDialog
+import android.view.LayoutInflater
 import android.widget.AdapterView
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.verbose
+import android.widget.TextView
+import org.jetbrains.anko.*
 import tr.edu.iyte.quickreply.R
 import tr.edu.iyte.quickreply.adapters.FileAdapter
 import tr.edu.iyte.quickreply.adapters.FileItem
@@ -23,22 +23,28 @@ class SelectFileDialog(private val listener: OnFileSelectedListener,
     private val stack = Stack<String>()
     private var path = ""
     private lateinit var dialog: AlertDialog
+    private lateinit var subTitle: TextView
 
+    @SuppressLint("InflateParams")
     fun show(context: Context) {
         val extDirectory = Environment.getExternalStorageDirectory()
         path = extDirectory.absolutePath
         val adapter = FileAdapter(context, getChildrenFiles(extDirectory).toMutableList())
 
         dialog = AlertDialog.Builder(context)
-                .setTitle(path)
                 .setAdapter(adapter, null)
                 .setNeutralButton(R.string.up, null)
                 .also {
-                    /*
-                                val titleView = LayoutInflater.from(context)
-                                        .inflate(R.layout.custom_dialog_title, null)
+                    val titleView = LayoutInflater.from(context)
+                            .inflate(R.layout.custom_dialog_title, null)
+                    titleView.find<TextView>(R.id.title).text =
+                            if(shouldIncludeFiles) context.getString(R.string.select_file)
+                            else context.getString(R.string.select_folder)
+                    subTitle = titleView.find(R.id.subtitle)
+                    subTitle.text = path
 
-                                it.setCustomTitle(titleView)*/
+                    it.setCustomTitle(titleView)
+
                     if(shouldIncludeFiles) {
                         it.setPositiveButton(android.R.string.cancel) {
                             dialog, _ -> dialog.dismiss()
@@ -70,7 +76,7 @@ class SelectFileDialog(private val listener: OnFileSelectedListener,
             info("down, now in $path")
 
             val dir = File(path)
-            dialog.setTitle(path)
+            subTitle.text = path
 
             adapter.clear()
             val children = getChildrenFiles(dir)
@@ -90,7 +96,7 @@ class SelectFileDialog(private val listener: OnFileSelectedListener,
             info("up, now in $path")
 
             val upDir = File(path)
-            dialog.setTitle(path)
+            subTitle.text = path
 
             adapter.clear()
             adapter.addAll(getChildrenFiles(file = upDir))

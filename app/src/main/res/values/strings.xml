@@ -22,6 +22,8 @@
     <string name="reply_exported">Replies exported to:</string>
     <string name="reply_imported">Replies imported from:</string>
     <string name="file_not_valid">File not valid for import:</string>
+    <string name="select_file">Select a file to import</string>
+    <string name="select_folder">Select a folder to export</string>
 
     <string name="auto_rules_disabled">Automatic rules disabled! \nSelect the above checkbox  to enable.</string>
     <string name="use_dont_disturb">Listen do not disturb mode</string>

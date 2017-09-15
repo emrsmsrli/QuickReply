@@ -42,4 +42,6 @@
     <string name="file_not_valid">Dosya içe aktarma için geçersiz:</string>
     <string name="reply_exported">Yanıtlar şuraya dışa aktarıldı:</string>
     <string name="reply_imported">Yanıtlar şuradan içe aktarıldı:</string>
+    <string name="select_file">Aktarmak için dosya seç</string>
+    <string name="select_folder">Aktarmak için klasör seç</string>
 </resources>
