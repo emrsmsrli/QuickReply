@@ -22,7 +22,7 @@ class FileAdapter(private val ctx: Context,
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var v = convertView
         if(convertView == null) {
-            v = inflater.inflate(R.layout.file, parent, false)
+            v = inflater.inflate(R.layout.list_item_file, parent, false)
         }
 
         val item = getItem(position)

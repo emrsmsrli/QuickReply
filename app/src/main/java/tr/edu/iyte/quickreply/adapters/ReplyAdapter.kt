@@ -34,7 +34,7 @@ class ReplyAdapter(private val replies: MutableList<String>,
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)
             = ViewHolder(LayoutInflater
                 .from(parent!!.context)
-                .inflate(R.layout.reply, parent, false))
+                .inflate(R.layout.list_item_reply, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.textView!!.text = replies[position]
