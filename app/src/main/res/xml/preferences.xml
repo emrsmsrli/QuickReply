@@ -7,6 +7,9 @@
         <Preference
             android:key="@string/settings_delete_all_replies_key"
             android:title="@string/settings_delete_all_replies" />
+        <Preference
+            android:key="@string/settings_import_export_replies_key"
+            android:title="@string/settings_import_export" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/settings_category_dnd">
@@ -27,6 +30,6 @@
             android:title="@string/settings_delete_rules" />
         <Preference
             android:key="@string/settings_import_export_rules_key"
-            android:title="@string/settings_import_export_rules" />
+            android:title="@string/settings_import_export" />
     </PreferenceCategory>
 </PreferenceScreen>

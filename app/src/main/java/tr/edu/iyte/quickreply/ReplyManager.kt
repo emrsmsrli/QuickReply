@@ -47,6 +47,11 @@ object ReplyManager : AnkoLogger {
         info("Reset to default replies with preserving: $preserveCustom")
     }
 
+    fun importReplies(r: Set<String>) {
+        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, r).apply()
+        info("Replies imported: $r")
+    }
+
     fun deleteAllReplies() {
         prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, emptySet()).apply()
         info("All replies have been deleted")

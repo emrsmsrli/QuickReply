@@ -7,17 +7,22 @@ import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.support.annotation.StringRes
 import android.widget.ArrayAdapter
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import org.jetbrains.anko.*
 import tr.edu.iyte.quickreply.R
 import tr.edu.iyte.quickreply.ReplyManager
-import tr.edu.iyte.quickreply.helper.SelectDiskPathDialog
+import tr.edu.iyte.quickreply.helper.SelectFileDialog
 import tr.edu.iyte.quickreply.helper.stopService
 import tr.edu.iyte.quickreply.services.DNDService
+import java.io.*
 
 class SettingsFragment : PreferenceFragment(),
         Preference.OnPreferenceClickListener,
         Preference.OnPreferenceChangeListener,
         AnkoLogger {
+    private val RULE_EXPORT_FILE = "quick-reply-rule-export"
+    private val REPLY_EXPORT_FILE = "quick-reply-reply-export"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,18 +45,18 @@ class SettingsFragment : PreferenceFragment(),
             }
         }
 
-        manageListeners(this)
+        setListeners(this)
     }
 
     private fun findPreference(@StringRes prefKey: Int): Preference
             = super.findPreference(getString(prefKey))
 
     override fun onDestroy() {
-        manageListeners(null)
+        setListeners(null)
         super.onDestroy()
     }
 
-    private fun manageListeners(listener: SettingsFragment?) {
+    private fun setListeners(listener: SettingsFragment?) {
         if(listener == null) {
             verbose("Resetting listeners")
         } else {
@@ -62,6 +67,7 @@ class SettingsFragment : PreferenceFragment(),
         findPreference(R.string.settings_reply_dnd_key).onPreferenceClickListener = listener
         findPreference(R.string.settings_reset_default_replies_key).onPreferenceClickListener = listener
         findPreference(R.string.settings_import_export_rules_key).onPreferenceClickListener = listener
+        findPreference(R.string.settings_import_export_replies_key).onPreferenceClickListener = listener
         findPreference(R.string.settings_delete_all_replies_key).onPreferenceClickListener = listener
 
         findPreference(R.string.settings_listen_dnd_key).onPreferenceChangeListener = listener
@@ -72,7 +78,8 @@ class SettingsFragment : PreferenceFragment(),
             getString(R.string.settings_delete_rules_key)          -> deleteRules()
             getString(R.string.settings_reply_dnd_key)             -> showDNDSelectReply()
             getString(R.string.settings_reset_default_replies_key) -> resetDefaultReplies()
-            getString(R.string.settings_import_export_rules_key)   -> showImportExportDialog()
+            getString(R.string.settings_import_export_rules_key)   -> showImportExportDialog(isForRules = true)
+            getString(R.string.settings_import_export_replies_key) -> showImportExportDialog(isForRules = false)
             getString(R.string.settings_delete_all_replies_key)    -> deleteReplies()
         }
         return true
@@ -159,37 +166,72 @@ class SettingsFragment : PreferenceFragment(),
         findPreference(R.string.settings_reply_dnd_key).summary = reply
     }
 
-    private fun showImportExportDialog() {
+    private fun showImportExportDialog(isForRules: Boolean) {
         val adapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1)
         adapter.addAll(*resources.getStringArray(R.array.settings_import_export)) // first export then import
 
         AlertDialog.Builder(activity)
-                .setTitle(getString(R.string.settings_import_export_rules))
+                .setTitle(getString(R.string.settings_import_export))
                 .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .setAdapter(adapter) { dialog, which ->
-                    when(which) {
-                        0 -> exportRules() //export
-                        1 -> importRules() //import
-                    }
-                    dialog.dismiss()
+                    val shouldIncludeFiles = which == 1
+                    SelectFileDialog(object : SelectFileDialog.OnFileSelectedListener {
+                        override fun onFileSelected(path: String) {
+                            when(which) {
+                                0 -> if(isForRules) exportRules(path) else exportReplies(path)  //export
+                                1 -> if(isForRules) importRules(path) else importReplies(path)  //import
+                            }
+                            dialog.dismiss()
+                        }
+                    }, shouldIncludeFiles).show(activity)
                 }.show()
     }
 
-    private fun exportRules() {
-        SelectDiskPathDialog(object : SelectDiskPathDialog.OnPathSelectedListener {
-            override fun onPathSelected(path: String) {
-                toast("Selected $path")
-                TODO("implement exporting")
-            }
-        }).show(activity)
+    private fun exportRules(path: String) {
+        toast("Selected $path")
+        TODO("implement exporting")
     }
 
-    private fun importRules() {
-        SelectDiskPathDialog(object : SelectDiskPathDialog.OnPathSelectedListener {
-            override fun onPathSelected(path: String) {
-                toast("Selected $path")
-                TODO("implement importing")
+    private fun importRules(path: String) {
+        toast("Selected $path")
+        TODO("implement importing")
+    }
+
+    private fun exportReplies(path: String) {
+        doAsync {
+            val repliesJsonByteArray = Gson().toJson(ReplyManager.replies).toByteArray()
+            DataOutputStream(FileOutputStream(File(path, REPLY_EXPORT_FILE)))
+                    .use { it.write(repliesJsonByteArray) }
+            fragmentUiThread {
+                toast("${getString(R.string.reply_exported)} $path")
             }
-        }).show(activity)
+        }
+    }
+
+    private fun importReplies(path: String) {
+        doAsync {
+            fun notValid() {
+                fragmentUiThread {
+                    toast("${getString(R.string.file_not_valid)} $path")
+                }
+            }
+
+            val repliesJsonByteArray = String(File(path).readBytes())
+            if(repliesJsonByteArray.isEmpty()) {
+                notValid()
+                return@doAsync
+            }
+
+            try {
+                val repliesJson = Gson()
+                        .fromJson(repliesJsonByteArray, HashSet<String>().javaClass)
+                ReplyManager.importReplies(repliesJson)
+                fragmentUiThread {
+                    toast("${getString(R.string.reply_imported)} $path")
+                }
+            } catch(e: JsonSyntaxException) {
+                notValid()
+            }
+        }
     }
 }

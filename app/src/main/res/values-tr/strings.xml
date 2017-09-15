@@ -27,7 +27,7 @@
     <string name="settings_category_general">Genel</string>
     <string name="settings_category_rules">Kurallar</string>
     <string name="settings_delete_rules">Bütün kuralları sil</string>
-    <string name="settings_import_export_rules">Kuralları dışa çıkar/içe aktar</string>
+    <string name="settings_import_export">Dışa/içe aktar</string>
     <string name="settings_listen_dnd">Rahatsız etme\'yi dinle</string>
     <string name="settings_listen_dnd_summary">Rahatsız etme\'yi dinle açıksa otomatik olarak QuickReply\'i çalıştırır</string>
     <string name="settings_reply_dnd">Bir yanıt seçin</string>
@@ -38,5 +38,8 @@
     <string name="up">Yukarı</string>
     <string name="settings_delete_all_replies">Bütün yanıtları sil</string>
     <string name="settings_delete_replies_confirmation">Bütün yanıtlar silinecek</string>
-    <string name="no_subdirectories">Burda hiç alt klasör yok</string>
+    <string name="no_subdirectories">Burada hiç klasör ya da dosya yok</string>
+    <string name="file_not_valid">Dosya içe aktarma için geçersiz:</string>
+    <string name="reply_exported">Yanıtlar şuraya dışa aktarıldı:</string>
+    <string name="reply_imported">Yanıtlar şuradan içe aktarıldı:</string>
 </resources>

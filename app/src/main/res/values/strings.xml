@@ -16,9 +16,13 @@
 
     <string name="no_replies">No replies! \nTap + below to add a reply.</string>
     <string name="no_reply">No reply written</string>
-    <string name="no_subdirectories">No subdirectories here</string>
-
+    <string name="no_subdirectories">No folders or files here</string>
     <string name="no_rules">No rules! \nTap + below to add a rule.</string>
+    
+    <string name="reply_exported">Replies exported to:</string>
+    <string name="reply_imported">Replies imported from:</string>
+    <string name="file_not_valid">File not valid for import:</string>
+
     <string name="auto_rules_disabled">Automatic rules disabled! \nSelect the above checkbox  to enable.</string>
     <string name="use_dont_disturb">Listen do not disturb mode</string>
     <string name="dnd_has_no_reply">Can\'t listen to DND if there\'re no replies</string>
@@ -40,6 +44,7 @@
     <string name="settings_reset_default_replies_key" translatable="false">tr.edu.iyte.quickreply.settings.RESET_REPLIES</string>
     <string name="settings_delete_rules_key" translatable="false">tr.edu.iyte.quickreply.settings.DELETE_RULES</string>
     <string name="settings_import_export_rules_key" translatable="false">tr.edu.iyte.quickreply.settings.IMPORT_EXPORT_RULES</string>
+    <string name="settings_import_export_replies_key" translatable="false">tr.edu.iyte.quickreply.settings.IMPORT_EXPORT_REPLIES</string>
     <string name="settings_delete_all_replies_key" translatable="false">tr.edu.iyte.quickreply.settings.DELETE_ALL_RULES</string>
 
     <string name="settings_category_dnd">Do not disturb</string>
@@ -48,7 +53,7 @@
     <string name="settings_reply_dnd">Select reply to send</string>
     <string name="settings_reset_default_replies">Reset to default replies</string>
     <string name="settings_delete_rules">Delete all rules</string>
-    <string name="settings_import_export_rules">Export/import rules</string>
+    <string name="settings_import_export">Export/import</string>
     <string name="settings_category_general">General</string>
     <string name="settings_delete_all_replies">Delete all replies</string>
 
