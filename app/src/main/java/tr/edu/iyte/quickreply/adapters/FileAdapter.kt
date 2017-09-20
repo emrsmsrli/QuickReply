@@ -34,11 +34,6 @@ class FileAdapter(private val ctx: Context,
         return v
     }
 
-    fun add(item: FileItem) {
-        files.add(item)
-        if(notifyOnChange) notifyDataSetChanged()
-    }
-
     fun addAll(items: Collection<FileItem>) {
         synchronized(lock) {
             files.addAll(items)
