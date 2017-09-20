@@ -15,7 +15,7 @@ import java.io.File
 import java.util.*
 
 class SelectFileDialog(private val listener: OnFileSelectedListener,
-                       private val shouldIncludeFiles: Boolean = false) : AnkoLogger {
+                       private val fileSelectMode: Boolean = false) : AnkoLogger {
     interface OnFileSelectedListener {
         fun onFileSelected(path: String)
     }
@@ -38,14 +38,14 @@ class SelectFileDialog(private val listener: OnFileSelectedListener,
                     val titleView = LayoutInflater.from(context)
                             .inflate(R.layout.custom_dialog_title, null)
                     titleView.find<TextView>(R.id.title).text =
-                            if(shouldIncludeFiles) context.getString(R.string.select_file)
+                            if(fileSelectMode) context.getString(R.string.select_file)
                             else context.getString(R.string.select_folder)
                     subTitle = titleView.find(R.id.subtitle)
                     subTitle.text = path
 
                     it.setCustomTitle(titleView)
 
-                    if(shouldIncludeFiles) {
+                    if(fileSelectMode) {
                         it.setPositiveButton(android.R.string.cancel) {
                             dialog, _ -> dialog.dismiss()
                         }
@@ -79,7 +79,7 @@ class SelectFileDialog(private val listener: OnFileSelectedListener,
             subTitle.text = path
 
             adapter.clear()
-            val children = getChildrenFiles(dir)
+            val children = getChildrenFiles(file = dir)
             if(children.isEmpty()) {
                 context.toast(context.getString(R.string.no_subdirectories))
             } else {
@@ -112,7 +112,7 @@ class SelectFileDialog(private val listener: OnFileSelectedListener,
                 .sorted()
                 .map { FileItem(getFileName(it.absolutePath), true) }
 
-        if(!shouldIncludeFiles)
+        if(!fileSelectMode)
             return directoryNames
         return directoryNames + children
                 .filter { it.isFile }
