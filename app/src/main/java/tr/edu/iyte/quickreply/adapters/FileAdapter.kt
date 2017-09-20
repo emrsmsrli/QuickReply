@@ -20,13 +20,10 @@ class FileAdapter(private val ctx: Context,
     private val lock = Any()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var v = convertView
-        if(convertView == null) {
-            v = inflater.inflate(R.layout.list_item_file, parent, false)
-        }
+        val v = convertView ?: inflater.inflate(R.layout.list_item_file, parent, false)
 
         val item = getItem(position)
-        v!!.find<ImageView>(R.id.icon).setImageDrawable(
+        v.find<ImageView>(R.id.icon).setImageDrawable(
                 if(item.isDirectory) ctx.getDrawable(R.drawable.ic_folder_black_24dp)
                 else ctx.getDrawable(R.drawable.ic_file_black_24dp))
         v.find<TextView>(R.id.name).text = item.name
@@ -35,16 +32,12 @@ class FileAdapter(private val ctx: Context,
     }
 
     fun addAll(items: Collection<FileItem>) {
-        synchronized(lock) {
-            files.addAll(items)
-        }
+        synchronized(lock) { files.addAll(items) }
         if(notifyOnChange) notifyDataSetChanged()
     }
 
     fun clear() {
-        synchronized(lock) {
-            files.clear()
-        }
+        synchronized(lock) { files.clear() }
         if(notifyOnChange) notifyDataSetChanged()
     }
 
