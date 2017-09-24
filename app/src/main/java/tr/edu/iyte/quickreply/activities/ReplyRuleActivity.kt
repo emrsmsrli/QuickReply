@@ -25,7 +25,8 @@ class ReplyRuleActivity :
         val permissions = arrayOf(
                 Manifest.permission.CALL_PHONE,
                 Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.SEND_SMS)
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (permissions.any { checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED }) {
             requestPermissions(permissions, PERMISSION_REQUEST_CODE)
             return
