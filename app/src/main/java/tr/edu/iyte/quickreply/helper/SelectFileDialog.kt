@@ -14,12 +14,8 @@ import tr.edu.iyte.quickreply.adapters.FileItem
 import java.io.File
 import java.util.*
 
-class SelectFileDialog(private val listener: OnFileSelectedListener,
-                       private val fileSelectMode: Boolean = false) : AnkoLogger {
-    interface OnFileSelectedListener {
-        fun onFileSelected(path: String)
-    }
-
+class SelectFileDialog(private val fileSelectMode: Boolean = false,
+                       private val onFileSelectedListener: (String) -> Unit) : AnkoLogger {
     private val stack = Stack<String>()
     private var path = ""
     private lateinit var dialog: AlertDialog
@@ -53,7 +49,7 @@ class SelectFileDialog(private val listener: OnFileSelectedListener,
                         it.setNegativeButton(android.R.string.cancel) {
                             dialog, _ -> dialog.dismiss()
                         }.setPositiveButton(android.R.string.ok) { dialog, _ ->
-                            listener.onFileSelected(path)
+                            onFileSelectedListener(path)
                             dialog.dismiss()
                         }
                     }
@@ -65,7 +61,7 @@ class SelectFileDialog(private val listener: OnFileSelectedListener,
 
             if(!file.isDirectory) {
                 path += "${File.separator}${file.name}"
-                listener.onFileSelected(path)
+                onFileSelectedListener(path)
                 dialog.dismiss()
                 return@OnItemClickListener
             }

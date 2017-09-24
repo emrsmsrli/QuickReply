@@ -172,16 +172,14 @@ class SettingsFragment : PreferenceFragment(),
                 .setTitle(getString(R.string.settings_import_export))
                 .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .setAdapter(adapter) { dialog, which ->
-                    val shouldIncludeFiles = which == 1
-                    SelectFileDialog(object : SelectFileDialog.OnFileSelectedListener {
-                        override fun onFileSelected(path: String) {
-                            when(which) {
-                                0 -> if(isForRules) exportRules(path) else exportReplies(path)  //export
-                                1 -> if(isForRules) importRules(path) else importReplies(path)  //import
-                            }
-                            dialog.dismiss()
+                    val isImportMode = which == 1
+                    SelectFileDialog(fileSelectMode = isImportMode) {
+                        when(which) {
+                            0 -> if(isForRules) exportRules(it) else exportReplies(it)  //export
+                            1 -> if(isForRules) importRules(it) else importReplies(it)  //import
                         }
-                    }, shouldIncludeFiles).show(activity)
+                        dialog.dismiss()
+                    }.show(activity)
                 }.show()
     }
 
