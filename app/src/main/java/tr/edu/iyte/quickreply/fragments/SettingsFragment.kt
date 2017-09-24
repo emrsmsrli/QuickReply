@@ -1,11 +1,11 @@
 package tr.edu.iyte.quickreply.fragments
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.preference.CheckBoxPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.support.annotation.StringRes
+import android.support.v7.app.AlertDialog
 import android.widget.ArrayAdapter
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -21,8 +21,8 @@ class SettingsFragment : PreferenceFragment(),
         Preference.OnPreferenceClickListener,
         Preference.OnPreferenceChangeListener,
         AnkoLogger {
-    private val RULE_EXPORT_FILE = "quick-reply-rule-export"
-    private val REPLY_EXPORT_FILE = "quick-reply-reply-export"
+    private val ruleExportFile = "quick-reply-rule-export"
+    private val replyExportFile = "quick-reply-reply-export"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,11 +111,11 @@ class SettingsFragment : PreferenceFragment(),
     }
 
     private fun deleteReplies() {
-        AlertDialog.Builder(activity)
-                .setMessage(R.string.settings_delete_replies_confirmation)
-                .setPositiveButton(android.R.string.ok) { _, _ -> ReplyManager.deleteAllReplies() }
-                .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
-                .show()
+        alert(message = R.string.settings_delete_replies_confirmation,
+                title = R.string.settings_delete_all_replies) {
+            okButton { ReplyManager.deleteAllReplies() }
+            cancelButton { it.dismiss() }
+        }.show()
     }
 
     private fun showDNDSelectReply() {
@@ -133,14 +133,12 @@ class SettingsFragment : PreferenceFragment(),
     }
 
     private fun resetDefaultReplies() {
-        AlertDialog.Builder(activity)
-                .setTitle(getString(R.string.settings_reset_default_replies))
-                .setMessage(getString(R.string.settings_reset_default_replies_confirmation))
-                .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
-                .setPositiveButton(R.string.yes) { _, _ ->
-                    ReplyManager.resetToDefaultReplies(preserveCustom = true) }
-                .setNegativeButton(R.string.no) { _, _ -> ReplyManager.resetToDefaultReplies() }
-                .show()
+        alert(message = R.string.settings_reset_default_replies_confirmation,
+                title = R.string.settings_reset_default_replies) {
+            neutralPressed(android.R.string.cancel) { it.dismiss() }
+            positiveButton(R.string.yes) { ReplyManager.resetToDefaultReplies(preserveCustom = true) }
+            negativeButton(R.string.no) { ReplyManager.resetToDefaultReplies(preserveCustom = false) }
+        }.show()
     }
 
     private fun startListeningDND() {
@@ -200,7 +198,7 @@ class SettingsFragment : PreferenceFragment(),
     private fun exportReplies(path: String) {
         doAsync {
             val repliesJsonByteArray = Gson().toJson(ReplyManager.replies).toByteArray()
-            DataOutputStream(FileOutputStream(File(path, REPLY_EXPORT_FILE)))
+            DataOutputStream(FileOutputStream(File(path, replyExportFile)))
                     .use { it.write(repliesJsonByteArray) }
             fragmentUiThread {
                 toast("${getString(R.string.reply_exported)} $path")
