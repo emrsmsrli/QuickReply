@@ -5,7 +5,9 @@ import android.content.Context
 import android.os.Environment
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.AdapterView
+import android.widget.Button
 import android.widget.TextView
 import org.jetbrains.anko.*
 import tr.edu.iyte.quickreply.R
@@ -20,6 +22,7 @@ class SelectFileDialog(private val fileSelectMode: Boolean = false,
     private var path = ""
     private lateinit var dialog: AlertDialog
     private lateinit var subTitle: TextView
+    private lateinit var upButton: Button
 
     @SuppressLint("InflateParams")
     fun show(context: Context) {
@@ -66,6 +69,8 @@ class SelectFileDialog(private val fileSelectMode: Boolean = false,
                 return@OnItemClickListener
             }
 
+            upButton.visibility = View.VISIBLE
+
             stack.push(path)
 
             path += "${File.separator}${file.name}"
@@ -83,13 +88,15 @@ class SelectFileDialog(private val fileSelectMode: Boolean = false,
             }
         }
 
-        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
-            if(stack.isEmpty()) {
-                TODO("get external sd and internal storage")
-            }
-
+        upButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
+        upButton.visibility = View.INVISIBLE
+        upButton.setOnClickListener {
             path = stack.pop()
             info("up, now in $path")
+
+            if(stack.isEmpty()) {
+                upButton.visibility = View.INVISIBLE
+            }
 
             val upDir = File(path)
             subTitle.text = path
