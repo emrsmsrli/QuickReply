@@ -30,11 +30,11 @@ object ReplyManager : AnkoLogger {
 
     fun hasNoReply() = replies.isEmpty()
     fun addReply(reply: String) {
-        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, replies.plus(reply)).apply()
+        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, replies + reply).apply()
         info("New reply added: $reply")
     }
     fun removeReply(reply: String) {
-        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, replies.minus(reply)).apply()
+        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, replies - reply).apply()
         info("Reply deleted: $reply")
     }
 
@@ -47,9 +47,9 @@ object ReplyManager : AnkoLogger {
         info("Reset to default replies with preserving: $preserveCustom")
     }
 
-    fun importReplies(r: Set<String>) {
-        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, r).apply()
-        info("Replies imported: $r")
+    fun importReplies(replies: Set<String>) {
+        prefs.edit().putStringSet(Constants.SHARED_PREF_REPLIES_KEY, replies).apply()
+        info("Replies imported: $replies")
     }
 
     fun deleteAllReplies() {
