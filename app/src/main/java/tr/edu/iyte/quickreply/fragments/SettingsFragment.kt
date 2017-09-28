@@ -44,16 +44,19 @@ class SettingsFragment : PreferenceFragment(),
                 findPreference(R.string.settings_reply_dnd_key).summary = currentReply
             }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         setListeners(this)
     }
 
     private fun findPreference(@StringRes prefKey: Int): Preference
             = super.findPreference(getString(prefKey))
 
-    override fun onDestroy() {
+    override fun onStop() {
         setListeners(null)
-        super.onDestroy()
+        super.onStop()
     }
 
     private fun setListeners(listener: SettingsFragment?) {
