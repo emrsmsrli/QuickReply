@@ -69,7 +69,8 @@ class SelectFileDialog(private val fileSelectMode: Boolean = false,
                 return@OnItemClickListener
             }
 
-            upButton.visibility = View.VISIBLE
+            if(upButton.visibility != View.VISIBLE)
+                upButton.visibility = View.VISIBLE
 
             stack.push(path)
 
@@ -110,21 +111,20 @@ class SelectFileDialog(private val fileSelectMode: Boolean = false,
 
     private fun getChildrenFiles(file: File): List<FileItem> {
         val children = file.listFiles()
-        val directoryNames = children
-                .filter { it.isDirectory }
+
+        fun getFileName(path: String): String {
+            val parts = path.split(File.separator)
+            return parts[parts.size - 1]
+        }
+
+        fun filter(isDir: Boolean)
+                = children.filter { it.isDirectory == isDir }
                 .sorted()
-                .map { FileItem(getFileName(it.absolutePath), true) }
+                .map { FileItem(getFileName(it.absolutePath), isDir) }
+        val directoryNames = filter(isDir = true)
 
         if(!fileSelectMode)
             return directoryNames
-        return directoryNames + children
-                .filter { it.isFile }
-                .sorted()
-                .map {  FileItem(getFileName(it.absolutePath), false) }
-    }
-
-    private fun getFileName(path: String): String {
-        val parts = path.split("/")
-        return parts[parts.size - 1]
+        return directoryNames + filter(isDir = false)
     }
 }
