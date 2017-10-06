@@ -30,6 +30,7 @@
             android:name=".services.CallStopService"
             android:enabled="true"
             android:exported="false" />
+        <receiver android:name=".QuickReplyTile$Companion$SMSSentReceiver" />
         <activity android:name=".activities.ReplyRuleActivity" android:theme="@style/AppTheme.NoTitle" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>

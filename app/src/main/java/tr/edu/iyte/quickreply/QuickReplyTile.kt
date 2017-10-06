@@ -1,5 +1,8 @@
 package tr.edu.iyte.quickreply
 
+import android.app.Activity
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
@@ -9,11 +12,9 @@ import android.service.quicksettings.TileService
 import android.telephony.PhoneStateListener
 import android.telephony.SmsManager
 import android.telephony.TelephonyManager
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.error
-import org.jetbrains.anko.info
-import org.jetbrains.anko.verbose
+import org.jetbrains.anko.*
 import tr.edu.iyte.quickreply.activities.ReplyRuleActivity
+import tr.edu.iyte.quickreply.helper.database
 import tr.edu.iyte.quickreply.helper.startActivityAndCollapse
 import tr.edu.iyte.quickreply.helper.stopService
 import tr.edu.iyte.quickreply.services.CallStopService
@@ -83,6 +84,27 @@ class QuickReplyTile : TileService(), AnkoLogger {
     }
 
     companion object {
+        internal const val SMS_DELIV_INTENT_REQUEST_CODE = 2 shl 6
+        internal const val EXTRA_CALLER = "caller"
+        internal const val EXTRA_TYPE = "type"
+        internal const val EXTRA_SENT_ON = "sentOn"
+        internal const val EXTRA_TYPE_PHONE = 0
+        //internal const val EXTRA_TYPE_SMS = 1
+
+        class SMSSentReceiver : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val isDelivered = resultCode == Activity.RESULT_OK
+
+                context?.database?.addToHistory(
+                        ReplyLog(callerNumber = intent!!.getStringExtra(EXTRA_CALLER),
+                                reply = ReplyManager.currentReply,
+                                type = if(intent.getIntExtra(EXTRA_TYPE, EXTRA_TYPE_PHONE) == EXTRA_TYPE_PHONE)
+                                    ReplyLogType.CALL else ReplyLogType.SMS,
+                                sentOn = intent.getLongExtra(EXTRA_SENT_ON, System.currentTimeMillis()),
+                                isDelivered = isDelivered))
+            }
+        }
+
         class IncomingCallListener(val context: Context) : PhoneStateListener(), AnkoLogger {
             override fun onCallStateChanged(state: Int, incomingNumber: String?) {
                 super.onCallStateChanged(state, incomingNumber)
@@ -113,9 +135,18 @@ class QuickReplyTile : TileService(), AnkoLogger {
 
             private fun sendReply(reply: String, phoneNum: String) {
                 val sms = SmsManager.getDefault()
-                sms.sendTextMessage(phoneNum, null, reply, null, null)
+                val receiverIntent = context.intentFor<SMSSentReceiver>(EXTRA_CALLER to phoneNum,
+                        EXTRA_TYPE to EXTRA_TYPE_PHONE,
+                        EXTRA_SENT_ON to System.currentTimeMillis())
+                val sentIntent = PendingIntent.getBroadcast(context,
+                        SMS_DELIV_INTENT_REQUEST_CODE,
+                        receiverIntent,
+                        PendingIntent.FLAG_ONE_SHOT)
+                sms.sendTextMessage(phoneNum, null, reply, sentIntent, null)
                 info("SMS <$reply> sent to <$phoneNum>")
             }
         }
+
+        // TODO implement incoming sms listener
     }
 }

@@ -6,6 +6,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.service.quicksettings.TileService
+import tr.edu.iyte.quickreply.Database
 import android.support.v4.app.Fragment as SupportFragment
 
 inline fun <reified T: Service> Context.stopService() = this.stopService(Intent(this, T::class.java))
@@ -14,6 +15,13 @@ inline fun <reified T: Service> SupportFragment.stopService() = activity.stopSer
 
 inline fun <reified T: Activity> TileService.startActivityAndCollapse()
         = this.startActivityAndCollapse(Intent(this, T::class.java))
+
+val Context.database: Database
+    get() = Database.getInstance(this)
+val Fragment.database: Database
+    get() = Database.getInstance(activity)
+val SupportFragment.database: Database
+    get() = Database.getInstance(activity)
 
 fun <T> Collection<T>.asSameAs(other: Collection<T>): Boolean {
     if(this.size != other.size)
