@@ -58,10 +58,8 @@ class ReplyFragment : Fragment(),
                     .supportFragmentManager, Constants.BOTTOM_SHEET_DIALOG_TAG)
         }
 
-        if(ReplyManager.hasNoReply()) {
-            no_replies.alpha = 1f
-            no_replies.visibility = View.VISIBLE
-        }
+        if(ReplyManager.hasNoReply())
+            toggleNoReplies(show = true, withAnimation = false)
     }
 
     override fun onReplySelected(reply: String) {
@@ -73,7 +71,7 @@ class ReplyFragment : Fragment(),
 
     override fun onReplyDismissed() {
         if(ReplyManager.hasNoReply())
-            toggleNoReplies(true)
+            toggleNoReplies(show = true)
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
@@ -81,31 +79,45 @@ class ReplyFragment : Fragment(),
 
     fun addReply(reply: String) {
         if(ReplyManager.hasNoReply())
-            toggleNoReplies(false)
+            toggleNoReplies(show = false)
         ReplyManager.addReply(reply)
         adapter.add(reply)
     }
 
     fun updateAdapterIfModified() {
         adapter.updateIfModified()
-        toggleNoReplies(ReplyManager.hasNoReply())
+        toggleNoReplies(show = ReplyManager.hasNoReply(), withAnimation = false)
     }
 
-    private fun toggleNoReplies(show: Boolean) {
+    private fun toggleNoReplies(show: Boolean, withAnimation: Boolean = true) {
         if(show) {
-            no_replies.animate().alpha(1f).setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationStart(animation: Animator) {
-                    super.onAnimationStart(animation)
-                    no_replies.visibility = View.VISIBLE
+            no_replies.also {
+                if(withAnimation) {
+                    it.animate().alpha(1f).setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationStart(animation: Animator) {
+                            super.onAnimationStart(animation)
+                            no_replies.visibility = View.VISIBLE
+                        }
+                    }).apply { duration = Constants.LAYOUT_CHANGE_DURATION }.start()
+                } else {
+                    it.alpha = 1f
+                    it.visibility = View.VISIBLE
                 }
-            }).apply { duration = Constants.LAYOUT_CHANGE_DURATION }.start()
+            }
         } else {
-            no_replies.animate().alpha(0f).setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
-                    super.onAnimationEnd(animation)
-                    no_replies.visibility = View.GONE
+            no_replies.also {
+                if(withAnimation) {
+                    it.animate().alpha(0f).setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            super.onAnimationEnd(animation)
+                            no_replies.visibility = View.GONE
+                        }
+                    }).apply { duration = Constants.LAYOUT_CHANGE_DURATION }.start()
+                } else {
+                    it.alpha = 0f
+                    it.visibility = View.GONE
                 }
-            }).apply { duration = Constants.LAYOUT_CHANGE_DURATION }.start()
+            }
         }
     }
 }
