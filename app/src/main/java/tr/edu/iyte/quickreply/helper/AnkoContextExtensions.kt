@@ -6,6 +6,10 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.service.quicksettings.TileService
+import android.support.design.widget.TextInputEditText
+import android.support.design.widget.TextInputLayout
+import android.view.ViewManager
+import org.jetbrains.anko.custom.ankoView
 import tr.edu.iyte.quickreply.Database
 import android.support.v4.app.Fragment as SupportFragment
 

@@ -9,6 +9,7 @@
     <string name="none_selected">&lt;None selected&gt;</string>
 
     <string name="add_reply">Add reply</string>
+    <string name="add_rule">Add rule</string>
 
     <string name="default_reply_1">Call you later</string>
     <string name="default_reply_2">I\'m busy right now</string>
@@ -24,6 +25,7 @@
     <string name="file_not_valid">File not valid for import:</string>
     <string name="select_file">Select a file to import</string>
     <string name="select_folder">Select a folder to export</string>
+    <string name="folder_name_empty">Folder name cannot be empty</string>
 
     <string name="auto_rules_disabled">Automatic rules disabled! \nSelect the above checkbox  to enable.</string>
     <string name="use_dont_disturb">Listen do not disturb mode</string>
@@ -34,7 +36,8 @@
     <string name="and">and</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="up">Up</string>
+    <string name="up">[Up]</string>
+    <string name="new_folder">New Folder</string>
 
     <string name="everyday">Everyday</string>
     <string name="weekdays">Weekdays</string>
@@ -48,6 +51,7 @@
     <string name="settings_import_export_rules_key" translatable="false">tr.edu.iyte.quickreply.settings.IMPORT_EXPORT_RULES</string>
     <string name="settings_import_export_replies_key" translatable="false">tr.edu.iyte.quickreply.settings.IMPORT_EXPORT_REPLIES</string>
     <string name="settings_delete_all_replies_key" translatable="false">tr.edu.iyte.quickreply.settings.DELETE_ALL_RULES</string>
+    <!--<string name="settings_reply_mode_key" translatable="false">tr.edu.iyte.quickreply.settings.REPLY_MODE</string>-->
 
     <string name="settings_category_dnd">Do not disturb</string>
     <string name="settings_category_rules">Rules</string>
@@ -58,6 +62,8 @@
     <string name="settings_import_export">Export/import</string>
     <string name="settings_category_general">General</string>
     <string name="settings_delete_all_replies">Delete all replies</string>
+    <!--<string name="settings_reply_mode">Select reply mode</string>
+    <string name="settings_reply_mode_default">Calls</string>-->
 
     <string name="settings_listen_dnd_summary">Automatically activates QuickReply when do not disturb is activated</string>
     <string name="settings_reset_default_replies_confirmation">Do you want to preserve custom replies?</string>
